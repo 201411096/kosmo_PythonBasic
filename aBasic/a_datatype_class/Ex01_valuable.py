@@ -6,7 +6,7 @@
         
     [주의] 줄을 맞추지 않으면 실행 안됨
 
-    [실행] Run 메뉴를 클릭하거나 단축키로 shift + ctrl + F10
+    [실행] Run 메뉴를 클릭하거나 단축키로 shift + F10
 
     [도움말] ctrl + q
 
@@ -15,10 +15,12 @@
 """ 여러줄 주석 """
 # 한줄 주석
 
-print("헬로우")
-print('hello')
-print("""안녕""")
-print('''올라''')
+# print("헬로우")
+# print('hello')
+# print("""안녕""") # 3개짜리는 개행을 포함
+# print('''올라''') # 3개짜리는 개행을 포함
+
+
 # 실행 : shift + alt + F10
 
 '''
@@ -37,7 +39,30 @@ print('''올라''')
     - 예약어 사용 안됨       
 '''
 
+# import keyword
+# print(keyword.kwlist)
+# print(len(keyword.kwlist))
 
+# a = 777
+# b = 777
+# print(type(777))
+# print(a is 777)
+# print(a is b)
 
+'''
+ python 내부적으로 0~256 까지를 미리 메모리에 상주하고 시작해서
+ 257 이후의 숫자는 미리 상주하지 않음
+'''
 
+# 여러 변수 선언
+a,b = 10, 20
+# print 안에서 문장 연결시 ,로 연결함
+print('a+b=', a+b)
 
+#값 swap
+b, a = a, b
+print('A=', a, ', B=', b)
+
+#메모리에서 삭제
+del b
+#print(b)

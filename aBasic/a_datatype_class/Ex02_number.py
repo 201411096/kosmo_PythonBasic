@@ -61,3 +61,13 @@ b = 2
         a % b = 1
         a ** b = 25
 """
+print('a/b = ', a/b)
+print('a//b =', a//b)
+print(a**b)
+
+result = a * b
+print(result)
+
+print('a ** b = ' + str(result))
+# str() 자료형을 string으로 변경해줌
+# str = 'Hello' 이런식으로 변수로 사용하면 str() 메소드를 사용하지 못하게 됨

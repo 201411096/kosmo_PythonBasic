@@ -1,0 +1,47 @@
+--------------------
+vmware , linux 설치 ( 리눅스 )
+	ㄴ create a new virtual machine
+	ㄴ i will install the operating system later (vm먼저 설치 -> os설치)
+	ㄴ linux 선택, centos 7-64bit 선택
+	ㄴ virtual machine name
+		ㄴ CentOS7
+	ㄴ maximum disk size 40gb 선택, store virtual disk as a single file 선택
+	ㄴ edit virtual machine settings
+		ㄴ memory 2048
+		ㄴ cd/dvd 선택
+			ㄴ use iso image file
+1. 키보드 선택 - 영어, 한국어 선택
+
+2. 소프트웨어 선택
+	ㄴ 개발 및 창조를 위한... 하나 선택
+
+3. 설치대상에서 파티션 수동 설정
+
+/boot : 부팅할때 사용
+/ (root) : 
+swap : 가상메모리
+
+root와 swap을 지움 -> +를 눌러서 swap 선택 5g 입력 -> 마운트 지점 추가
+		 -> +를 눌러서 / 선택 입력안하고 마운트 지점 추가
+
+완료 -> unknown 포맷 삭제 무시하고 변경사항 적용
+
+4. 네트워크 호스트 이름
+
+이더넷 켬
+
+5. 설치 시작
+
+root 비밀번호 : admin1234
+계정 : centos
+계정 비밀번호 : centos
+
+6. 약관 동의
+
+7. 루트 계정 접속법 -> 목록에 없습니까? 선택 -> root -> admin1234
+
+8. 시스템 도구 -> 설정 -> 절전모드 끔, 화면 보호 끔
+
+9. 지역언어 입력 소스 -> 한국어 삭제(-) -> 한국어(hangul) 선택
+	ㄴ window spacebar로 바꿀 수 있음
+----------------------------------------

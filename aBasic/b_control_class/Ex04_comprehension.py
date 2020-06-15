@@ -49,7 +49,7 @@ dlist = [(r,c) for r in rows for c in cols]
 print( "dlist = ", dlist)
 #-------------------------------------------
 # 딕셔러니 컨프리핸션
-data = (2,3,4)
+data = (2, 3, 4)
 a = {x: x**2 for x in data}
 print(a)
 

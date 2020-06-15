@@ -13,6 +13,7 @@ ls : 목록보기
 	ㄴ 옵션
 		ㄴ -l : 자세히보기
 		ㄴ -a : 숨김파일 및 디렉토리도 보임
+		ㄴ -R : 하위 디렉토리도 전부 같이 봄
 	ㄴ d: directory / -: file / l: link
 		ㄴ 파일의 확장자가 없는 경우가 많음
 			ㄴ temp	/ temp.txt / 
@@ -33,3 +34,30 @@ cd : 디렉토리 변경
 	ㄴ cd / : 최상위 디렉토리로 이동
 	ㄴ cd ~ : 사용자의 홈 디렉토리로 이동
 	ㄴ cd .. : 부모 디렉토리로 이동
+----------------
+파일관리
+	ㄴ 복사 : cp
+	ㄴ 제거 : rm
+		ㄴ rm -r : 디렉토리와 그들의 내용을 전부 지움 (recursive..?)
+		ㄴ rm -i : 삭제할지 물어봄
+	ㄴ 빈파일 생성 : touch
+		ㄴ 기존파일의 수정시간을 변경
+	ㄴ 이동 : mv
+	ㄴ 파일보기 : cat(concatenate)
+		ㄴ head : 앞에 10줄만
+		ㄴ tail : 뒤에 10줄만
+	ㄴ 파일보기2 : more 
+		ㄴ 자른곳에서부터 조금씩 봄
+----------------
+디렉토리관리
+	ㄴ 디렉토리 생성 : mkdir (make directory)
+		ㄴ mkdir -p : 부모 디렉토리도 한꺼번에 같이 생성
+			ㄴ mkdir -p temp/temp2/temp3
+				ㄴ 계층적으로 3개의 디렉토리를 같이 생성함
+	ㄴ 디렉토리 삭제 : rmdir (remove directory)
+----------------
+find : 파일/디렉토리 찾기
+	ㄴ name : 이름으로 찾을 때
+	ㄴ type : 형식으로 찾을 때 (d : directory, f : file)
+	ㄴ usr 디렉토리에서 확장자가 java인 파일 찾기
+		ㄴ find /usr -name *.java

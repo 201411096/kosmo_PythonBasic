@@ -20,21 +20,23 @@ for (a, b) in alist:
 #----------------------------------------
 # (3) enumerate() 함수
 user_list = ['개발자', '코더', '전문가', '분석가']
+#user_list = {'개발자', '코더', '전문가', '분석가'}
 for user in user_list:
-    print(user)
+    print("# (3) enumerate() 함수 사용 전 확인", user)
 
 # index가 붙으면서 tuple로 받아옴
 for user in enumerate(user_list):
-    print(user)
+    print("# (3) enumerate() 함수 사용 후 확인", user)
 
 #----------------------------------------
 # (4) zip() : 여러 시퀀스를 순회하는 함수
 days = ['월', '화', '수']
 doit = ['잠자기', '놀기', '밥먹기', '공부']
 
-print(zip(days, doit))
-print(list(zip(days, doit))) # 짝꿍을 지어서 묶어줌
-print(dict(zip(days, doit))) # 짝꿍을 지어서 묶어줌
+print("# (4) zip() 함수 사용 후 확인", zip(days, doit))
+print("# (4) zip() 함수 사용 후 tuple로 변환 후 확인", tuple(zip(days, doit)))
+print("# (4) zip() 함수 사용 후 list로 변환 후 확인", list(zip(days, doit))) # 짝꿍을 지어서 묶어줌
+print("# (4) zip() 함수 사용 후 dict로 변환 후 확인", dict(zip(days, doit))) # 짝꿍을 지어서 묶어줌
 
 mon=[6,7,8]
 print(list(zip(days, doit, mon)))

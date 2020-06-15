@@ -4,8 +4,13 @@ f = False
 n = None    # 다른 언어의  null 값과 유사
 
 
-
-
+hungry = True
+sleepy = False
+print(not sleepy)
+print(hungry & sleepy)
+print(hungry | sleepy)
+print(hungry and sleepy)
+print(hungry or sleepy)
 
 """
         자료형         값           부울형
@@ -31,6 +36,21 @@ if([]):
 else:
     print('False2')
 """
+print('----------')
+if('아'):
+    print('True')
+else:
+    print('False')
 
-
-
+if([]):
+    print('True2')
+else:
+    print('False2')
+if (0):
+    print('True3')
+else:
+    print('False3')
+if (-1):
+    print('True4')
+else:
+    print('False4')

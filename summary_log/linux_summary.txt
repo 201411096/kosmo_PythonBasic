@@ -1,0 +1,35 @@
+﻿----------------
+명령어
+	ㄴ 명령어 --help
+		ㄴ 명령어 도움말
+	ㄴ man 명령어 
+		ㄴ 명령어 도움말 한글판
+	ㄴ ls : 리스트 (list)
+	ㄴ pwd : 현재 디렉토리 위치 ( pring working directory)
+	ㄴ cd : 디렉토리 변경(change directory)
+	ㄴ sw : 사용자 변경(substitute user)
+----------------
+ls : 목록보기
+	ㄴ 옵션
+		ㄴ -l : 자세히보기
+		ㄴ -a : 숨김파일 및 디렉토리도 보임
+	ㄴ d: directory / -: file / l: link
+		ㄴ 파일의 확장자가 없는 경우가 많음
+			ㄴ temp	/ temp.txt / 
+	ㄴ drwxr-xr-x : d (directory)
+		       rwx (계정)
+		       r-x  (그룹)
+		       r-x  (그외기타)
+		ㄴ r : read, w : write, x : execute
+	ㄴ-rw-r--rw- : ...
+	ㄴ 파일과 디렉토리 생성
+		ㄴ 알파벳 + 숫자 + (_) + (-) + (.) 조합 가능
+		ㄴ 대소문자 구별
+		ㄴ (.)으로 시작하면 숨김파일로 간주
+----------------
+cd : 디렉토리 변경
+	ㄴ root계정 : /root
+	ㄴ 일반계정 : /home/계정명
+	ㄴ cd / : 최상위 디렉토리로 이동
+	ㄴ cd ~ : 사용자의 홈 디렉토리로 이동
+	ㄴ cd .. : 부모 디렉토리로 이동

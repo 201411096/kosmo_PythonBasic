@@ -15,7 +15,7 @@ alist = [ (1,2), (3,4), (5,6) ]
 for a in alist:
     print(a)
 for (a, b) in alist:
-    print(a, b)
+    print("# (2) 리스트의 요소가 튜플인 경우 확인", a, b)
     
 #----------------------------------------
 # (3) enumerate() 함수

@@ -195,3 +195,38 @@ date
 		ㄴ string format time?
 	ㄴ strptime() -> string을 날짜로 변경
 		ㄴ string prase time?
+------------------------------------------------------------
+함수
+	ㄴ 리턴값이 없으면 None이 리턴됨
+	ㄴ 파이썬 함수는 여러개를 리턴할 수 있음
+		ㄴ 여러개를 리턴할 경우 튜플로 반환하여 리턴함
+	ㄴ 위치인자
+	ㄴ 키워드인자
+		ㄴ 함수사용시..
+		ㄴ func(name="김씨", greeing='안녕')
+	ㄴ 매개변수의 기본값 지정하기
+		ㄴ 함수정의시..
+		ㄴ ex) def func(greeing, name="아무개"):
+			    print('{0} !!!!!! {1}님'.format(greeing, name))
+	ㄴ 헷갈릴 수 있는 부분
+		def buggy(arg, result=[]):
+		    result.append(arg)
+		    print(result)
+		buggy('A')	# ['A']
+		buggy('B')	# ['A', 'B']
+		buggy('Z', [1,2,3,4])# [1,2,3,4, 'Z']
+		buggy('가')	# ['A', 'B', '가']
+		ㄴ buggy 함수에 있는 result 리스트는 함수 호출시 생성되는 것이 아닌 함수 정의시에 생성됨
+	ㄴ 위치인자 모으는 법 *args
+		ㄴ 사용법
+			def func(a, b, c=0, *args):
+			    sum = a+b+c
+			    for i in args:
+			        sum+=i
+			    return sum
+			print("#6 위치인자 모으기 확인", func(4, 5))
+			print("#6 위치인자 모으기 확인", func(4, 5, 6))
+			print("#6 위치인자 모으기 확인", func(4, 5, 6, 7))
+			print("#6 위치인자 모으기 확인", func(4, 5, 6, 7, 8, 9))       # args에 7,8,9가 튜플로 들어간다
+			
+			

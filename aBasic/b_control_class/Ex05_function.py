@@ -51,7 +51,7 @@ buggy('B')
 buggy('Z', [1,2,3,4])
 buggy('가')
 
-# (6) 위치인자 모으기
+# (6) 위치인자 모으기 (*args)
 '''
 1번째와 2번째는 인자가 반드시 들어가고 3번째는 인자가 들어갈 수도 있고 없으면 0으로 초기화한다
 그러나 4번째 인자부터는 정확히 모른다면?
@@ -70,4 +70,31 @@ def func(a, b, c=0, *args):
 print("#6 위치인자 모으기 확인", func(4, 5))
 print("#6 위치인자 모으기 확인", func(4, 5, 6))
 print("#6 위치인자 모으기 확인", func(4, 5, 6, 7))
-print("#6 위치인자 모으기 확인", func(4, 5, 6, 7, 8, 9))       # i9에 7,8,9가 튜플로 들어간다
+print("#6 위치인자 모으기 확인", func(4, 5, 6, 7, 8, 9))       # args에 7,8,9가 튜플로 들어간다
+
+# (7) 키워드 인자 모으기 (**kwargs)
+
+# def func(i, j, k=100, *args, **kwargs):
+#     print()
+#     print("#7 키워드 인자 모으기 확인", i+j+k)
+#     print("#7 키워드 인자 모으기 확인", args)
+#     print("#7 키워드 인자 모으기 확인", kwargs)
+# func(10, 20)
+# func(1, 2, 3)
+# func(1, 2, 3, 4, 5, 6)
+# func(1, 2, 3, 4, a=10, b=20, c=30)
+
+# 넘어오는 인자의 값들을 모두 합산한 값을 리턴
+
+def func(i, j, k=100, *args, **kwargs):
+    sum=i+j+k
+    for temp1 in args:
+        sum+=temp1
+    for temp2 in kwargs.values():
+        sum+=temp2
+    return sum
+
+print(func(10, 20))
+print(func(1, 2, 3))
+print(func(1, 2, 3, 4, 5, 6))
+print(func(1, 2, 3, 4, a=10, b=20, c=30))

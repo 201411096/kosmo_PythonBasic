@@ -88,6 +88,7 @@ print("#6 위치인자 모으기 확인", func(4, 5, 6, 7, 8, 9))       # args�
 
 def func(i, j, k=100, *args, **kwargs):
     sum=i+j+k
+    print(kwargs)
     for temp1 in args:
         sum+=temp1
     for temp2 in kwargs.values():
@@ -98,3 +99,4 @@ print(func(10, 20))
 print(func(1, 2, 3))
 print(func(1, 2, 3, 4, 5, 6))
 print(func(1, 2, 3, 4, a=10, b=20, c=30))
+print(func(1, 2, 3, 4, a=10, z=30))

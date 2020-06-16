@@ -253,3 +253,4 @@ date
 			print(func(1, 2, 3))
 			print(func(1, 2, 3, 4, 5, 6))
 			print(func(1, 2, 3, 4, a=10, b=20, c=30))
+	ㄴ 모든 변수가 객체지만 return을 하지 않으면 바뀌지 않는듯

@@ -20,8 +20,13 @@ from random import choice
 
 def get_weather():
     today = ['맑음','비','눈','폭우','돌풍','따뜻']
-    return choice(today)
+    return choice(today)        # choice() : 시퀀스형 자료형중에서 하나를 골라옴
 
 def get_date():
-    today = ['월','화','수','목','금','토','일ㄴ']
+    today = ['월','화','수','목','금','토','일']
     return choice(today)
+
+#자바의 메인함수 역할
+if __name__ == '__main__':
+    # 다른 모듈에서 실행하면 'mymodule' 값이 __name__의 값이 된다.
+    print('오늘은', get_date(), '요일이고', get_weather(), '이다')

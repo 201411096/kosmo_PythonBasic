@@ -87,4 +87,4 @@ def f(x, y):
     print("y :", y)
     return x*y
 print("reduce 확인", reduce(f, ex)) # 1*2*3*4
-print("reduce와 lambda를 같이 사용", reduce(lambda x,y:x*y, range(1,5)))
+print("reduce와 lambda를 같이 사용", reduce(lambda x, y: x*y, range(1, 5)))

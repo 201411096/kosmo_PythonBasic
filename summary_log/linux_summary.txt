@@ -2,13 +2,14 @@
 명령어
 	ㄴ 명령어 --help
 		ㄴ 명령어 도움말
-	ㄴ man 명령어 
+	ㄴ man 명령어 (manual)
 		ㄴ 명령어 도움말 한글판
 	ㄴ ls : 리스트 (list)
 	ㄴ pwd : 현재 디렉토리 위치 ( print working directory)
 	ㄴ cd : 디렉토리 변경(change directory)
 	ㄴ sw : 사용자 변경(substitute user)
 	ㄴ ln : 링크 생성(link)
+	ㄴ ps : 프로세스 확인
 ----------------
 ls : 목록보기
 	ㄴ 옵션
@@ -67,6 +68,9 @@ find : 파일/디렉토리 찾기
 		ㄴ find /usr -name *.java
 ----------------
 하드링크 심볼릭링크
+	ㄴ 링크 생성
+		ㄴ ln [원본 파일] [하드 링크 이름]
+		ㄴ ln -s [원본 파일] [심볼릭 링크 이름]
 	ㄴ ln : 하드링크 생성
 	ㄴ ln -s : 심볼릭링크 생성 (-symbolic)
 	ㄴ drwxr-xr-x. _ : _부분이 그 파일에 몇개의 링크가 걸려있는지 알 수 있음
@@ -81,3 +85,14 @@ find : 파일/디렉토리 찾기
 	ㄴ 구조1에서 basefile 삭제 시
 		ㄴ hardlink가 남아있어서 hello가 담겨있는 파일은 살아있음
 		ㄴ symboliclink는 hello가 담겨있는 파일을 찾지 못함
+	ㄴ 심볼릭 링크는 버전관리에 용이
+----------------
+프로세스
+	ㄴ 프로세스 확인 명령어 : ps
+	ㄴ -e : 모든 프로세스를 전부 봄
+	ㄴ -a : 현재 실행중인 프로세스만
+	ㄴ -f : ps를 format?의 형식으로 맞춰서
+	ㄴ -x : 숨긴 프로세스도 봄
+	ㄴ process stat : z -> zombie process
+	ㄴ kill : 프로세스 종료
+		ㄴ kill -9 : 강제 종료

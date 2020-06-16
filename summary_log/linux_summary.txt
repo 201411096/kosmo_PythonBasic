@@ -5,9 +5,10 @@
 	ㄴ man 명령어 
 		ㄴ 명령어 도움말 한글판
 	ㄴ ls : 리스트 (list)
-	ㄴ pwd : 현재 디렉토리 위치 ( pring working directory)
+	ㄴ pwd : 현재 디렉토리 위치 ( print working directory)
 	ㄴ cd : 디렉토리 변경(change directory)
 	ㄴ sw : 사용자 변경(substitute user)
+	ㄴ ln : 링크 생성(link)
 ----------------
 ls : 목록보기
 	ㄴ 옵션
@@ -43,6 +44,9 @@ cd : 디렉토리 변경
 	ㄴ 빈파일 생성 : touch
 		ㄴ 기존파일의 수정시간을 변경
 	ㄴ 이동 : mv
+		ㄴ 파일 이름 변경시에도 사용함
+	ㄴ 이름 변경 : rename
+		ㄴ rename은 하나 혹은 하나 이상의 파일명을 일괄 변경할때 사용
 	ㄴ 파일보기 : cat(concatenate)
 		ㄴ head : 앞에 10줄만
 		ㄴ tail : 뒤에 10줄만
@@ -61,3 +65,19 @@ find : 파일/디렉토리 찾기
 	ㄴ type : 형식으로 찾을 때 (d : directory, f : file)
 	ㄴ usr 디렉토리에서 확장자가 java인 파일 찾기
 		ㄴ find /usr -name *.java
+----------------
+하드링크 심볼릭링크
+	ㄴ ln : 하드링크 생성
+	ㄴ ln -s : 심볼릭링크 생성 (-symbolic)
+	ㄴ drwxr-xr-x. _ : _부분이 그 파일에 몇개의 링크가 걸려있는지 알 수 있음
+	ㄴ 하드링크와 심볼릭링크의 차이점
+		ㄴ 하드링크는 기존에 있던 파일과 같은 아이디값을 가짐
+		ㄴ 심볼릭링크는 기존에 있던 파일을 가리키는 것을 가리킴?..
+	ㄴ 심볼릭링크로 생성하면 모든 사용자에게 모든 권한이 주어짐 (하드링크는 기존파일과 똑같은 권한을 줌)
+	ㄴ 구조1
+		hello	
+		ㄴ basefile <- symboliclink
+		ㄴ hardlink
+	ㄴ 구조1에서 basefile 삭제 시
+		ㄴ hardlink가 남아있어서 hello가 담겨있는 파일은 살아있음
+		ㄴ symboliclink는 hello가 담겨있는 파일을 찾지 못함

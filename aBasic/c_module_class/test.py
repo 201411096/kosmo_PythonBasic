@@ -19,7 +19,7 @@
 #5_답
 # def vector_size_check(*args):
 #     return len(set([len(arg) for arg in args])) ==1
-#6
+#6 답
 # def matrix_addition(*matrix_variables):
 #   return [[sum(row) for row in zip(*t)] for t in zip(*matrix_variables)]
 
@@ -30,13 +30,16 @@ def matrix_addition(*matrix_variables):
 matrix_y = [[2, 5], [2, 1]]
 matrix_z = [[2, 4], [5, 3]]
 matrix_addition(matrix_y, matrix_z)
-
+print("matrix_y : ", matrix_y)
+print("matrix_z : ", matrix_z)
 print("matrix_y와 matrix_z를 zip 한 결과를 확인", list(zip(matrix_y, matrix_z)))
 print("matrix_y와 matrix_z를 zip 한 결과의 len 확인", len(list(zip(matrix_y, matrix_z))))
-print("matrix_y와 matrix_z를 zip 한 결과 0번 확인", list(zip(matrix_y, matrix_z))[0])
-print("matrix_y와 matrix_z를 zip 한 결과 1번 확인", list(zip(matrix_y, matrix_z))[1])
-print("matrix_y와 matrix_z를 zip 한 결과 0번을 다시 zip 확인", list(zip(list(zip(matrix_y, matrix_z))[0])))
-print("matrix_y와 matrix_z를 zip 한 결과 1번을 다시 zip 확인", list(zip(list(zip(matrix_y, matrix_z))[1])))
+print("matrix_y와 matrix_z를 zip 한 결과 0번 확인", list(zip(matrix_y, matrix_z))[0]) #([2, 5], [2, 4])
+print("matrix_y와 matrix_z를 zip 한 결과 1번 확인", list(zip(matrix_y, matrix_z))[1]) #([2, 1], [5, 3])
+
+print("def 확인", [[sum(row) for row in zip(*t)] for t in zip(matrix_y, matrix_z)])
+
+
 
 
 

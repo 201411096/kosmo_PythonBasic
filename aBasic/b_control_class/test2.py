@@ -19,22 +19,33 @@
 #             resultList.append(num)
 #     return  resultList
 # 2.
+# def is_prime_number(num):
+#     testTuple = range(2, num)
+#     for i in testTuple:
+#         if(num % i == 0):
+#             return False
+#     return True
 # 3.
+# def count_vowel(msg):
+#     returnValue = 0
+#     for c in list(msg):
+#         if(c == "a" or c == "e" or c == "i" or c == "o" or c == "u"):
+#             returnValue+=1
+#     return returnValue
 
-def is_prime_number(num):
-    
+
 
 """
 #2번 문제
-def sotring_function(list_value):
+def sorting_function(list_value):
     return list_value.sort()
-print(sotring_function([5,4,3,2,1]))
+print(sorting_function([5,4,3,2,1]))
     #2번 원하는 답이 나오려면...
-    def sotring_function(list_value):
+    def sorting_function(list_value):
         list = list_value
         list_value.sort()
         return list
-    print(sotring_function([5,4,3,2,1]))
+    print(sorting_function([5,4,3,2,1]))
 #10번 문제
 def test(x, y):
     tmp = x

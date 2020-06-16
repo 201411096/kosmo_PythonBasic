@@ -1,19 +1,34 @@
 
 # [추가] 함수도 객체이다
-def case1():
-    print('case-1')
-
-def case2():
-    print('case-2')
-
-def case3():
-    print('case-3')
-
-
+# def case1():
+#     print('case-1가')
+# 
+# def case2():
+#     print('case-2나')
+# 
+# def case3():
+#     print('case-3다')
+# 
+# f={"case1" : case1, "case2" : case2, "case3" : case3}
+# 
+# f["case1"]()
 
 #---------------------------------------
 # 글로벌 변수와 지역변수
 
+# if 10000:
+#     r = 10
+# print(r)
+
+temp = '글로벌'
+
+def func():
+    #print('0>', temp)    #에러 -> 지역변수가 나중에 정의되어 있어서 발생하는 문제 (전역변수랑 같은 지역변수가 뒤에 있으면 문제가 생김)
+    global temp
+    temp = '지역'          #함수 안에서 선언된 변수이기 때문에 지역변수로 취급
+    print('1>', temp)
+func()
+print('2>', temp)
 
 
 '''
@@ -27,6 +42,12 @@ def case3():
     종종 사용됨
 '''
 
+def f(x, y):
+    return x+y
+print("람다 함수 확인1", f(2, 3) )
+
+la = lambda x, y: x+y
+print("람다 함수 확인2", la(2,3) )
 
 
 #-----------------------------------------------------------
@@ -41,8 +62,29 @@ def case3():
     
     파이썬 2.x에서는 많이 사용하던 함수이지만, 최근 문법의 복잡성으로 권장하지 않는 추세란다.
 """
+# Map()
+#ex의 리스트의 각각의 요소를 뽑아서 calc()의 인자로 보낸 리턴값들을 다시 리스트 저장하기
+def calc(x):
+    return x*2
+ex=[1,2,3,4,5]
+result = list(map(calc, ex))
+print(result)
+"""
+result = []
+for n in ex:
+    re = calc(n)
+    result.append(re)
+print(result)
+"""
 
+# Reduce()
+# 차례대로(1) 함수를 적용하여(2) 모든 값을 통합(3)
+from functools import reduce
 
-
-
-
+ex =range(1,5) # ex=[1,2,3,4]
+def f(x, y):
+    print("x :", x)
+    print("y :", y)
+    return x*y
+print("reduce 확인", reduce(f, ex)) # 1*2*3*4
+print("reduce와 lambda를 같이 사용", reduce(lambda x,y:x*y, range(1,5)))

@@ -50,9 +50,14 @@ cd : 디렉토리 변경
 		ㄴ rename은 하나 혹은 하나 이상의 파일명을 일괄 변경할때 사용
 	ㄴ 파일보기 : cat(concatenate)
 		ㄴ head : 앞에 10줄만
+			ㄴ 옵션 : -(숫자) 그만큼 봄
 		ㄴ tail : 뒤에 10줄만
+			ㄴ 옵션 : -(숫자) 그만큼 봄
 	ㄴ 파일보기2 : more 
 		ㄴ 자른곳에서부터 조금씩 봄
+			ㄴ 옵션 : -(숫자) 그만큼 봄
+		ㄴ enter 한줄씩 더 봄
+		ㄴ spacebar 단위만큼 더 봄
 ----------------
 디렉토리관리
 	ㄴ 디렉토리 생성 : mkdir (make directory)
@@ -130,3 +135,47 @@ vi 에디터
 		ㄴ terminal 창에서 fg를 누르면 다시 들어와짐
 	ㄴ ctrl - s 화면이 freeze됨
 		ㄴ ctrl - q ctrl-s로 freeze된 화면을 다시 풀어줌
+----------------
+사용자와 그룹관리
+	ㄴ 사용자추가 : useradd xxx
+	ㄴ 사용자삭제 : userdel xxx
+		ㄴ -r 옵션 사용시 /home 디렉토리에서도 계정과 관련된 디렉토리가 사라짐
+	ㄴ 비밀번호설정 : passwd xxx
+	ㄴ 계정일반정보확인 : vi(or gedit) /etc/passwd
+	ㄴ 비밀번호확인 : vi(or gedit) /etc/shadow
+	ㄴ 그룹정보확인 : vi(or gedit) /etc/group
+	ㄴ 그룹생성 : groupadd ooo
+	ㄴ 그룹삭제 : groupdel ooo
+	ㄴ 그룹확인 : groups (본인그룹확인)
+	ㄴ 그룹관리 : gpasswd
+		ㄴ 옵션이 없으면 그룹암호 설정
+			ㄴ gpasswd (그룹이름)
+		ㄴ -r : 암호제거
+			ㄴ gpasswd -r (그룹이름)
+		ㄴ -A : 그룹관리자로 설정
+			ㄴ gpasswd -A (사용자이름) (그룹이름)
+		ㄴ -d :  delete user
+			ㄴ gpasswd -d (사용자이름)
+	ㄴ 사용자를 추가하면서 그룹지정 : useradd -g ooo xxx
+	ㄴ 사용자 계정 수정 : usermod
+		ㄴ -u : 사용자 계정의 UID 생성? 변경?
+		ㄴ -g : 사용자 계정의 1차 그룹의 GID 생성
+		ㄴ -G : 사용자 계정의 2차 그룹의 GID 생성
+		ㄴ -c : Comment
+		ㄴ -d : 사용자의 홈디렉토리를 지정
+		ㄴ -e : 사용자의 계정 만기일 지정
+		ㄴ -f : 사용자의 계정 유효일 지정
+		ㄴ -s : 로그인 시 사용할 기본 쉘 지정
+----------------
+접근권한
+	ㄴ 사용권한변경 : chmod
+		ㄴ 소유자		같은그룹자	기타그룹자
+		ㄴ (1) 기호에 의한 표시
+		ㄴ rwx		rwx		rwx
+		ㄴ rw-		r-x		r--
+		ㄴ (2) 숫자에 의한 표시 (421)
+		ㄴ rwx(7)		rwx(7)		rwx(7)
+		ㄴ rw-(6)		r-x(5)		r--(4)
+		ㄴ 사용예시
+			ㄴ chmod ___(숫자3자리) (타겟)
+	ㄴ 소유자변경 : chown

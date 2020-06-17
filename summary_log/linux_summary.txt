@@ -170,12 +170,24 @@ vi 에디터
 접근권한
 	ㄴ 사용권한변경 : chmod
 		ㄴ 소유자		같은그룹자	기타그룹자
-		ㄴ (1) 기호에 의한 표시
 		ㄴ rwx		rwx		rwx
 		ㄴ rw-		r-x		r--
+		ㄴ (1) 기호에 의한 표시
+		ㄴ u(user)	g(group)		o(other)		a(all)
+		ㄴ 사용예시
+			ㄴ chmod u-w centos.txt (user권한에서 w권한을 뺌)
+			ㄴ chmod u+r centos.txt (user권한에서 r권한을 추가)
+			ㄴ chmod uo+r centos.txt (user, 기타사용자에게 r권한을 추가)
+			ㄴ chmod a+wrx centos.txt (모든 유저에게 모든권한을 줌)
+			ㄴ chmod u-x,o-r centos.txt (사용자에게 실행권한을 빼고, 기타사용자에게서 읽기권한을 뺌)
+				ㄴ ,사이에 공백을 두면 안됨
+			ㄴ chmod o=rw centos.txt ( 기타 사용자의 권한을 읽고쓰기로 바꿈)
 		ㄴ (2) 숫자에 의한 표시 (421)
 		ㄴ rwx(7)		rwx(7)		rwx(7)
 		ㄴ rw-(6)		r-x(5)		r--(4)
 		ㄴ 사용예시
 			ㄴ chmod ___(숫자3자리) (타겟)
 	ㄴ 소유자변경 : chown
+			ㄴ chown (소유자) (타겟)
+	ㄴ 소유그룹변경? : chgrp
+			ㄴ chgrp (소유자) (타겟)

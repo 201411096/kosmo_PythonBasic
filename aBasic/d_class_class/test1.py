@@ -1,24 +1,48 @@
 #클래스 개념
 #1. ... ->
 #2. ... -> korean \n english \n I'm Groot!
-#3. 720
+#3. 720 -> nameError ..?
 #4. 10, 5
-#5.
-#6.
-#7.
-
-class Marvel(object):
-    def __init__(self, name, characteristic):
-        self.name = name
-        self.characteristic = characteristic
-    def __str__(self):
-        return "My name is {0} and my weapon is {1}.".format(self.name, self.characteristic)
-class Villain(Marvel):
-    pass
-first_villain = Villain("Thanos", "infinity gauntlet")
-print(first_villain)
-
-
+#5. My name is Thanos and my weapon is infinity gauntlet.
+#6. LG에서 만든 2019년형 32인치TV Samsung에서 만든 2018년형 15인치 노트북
+#7. 72 B 72 B -> None F 72.0 F
+class Score:
+    def __init__(self,student):
+        tmp = student.split(",")
+        self.name = tmp[0]
+        self.midterm = int(tmp[1])
+        self.final = int(tmp[2])
+        self.assignment = int(tmp[3])
+        self.score = None
+        self.grade = None
+    def total_score(self):
+       test_score = ((self.midterm + self.final)/2)*0.8
+       if self.assignment>=3:
+             assign_score = 20
+       elif self.assignment>=2:
+             assign_score = 10
+       elif self.assignment>=1:
+             assign_score = 5
+       else:
+             assign_score = 0
+       self.score = test_score + assign_score
+    def  total_grade(self):
+        if self.assignment==0:
+                grade = "F"
+        elif self.score>=90:
+                grade = "A"
+        elif self.score>=70:
+                grade = "B"
+        elif self.score>=60:
+                grade = "C"
+        else:
+                grade = "F"
+        self.grade = grade
+        return grade
+student_john = Score("john,90,90,0")
+aa = student_john.total_score()
+bb = student_john.total_grade()
+print(aa, bb, student_john.score, student_john.grade)
 """
 --문제 1--
 1.파이썬의 클래스와객체 지향 프로그래밍에 대한 설명으로 틀린 것은?
@@ -86,5 +110,60 @@ class Villain(Marvel):
     pass
 first_villain = Villain("Thanos", "infinity gauntlet")
 print(first_villain)
+
+--문제 6--
+class TV(object):
+    def __init__(self, size, year, company):
+        self.size = size
+        self.year = year
+        self.company = company
+    def describe(self):
+        print(self.company + "에서 만든 " + self.year + "년형 " + self.size + "인치" + "TV")
+class Laptop(TV):
+    def describe(self):
+        print(self.company + "에서 만든 " + self.year + "년형 " + self.size + "인치 " + "노트북")
+LG_TV = TV("32", "2019", "LG")
+LG_TV.describe()
+samsung_microwave = Laptop("15" , "2018", "Samsung")
+samsung_microwave.describe()
+
+--문제 7--
+class Score:
+    def __init__(self,student):
+        tmp = student.split(",")
+        self.name = tmp[0]
+        self.midterm = int(tmp[1])
+        self.final = int(tmp[2])
+        self.assignment = int(tmp[3])
+        self.score = None
+        self.grade = None
+    def total_score(self):
+       test_score = ((self.midterm + self.final)/2)*0.8
+       if self.assignment>=3:
+             assign_score = 20
+       elif self.assignment>=2:
+             assign_score = 10
+       elif self.assignment>=1:
+             assign_score = 5
+       else:
+             assign_score = 0
+       self.score = test_score + assign_score
+    def  total_grade(self):
+        if self.assignment==0:
+                grade = "F"
+        elif self.score>=90:
+                grade = "A"
+        elif self.score>=70:
+                grade = "B"
+        elif self.score>=60:
+                grade = "C"
+        else:
+                grade = "F"
+        self.grade = grade
+        return grade
+student_john = Score("john,90,90,0")
+aa = student_john.total_score()
+bb = student_john.total_grade()
+print(aa,bb,student_john.score,student_john.grade)
 
 """

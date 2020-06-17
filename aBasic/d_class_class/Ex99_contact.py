@@ -21,15 +21,25 @@ def print_menu():
 
 def set_contact():
     # 여기에 코드 작성
-    pass    # 나중에 지우면 됨
+    name = input('이름 입력')
+    phone_name = input('전화번호 입력')
+    email = input('이메일 입력')
+    addr = input('주소 입력')
+    return Contact(name, phone_name, email, addr)
+    #pass    # 나중에 지우면 됨
 
 def print_contact(contact_list):
     # 여기에 코드 작성
-    pass    # 나중에 지우면 됨
+    for contact in contact_list:
+        contact.print_info(contact)
+    #pass    # 나중에 지우면 됨
 
 def delete_contact(contact_list, name):
     # 여기에 코드 작성
-    pass    # 나중에 지우면 됨
+    for contact in contact_list:
+        if contact.name == name:
+            contact_list.r
+    #pass    # 나중에 지우면 됨
 
 def run():
     # Contact 인스턴스를 저장할 리스트 자료구조 생성
@@ -45,7 +55,7 @@ def run():
             print_contact(contact_list)
         elif menu==3: # 삭제를 선택하면
             name = input('삭제할 이름은?')
-            delete_contact(contact_list,name)
+            delete_contact(contact_list, name)
 
 
 if __name__ == "__main__":

@@ -522,3 +522,17 @@ Magic method(매직 메소드)
 		    print('>', item)
 		for item in items.items():
 		    print('>', item)
+------------------------------------------------------------
+del remove 차이
+	ㄴ del a[인덱스] : 해당 인덱스 원소가 삭제됨
+	ㄴ a.remove(원소) : 리스트 a의 해당 원소가 삭제됨
+	ㄴ remove 예시 : 특정 인덱스가 아닌 first matcing value를 제거
+		a = [0, 2, 3, 2]
+		a.remove(2)
+		a
+		[0, 3, 2]
+	ㄴ del 예시 : 특정 색인에서 항목을 제거
+		a = [3, 2, 2, 1]
+		del a[1]
+		a
+		[3, 2, 1]

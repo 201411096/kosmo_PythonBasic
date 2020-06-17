@@ -29,10 +29,10 @@ class Book:
         print('1> 총 갯수 ', self.cnt)
     @staticmethod       #static메소드임을 알려줌 -> static메소드는 self를 사용할 수 없음
     def output2(self):
-        pass
-        # print("제목:", self.title)
-        # self.cnt += 1
-        # print('2> 총 갯수 ', self.cnt)
+ #       pass
+        print("제목:", self.title)
+        self.cnt += 1
+        print('2> 총 갯수 ', self.cnt)
     @classmethod
     def output3(cls):   #class의 약자 cls를 사용
         cls.cnt += 1

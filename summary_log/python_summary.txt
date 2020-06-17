@@ -403,3 +403,122 @@ Magic method(매직 메소드)
 		    def move(self):         # 상속받는 두곳에서 동일한 이름의 여러 메소드가 있어도 문제가 생기지 않음
 		        super().move()      # 먼저 상속받은 클래스의 메소드를 오버라이딩함
 		        print("늑대인간은 ---------")
+	ㄴ super() : 자식 클래스에서 부모클래스의 내용을 사용하고 싶을경우 사용
+------------------------------------------------------------
+예외처리
+	ㄴ 예시_01
+		try:
+		     10/0
+		except Exception:
+		    print("예외")
+	ㄴ 예시_02 : 예외 메시지 확인
+		try:
+		     10/0
+		except Exception as e:
+		    print("예외:", e)
+	ㄴ 예시_02_2 : 예외 메시지 확인 (as 없이)
+		try:
+		    10/0
+		except Exception:
+		    print("예외:", Exception)
+	ㄴ 예시_03 : finally 사용
+		try:
+		    10/0
+		except Exception:
+		    print("예외:", Exception)
+		finally:
+		    print("무조건 실행")
+	ㄴ 예시_04 : 예외가 발생하지 않았을 경우 실행되는 부분 (ex) 파일 입출력)
+		try:
+		    f = open('./data/data.txt', 'r', encoding='utf-8')
+		except Exception as e:
+		    print('예외발생:', e)
+		else:               # 예외가 발생되지 않았을 경우.. 실행되는 부분
+		    while True:
+		        line = f.readline()
+		        if not line:    #line에 아무값도 없을 경우
+		            break
+		        print(line, end='')
+		     f.close()
+		finally:
+		    print('파일처리 종료')
+------------------------------------------------------------
+파일입출력
+	ㄴ fileObj(파일변수이름) = (filename, mode)
+		ㄴ mode 첫번째 글자 - 작업 표시
+			ㄴ r(read) : 파일 읽기
+			ㄴ w(write) : 파일 쓰기
+			ㄴ x(write) : 파일 쓰기
+			ㄴ a(append) : 파일 추가
+		ㄴ mode 두번째 글자 - 파일 타입
+			ㄴ t : 텍스트	(default값)
+			ㄴ b : 이진(binary)
+		ㄴ encodiing='utf-8' : 한글
+	ㄴ 예시_01
+		try:
+		    f = open('./data/data.txt', 'r', encoding='utf-8')
+		except Exception as e:
+		    print('예외발생:', e)
+		else:               # 예외가 발생되지 않았을 경우
+		    while True:
+		        line = f.readline()
+		        if not line:    #line에 아무값도 없을 경우
+		            break
+		        print(line, end='')
+		    f.close()
+		finally:
+		    print('파일처리 종료')
+	ㄴ 예시_02
+		try:
+		    with open('./data/data.txt', 'r', encoding='utf-8') as f:
+		        while True:
+		            line = f.readline()
+		            if not line:    #line에 아무값도 없을 경우
+		                break
+		            print(line, end='')
+		except Exception as e:
+		    print('예외발생:', e)
+		finally:
+		    print('종료')
+	ㄴ 예시_03
+		try:
+		    with open('./data/data.txt', 'r', encoding='utf-8') as f:
+		        contents = f.read()	# 파일 전체를 읽음
+		        words = contents.split()
+		        num = len(words)
+		except FileNotFoundError as e:
+		    print('예외발생:', e)
+		else:
+		    print('총 단어 수 :', num)
+		finally:
+		    print('파일 입출력 종료')
+------------------------------------------------------------
+파일입출력_csv
+	ㄴ csv : comma-separated variables
+		ㄴ  몇 가지 필드를 쉼표(,)로 구분한 텍스트 데이터 및 텍스트 파일
+	ㄴ 리스트의 데이터를 csv로 저장하기
+		data = [ [1, '감', '책임'], [2, '주', '연구원'] ]
+		with open('./data.imsi.csv', 'wt', encoding='utf-8') as f:
+		    cout = csv.writer(f)
+		    cout.writerows(data)
+	ㄴ csv 파일을 읽어서 리스트 변수에 저장하기
+		data = []
+		with open('./data.imsi.csv', 'r', encoding='utf-8') as f:
+		    cin = csv.reader(f)
+		    data = [row for row in cin if row]  # row값이 있을 경우에만 리스트가 추가됨 # 이 문장이 없으면 비어있는 리스트가 들어가있음 
+		print(data)
+------------------------------------------------------------
+파일입출력_json
+	ㄴ 사용예시
+		import json
+		f = open('data/temp.json', 'r', encoding='utf-8')
+		data = f.read()
+		items = json.loads(data)
+		print(type(items)) # json.loads 딕셔너리 형태로 반환해줌
+		print(items)
+		for item in items:
+		    print('>', item)
+		for item in items.values():
+		    print('>', item)
+		for item in items.items():
+		    print('>', item)

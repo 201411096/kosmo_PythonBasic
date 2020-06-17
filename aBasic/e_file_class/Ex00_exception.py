@@ -18,20 +18,26 @@
     [참고] 파이썬 내장 예외
         https://docs.python.org/3/library/exceptions.html
 """
-"""
+
 # 0으로 나누기
-#(1)
-10/0 -> 예외발생 : ZeroDivisionError: division by zero
+# (1)
+# 10/0 # -> 예외발생 : ZeroDivisionError: division by zero
 
 # (2)
 try:
      10/0
 except Exception:
     print("예외")
-
 # (3)
 try:
      10/0
-except Exception  as e:
+except Exception as e:
     print("예외:", e)
-"""
+
+# (4)
+try:
+    10/0
+except Exception:
+    print("예외:", Exception)
+finally:
+    print("무조건 실행")

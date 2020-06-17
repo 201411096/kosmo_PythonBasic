@@ -21,15 +21,15 @@ def print_menu():
 
 def set_contact():
     # 여기에 코드 작성
-    pass
+    pass    # 나중에 지우면 됨
 
 def print_contact(contact_list):
     # 여기에 코드 작성
-    pass
+    pass    # 나중에 지우면 됨
 
 def delete_contact(contact_list, name):
     # 여기에 코드 작성
-    pass
+    pass    # 나중에 지우면 됨
 
 def run():
     # Contact 인스턴스를 저장할 리스트 자료구조 생성

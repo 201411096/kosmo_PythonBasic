@@ -1,11 +1,11 @@
-#클래스 개념
+# 클래스 개념
 #1. ... ->
 #2. ... -> korean \n english \n I'm Groot!
 #3. 720 -> nameError ..?
 #4. 10, 5
 #5. My name is Thanos and my weapon is infinity gauntlet.
 #6. LG에서 만든 2019년형 32인치TV Samsung에서 만든 2018년형 15인치 노트북
-#7. 72 B 72 B -> None F 72.0 F
+#7. 72 B 72 B -> None F 72.0 F (맨앞이 none인 이유는 함수에서 return 하는 값이 존재하지 않기 때문에)
 class Score:
     def __init__(self,student):
         tmp = student.split(",")

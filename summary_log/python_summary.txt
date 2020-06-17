@@ -468,7 +468,7 @@ Magic method(매직 메소드)
 		    f.close()
 		finally:
 		    print('파일처리 종료')
-	ㄴ 예시_02
+	ㄴ 예시_02 <with 구문>
 		try:
 		    with open('./data/data.txt', 'r', encoding='utf-8') as f:
 		        while True:

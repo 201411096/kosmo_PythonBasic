@@ -58,7 +58,7 @@ c = re.findall("[\w]+", msg)
 if c:
     print("문자 숫자 _ 를 검색 ->", c)
 
-# 영문자 숫자 _가 아닌 것들 검색
+# 문자 숫자 _가 아닌 것들 검색
 c = re.findall("[\W]+", msg)
 if c:
     print("영문자 숫자 _가 아닌 것들 검색 ->", c)

@@ -108,7 +108,7 @@ if c:
 c = re.search('[\w]+', msg)
 if c:
     print("문자 숫자 _ 를 검색 :", c.group())
-# 영문자 숫자 _가 아닌 것들 검색
+# 문자 숫자 _가 아닌 것들 검색
 c = re.search('[\W]+', msg)
 if c:
     print("영문자 숫자 _가 아닌 것들을 검색", c.group())

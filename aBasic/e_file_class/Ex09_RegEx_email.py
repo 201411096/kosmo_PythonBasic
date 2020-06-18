@@ -13,9 +13,12 @@
 """
 import re
 def email_check(email):
-    # 여기에 코드 작성
-    return
+    email_reg = re.compile('^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$')
+    return email_reg.search(email) != None
 
-email_check('kim@encore.com')       # 올바른 이메일
-email_check('kim@encore')           # 잘못된 이메일 ( . 하나 없어서 )
-email_check('k!m@encore.com')      # 잘못된 이메일 ( 특수문자 ! 안됨 )
+# email_check('kim@encore.com')       # 올바른 이메일
+# email_check('kim@encore')           # 잘못된 이메일 ( . 하나 없어서 )
+# email_check('k!m@encore.com')      # 잘못된 이메일 ( 특수문자 ! 안됨 )
+print(email_check('kim@encore.com'))
+print(email_check('kim@encore'))
+print(email_check('k!m@encore.com'))

@@ -30,7 +30,7 @@
        - [A-Z]  : 모든 대문자
        - [a-zA-Z0-9] : 모든 알파벳 문자 및 숫자
        - [^0-9] : ^가 맨 앞에 사용 되는 경우 해당 문자 패턴이 아닌 것과 매칭
-
+       - [ㄱ-힣] : 한글
 
     # \
      1. 다른 문자와 함께 사용되어 특수한 의미를 지님
@@ -56,7 +56,13 @@
 import re
 
 
-
+msg = "123abc"
+c = re.search('123', msg)
+if c:
+    print(c.group())
+c = re.search(r'\d\d\d', msg)   # \ (역슬래시)와 같이 사용시 문자열 앞에 r을 붙이는것이 좋음(순수하게 문자열임을 알려줌)
+if c:
+    print(c.group())
 
 
 
@@ -67,25 +73,46 @@ import re
 msg = '2025 Happy year! We are so happy?'
 
 # 소문자를 찾아서  반환
-
-# 소문자가 아닌 것들을 찾아서 반환 ( 대괄호 안에 ^ )
-
+c = re.search('[a-z]', msg)
+if c:
+    print(c.group())
+# 소문자가 아닌 것들을 찾아서 반환 ( 대괄호 안에 ^ ) -> 답 : 2
+c = re.search('[^a-z]', msg)    # ^가 앞에 오는 경우가 있고, 대괄호 안으로 들어와있는 경우가 있는데 대괄호 안에 들어와있어야 없는 경우를 찾는것 # 앞에 오는 경우는 대괄호에 해당하는 패턴으로 시작하는지를 의미
+if c:
+    print(c.group())
 # 대문자를 찾음
-
+c = re.search('[A-Z]', msg)
+if c:
+    print(c.group())
 # +반복 옵셥으로 소문자를 연속해서 찾음 ( 즉, 단어 )
-
+c = re.search('[a-z]+', msg)
+if c:
+    print(c.group())
 # 소문자와 대문자를 단어 단위로 찾음
-
-
+c = re.search('[a-zA-Z]+', msg)
+if c:
+    print(c.group())
 # 숫자를 찾음
-
+c = re.search('[0-9]', msg)
+if c:
+    print(c.group())
 # +반복 옵션으로 숫자를 찾음
-
+c = re.search('[0-9]+', msg)
+if c:
+    print("+반복 옵션으로 숫자를 찾음 :", c.group())
 # 소문자, 대문자, 숫자가 아닌 문자들 ( 공백문자나 특수문자 )
-
+c = re.search('[^a-zA-Z0-9]', msg)
+if c:
+    print("소문자, 대문자, 숫자가 아닌 문자들을 찾음 :", '<' + c.group() + '>')
 # 문자 숫자 _ 를 검색
-
-
+c = re.search('[\w]+', msg)
+if c:
+    print("문자 숫자 _ 를 검색 :", c.group())
 # 영문자 숫자 _가 아닌 것들 검색
-
+c = re.search('[\W]+', msg)
+if c:
+    print("영문자 숫자 _가 아닌 것들을 검색", c.group())
 # 숫자 검색
+c = re.search("[\d]+", msg)
+if c:
+    print("숫자를 검색 : ", c.group())

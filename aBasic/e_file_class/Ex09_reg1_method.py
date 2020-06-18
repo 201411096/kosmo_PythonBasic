@@ -24,13 +24,39 @@
 
 import re
 
+#re : 파이썬의 정규 표현식을 지원하는 모듈 (regular expression의 약어)
+
 # r : raw string
-a = 'abcdef\n' # escapce 문자열
-b = r'abcdef\n'
+a = 'abcdef\n'      # escapce 문자열
+b = r'abcdef\n'     # r을 붙이면 '', ""안에 있는 모든것을 문자로 취급함
+print(a)
+print(b)
 
 
 
 
-# match()
+# match
 msg = 'We are happy. You are happy. Happy2019 2020'
 
+result = re.match('^We', msg)
+if result:
+    print(result.group())
+result = re.match('.*happy', msg)
+if result:
+    print(result.group())
+result = re.match('.Happy', msg)
+if result:
+    print(result.group())
+print('='*50)
+# search
+result = re.search('.Happy', msg)
+if result:
+    print(result.group())
+print('='*50)
+# split
+result = re.split('a', msg)
+print(result)
+print('='*50)
+# sub
+result = re.sub('a', '@', msg)
+print(result)

@@ -138,9 +138,8 @@ msg ='오늘도 행복도 하다'
 #   s.rstrip() : 오른쪽 공백 지우기
 #   s.strip() : 양쪽 공백 지우기
 
-msg = '  This is My Life  '
-
-print(msg.replace(' ', ''))
+# msg = '  This is My Life  '
+# print(msg.replace(' ', ''))
 
 
 
@@ -152,16 +151,7 @@ print(msg.replace(' ', ''))
 #   s.split('z') : s 문자열을 z 기호로 나누기
 #   d.join(s) : d 단어를 s 문자열에 삽입
 
-msg = "우리는 독도를 지킨다"
-
-print(','.join(msg))
-
-print(msg.startswith('우리'))
-print(msg.endswith('다'))
-
-
-
-
-
-
-
+# msg = "우리는 독도를 지킨다"
+# print(','.join(msg))
+# print(msg.startswith('우리'))
+# print(msg.endswith('다'))

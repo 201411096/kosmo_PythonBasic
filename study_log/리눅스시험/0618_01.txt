@@ -1,0 +1,23 @@
+﻿1.
+mkdir -p korea/island/dokdo
+cd korea/island/dokdo
+touch korea.txt
+vi korea.txt -> i -> 행복한 하루 -> :wq
+cat korea.txt
+mv korea.txt /home/centos/korea
+mv korea.txt ~
+rm -r korea # 이거 다 삭제하는게 맞는지
+
+2.
+touch story.txt
+ls -l | grep story.txt
+chmod u+x,go+w story.txt
+ls -l | grep story.txt
+chmod 644 story.txt
+ls -l | grep story.txt
+
+3.
+하드링크는 원본 파일과 같은 아이디값을 가지며 원본파일이 지워지더라도 사용할 수 있는 반면에
+심볼릭링크는 원본 파일과 다른 아이디값을 가지며 원본 파일이 삭제될 경우에는 사용하지 못하게 됩니다.
+
+4.

@@ -2,7 +2,22 @@
 사용 패키지 : cx_Oracle
 	ㄴ File -> Settings -> project interpreter -> + -> cx_Oracle 검색 -> install package -> 밑에 초록줄이 뜰 때까지 기다리기
 ----------------------------------------
-cx_Oracle select 순서
+cx_Oracle 사용 순서
+	ㄴ 1. 연결객체 얻어오기
+		ㄴ conn = oci.connect("scott/tiger@192.168.0.18:1521/orcl")
+	ㄴ 2. 커서 얻어오기
+		ㄴ cursor = conn.cursor()	
+	ㄴ 3. sql 문장
+		ㄴ sql = """ """
+		ㄴ sql = " "
+	ㄴ 4. sql 문장 실행
+		ㄴ cursor.execute(sql)
+	ㄴ 5. 커서 닫기
+		ㄴ cursor.close()
+	ㄴ 6. 연결 끊기
+		ㄴ conn.close()
+----------------------------------------
+cx_Oracle_select_예시
 	ㄴ 1. 연결객체 얻어오기
 		conn = oci.connect("scott/tiger@192.168.0.18:1521/orcl")
 		print(conn)
@@ -21,6 +36,43 @@ cx_Oracle select 순서
 	ㄴ 6. 연결 끊기
 		conn.close()
 ----------------------------------------
+cx_Oracle_insert_예시_01
+	conn = oci.connect("scott/tiger@192.168.0.18:1521/orcl")
+	cursor = conn.cursor()
+	sql = """
+	INSERT INTO supply
+	(id, Supplier_Name, Invoice_Number, Part_Number, Cost, Purchase_Date)
+	VALUES(seq_supply_id.nextval, :0, :1, :2, :3, :4)
+	"""
+	cursor.execute(sql, data) # :0,:1,:2,:3,:4 에 해당하는 데이터를 넣음
+	cursor.close()
+	conn.commit()  # *********** commit 필요 ***********
+	conn.close()
+----------------------------------------
+cx_Oracle_insert_예시_02
+	conn = oci.connect("scott/tiger@192.168.0.18:1521/orcl")
+	cursor = conn.cursor()
+	sql = """
+	INSERT INTO supply
+	(id, Supplier_Name, Invoice_Number, Part_Number, Cost, Purchase_Date)
+	VALUES(seq_supply_id.nextval, :v_name, :v_invoice, :v_part, :v_cost, :v_date)
+	"""
+	v_name = data[0]
+	v_invoice = data[1]
+	v_part = data[2]
+	v_cost = data[3]
+	v_date = data[4]
+	cursor.execute(sql, (v_name, v_invoice, v_part, v_cost, v_date)) # :0,:1,:2,:3,:4 에 해당하는 데이터를 넣음
+	cursor.close()
+	conn.commit()  # commit 필요
+	conn.close()
+----------------------------------------
 csv 파일
+	ㄴ import csv
 	ㄴ 파일 구분자 : ,
 	ㄴ 컬럼 이름이 담긴 행이 존재
+	ㄴ csv.reader()
+		ㄴ delimiter : 데이터를 자르는 기준
+			ㄴ 사용예시
+				csv.reader(file, delimiter=',')   # ,를 기준으로 데이터를 자름
+	ㄴ 읽어온 데이터들은 모두 문자열로 가져옴

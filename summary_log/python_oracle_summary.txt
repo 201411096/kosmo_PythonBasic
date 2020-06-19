@@ -2,6 +2,12 @@
 사용 패키지 : cx_Oracle
 	ㄴ File -> Settings -> project interpreter -> + -> cx_Oracle 검색 -> install package -> 밑에 초록줄이 뜰 때까지 기다리기
 ----------------------------------------
+cx_Oracle 추가사항
+	ㄴ cursor.fetchall()
+	ㄴ conn.commit()
+	ㄴ cursor.execute(sq, (튜플이름) )
+		ㄴ ***** execute 뒤에 튜플만 올 수 있는듯 *****
+----------------------------------------
 cx_Oracle 사용 순서
 	ㄴ 1. 연결객체 얻어오기
 		ㄴ conn = oci.connect("scott/tiger@192.168.0.18:1521/orcl")
@@ -16,6 +22,14 @@ cx_Oracle 사용 순서
 		ㄴ cursor.close()
 	ㄴ 6. 연결 끊기
 		ㄴ conn.close()
+----------------------------------------
+cx_Oracle 함수
+	ㄴ select 이후에 데이터를 가져오는 함수
+		ㄴ cursor.fetchall()
+			ㄴ 사용예시
+				ㄴ datas = cursor.fetchall()
+	ㄴ 커밋해주는 함수
+		ㄴ conn.commit()
 ----------------------------------------
 cx_Oracle_select_예시
 	ㄴ 1. 연결객체 얻어오기

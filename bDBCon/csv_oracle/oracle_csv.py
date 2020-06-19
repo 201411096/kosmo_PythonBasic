@@ -49,18 +49,31 @@ def insertTable(data):
     conn.commit()  # commit 필요
     conn.close()
 
+def viewTable(table):
+    conn = oci.connect("scott/tiger@192.168.0.18:1521/orcl")
+    cursor = conn.cursor()
+    sql = "SELECT * FROM {}".format(table)
+    cursor.execute(sql)
+    datas = cursor.fetchall() # 데이터를 전부 다 받음
+    for row in datas:
+        print(row)
+    cursor.close()
+    conn.close()
 if __name__ == "__main__":  # 이부분은 이 파일을 실행할 경우에만 실행되는 부분임
     # (1) db에 테이블 생성
     #createTable()
     # (2) csv 읽어서 DB에 입력
-    file_name = "../files/supply.csv"
-    file = open(file_name, 'r')
-    datas = csv.reader(file, delimiter=',') # ,를 기준으로 데이터를 자름
-    header = next(datas, None)  # 컬럼들을 뽑아옴
-    print(header)
-    print("-"*50)
-
-    for row in datas:
-        print(row)
-        print("a")
-        insertTable(row)
+    # file_name = "../files/supply.csv"
+    # file = open(file_name, 'r')
+    # datas = csv.reader(file, delimiter=',') # ,를 기준으로 데이터를 자름
+    # header = next(datas, None)  # 컬럼들을 뽑아옴
+    # print(header)
+    # print("-"*50)
+    # 
+    # for row in datas:
+    #     print(row)
+    #     print("a")
+    #     insertTable(row)
+    
+    # (3) db 값을 가져와서 보여주기
+    viewTable('supply')

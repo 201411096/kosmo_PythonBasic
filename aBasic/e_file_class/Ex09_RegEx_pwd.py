@@ -30,3 +30,14 @@ pwd_check('Abcdef_2')       # 특수문자 포함
 # print(pwd_check('abcdef'))
 # print(pwd_check('Abcdef2'))
 # print(pwd_check('Abcdef_2'))
+
+
+
+# 한번에 체크하는 방식
+# 전방탐색
+# def pwd_check(pwd):
+#     p = re.search('^(?=.*[A-Z]).[A-Za-z0-9]{6,10}$',pwd)
+#     if p:
+#         return print(True)
+#     else:
+#         return print(False)

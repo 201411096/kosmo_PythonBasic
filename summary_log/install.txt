@@ -108,3 +108,29 @@ tomcat
 	ㄴ hostname -I
 		ㄴ 앞에 값이 윈도우에서 접속할 경우
 		ㄴ 뒤에 값이 리눅스에서 접속할 경우
+----------------------------------------
+ssh (Secure Shell)
+	ㄴ 설치
+		ㄴ yum install openssh*
+	ㄴ 방화벽 설정
+		ㄴ firewall-cmd --permanent --add-port=22/tcp
+		ㄴ firewall-cmd --reload
+	ㄴ 설치 위치 확인
+		ㄴ which sshd
+	ㄴ 파일 실행
+		ㄴ /usr/sbin/sshd
+	ㄴ 프로세스 확인
+		ㄴ ps -ef | grep sshd
+			ㄴ 옵션 -e (every..)
+			ㄴ 두개가 나오는데 하나는 grep 명령어임
+		ㄴ 백그라운드로 실행되고 있는 것을 확인할 수 있음
+	ㄴ 프로세스 확인2
+		ㄴ systemctl status sshd
+			ㄴ sshd의 상태 확인
+	ㄴ 이후에는 윈도우에서 putty 설치
+----------------------------------------
+putty 설치
+	ㄴ 64bit window..
+	ㄴ 리눅스의 ip주소와 saved_session을 입력하고 save 클릭
+		ㄴ ip주소 입력할 때 http 빼기
+	ㄴ 경고창 예

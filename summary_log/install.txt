@@ -149,4 +149,22 @@ winscp 설치
 	ㄴ http://winscp.net/
 	ㄴ putty를 켜둔상태에서..?
 	ㄴ putty ssh client에 저장된 세션 및 사이트.. -> 예
+----------------------------------------
+오라클 설치
+	ㄴ references - linux_oracle.docx
+----------------------------------------
+리눅스에서 배포할 프로젝트에 추가
 
+<repositories>
+ <repository>
+ <id>oracle</id> 
+ <name>ORACLE JDBC Repository</name> 
+ <url>http://maven.jahia.org/maven2</url>
+ </repository> 
+ </repositories>
+<!-- JDBC6 -->
+<dependency> 
+ <groupId>com.oracle</groupId> 
+ <artifactId>ojdbc7</artifactId> 
+ <version>12.1.0.2</version>
+</dependency>

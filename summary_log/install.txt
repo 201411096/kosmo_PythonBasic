@@ -45,3 +45,36 @@ root 비밀번호 : admin1234
 9. 지역언어 입력 소스 -> 한국어 삭제(-) -> 한국어(hangul) 선택
 	ㄴ window spacebar로 바꿀 수 있음
 ----------------------------------------
+리눅스 jdk 설치
+	ㄴ 64비트 tar 파일 (압축파일 개념, zip, jar와 비슷)
+	ㄴ 압축 풀어서 가져옴
+----------------------------------------
+yum
+	ㄴ yum remove java*
+		ㄴ 자바 관련 부분 삭제
+----------------------------------------
+rpm
+	ㄴ rpm -qa | grep java
+		ㄴ 자바로 시작하는 파일? 확인
+----------------------------------------
+@자동 스크립트 파일
+	ㄴ 위에부터 순차적으로 적용?
+		/etc/profile	(root계정 : 모든 사용자에게 적용)
+		/etc/bashrc	(root계정 : 모든 사용자에게 적용)
+		~/.bashrc		(사용자계정 : 해당 사용자만 적용)
+		~/.bash_profile	(사용자계정 : 해당 사용자만 적용)
+	ㄴ source : 스크립트파일 적용
+----------------------------------------
+스크립트 설정
+	ㄴ 1. gedit /etc/profile
+		export JAVA_HOME=/home/centos/jdk1.8
+		export JAVA_OPTS="-Dfile.encoding=UTF-8"
+		export classpath="."
+			ㄴ 실행할때 기준을 현재 디렉토리로..
+		export PATH=$JAVA_HOME/bin:$PATH
+			ㄴ java 와 javac 명령어를 모든 디렉토리에서 사용이 가능해짐
+			ㄴ 뒤에 (:)과 PATH를 지정해야 기존의 PATH를 유지할 수 있음
+				ㄴ 윈도우에서의 (;)와 같은 역할
+	ㄴ 2. source /etc/profile
+		ㄴ 스크립트를 적용하는 명령어
+	ㄴ 3. reboot

@@ -529,8 +529,8 @@ Magic method(매직 메소드)
 		import json
 		f = open('data/temp.json', 'r', encoding='utf-8')
 		data = f.read()
-		items = json.loads(data)
-		print(type(items)) # json.loads 딕셔너리 형태로 반환해줌
+		items = json.loads(data)	
+		print(type(items)) 		# json.loads 딕셔너리 형태로 반환해줌
 		print(items)
 		for item in items:
 		    print('>', item)
@@ -538,6 +538,17 @@ Magic method(매직 메소드)
 		    print('>', item)
 		for item in items.items():
 		    print('>', item)
+------------------------------------------------------------
+dictionary (딕셔너리 관련함수)
+	ㄴ keys()
+		ㄴ key 리스트 만들기
+	ㄴ values()
+		ㄴ value 리스트 만들기
+	ㄴ items()
+		ㄴ key, value 쌍 얻기
+	ㄴ in()
+		ㄴ key가 딕셔너리 안에 있는지 조사
+
 ------------------------------------------------------------
 del remove 차이
 	ㄴ del a[인덱스] : 해당 인덱스 원소가 삭제됨

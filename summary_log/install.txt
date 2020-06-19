@@ -48,6 +48,7 @@ root 비밀번호 : admin1234
 리눅스 jdk 설치
 	ㄴ 64비트 tar 파일 (압축파일 개념, zip, jar와 비슷)
 	ㄴ 압축 풀어서 가져옴
+	ㄴ yum -> rpm -> 스크립트 설정
 ----------------------------------------
 yum
 	ㄴ yum remove java*
@@ -78,3 +79,32 @@ rpm
 	ㄴ 2. source /etc/profile
 		ㄴ 스크립트를 적용하는 명령어
 	ㄴ 3. reboot
+----------------------------------------
+tomcat 설치
+	ㄴ 터미널에서 실행
+		wget https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.17/bin/apache-tomcat-9.0.17.tar.gz
+	ㄴ tar파일 풀기 (zip파일 풀기)
+		ㄴ tar xfvz apache-tomcat-9.0.17.tar.gz 
+			ㄴ 옵션 확인해보기
+	ㄴ mv apache-tomcat-9.0.17 tomcat9
+		ㄴ 이름 변경
+	ㄴ 실행확인
+		ㄴ tomcat9/bin/startup.sh
+	ㄴ 구동이 되는지 확인
+		ㄴ http://localhost:8080
+	ㄴ 방화벽 설정
+		ㄴ firewall-cmd --permanent --add-port=8080/tcp
+		ㄴ firewall-cmd --reload
+----------------------------------------
+tomcat
+	ㄴ startup.bat -> 서버 시작
+		ㄴ 실행 
+			ㄴ tomcat9/bin/startup.sh
+		ㄴ 구동이 되는지 확인
+			ㄴ http://localhost:8080
+	ㄴ shutdown.bat -> 서버 종료
+	ㄴ ifconfig
+		ㄴ window의 ipconfig
+	ㄴ hostname -I
+		ㄴ 앞에 값이 윈도우에서 접속할 경우
+		ㄴ 뒤에 값이 리눅스에서 접속할 경우

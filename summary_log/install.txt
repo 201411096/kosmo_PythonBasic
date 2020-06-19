@@ -98,16 +98,25 @@ tomcat 설치
 ----------------------------------------
 tomcat
 	ㄴ startup.bat -> 서버 시작
-		ㄴ 실행 
+		ㄴ 실행
+			ㄴ ---------------------------------------- 
 			ㄴ tomcat9/bin/startup.sh
 		ㄴ 구동이 되는지 확인
 			ㄴ http://localhost:8080
 	ㄴ shutdown.bat -> 서버 종료
 	ㄴ ifconfig
 		ㄴ window의 ipconfig
+		ㄴ ifconfig의 맨윗값 사용
 	ㄴ hostname -I
 		ㄴ 앞에 값이 윈도우에서 접속할 경우
 		ㄴ 뒤에 값이 리눅스에서 접속할 경우
+----------------------------------------
+윈도우 <-> 리눅스 간 파일이동
+	ㄴ ssh
+	ㄴ putty
+	ㄴ winscp
+	ㄴ 이클립스에서 export -> war
+	ㄴ /home/centos/tomcat9/webapps 파일 밑으로 war 파일 이동
 ----------------------------------------
 ssh (Secure Shell)
 	ㄴ 설치
@@ -130,7 +139,14 @@ ssh (Secure Shell)
 	ㄴ 이후에는 윈도우에서 putty 설치
 ----------------------------------------
 putty 설치
+	ㄴ 윈도우에서
 	ㄴ 64bit window..
 	ㄴ 리눅스의 ip주소와 saved_session을 입력하고 save 클릭
 		ㄴ ip주소 입력할 때 http 빼기
 	ㄴ 경고창 예
+----------------------------------------
+winscp 설치
+	ㄴ http://winscp.net/
+	ㄴ putty를 켜둔상태에서..?
+	ㄴ putty ssh client에 저장된 세션 및 사이트.. -> 예
+

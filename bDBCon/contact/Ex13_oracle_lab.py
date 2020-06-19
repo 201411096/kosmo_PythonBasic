@@ -66,7 +66,6 @@ def print_contact():
 def delete_contact(name):
     conn = oci.connect("scott/tiger@192.168.0.18:1521/orcl")
     cursor = conn.cursor()
-    print("name 확인", name)
     sql = "delete from CONTACT where CONTACT_NAME = :name"
     cursor.execute(sql, (name,))
     cursor.close()

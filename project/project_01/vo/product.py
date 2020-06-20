@@ -45,3 +45,4 @@ class Product:
 
 # 2. 데이터 입력
 #Product.insert_product("테스트제품1", 1500, 20)
+

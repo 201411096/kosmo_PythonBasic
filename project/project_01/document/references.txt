@@ -1,0 +1,6 @@
+1.
+https://docs.python.org/ko/3/library/tkinter.html
+2.
+https://076923.github.io/posts/Python-tkinter-1/
+3.
+https://slacker.ro/2020/01/22/python-gui-programming-with-tkinter/?__cf_chl_jschl_tk__=78767540a8df40471697155d8b54ff4e05f70c9f-1592716306-0-AUSwircw-LbJWl8tNx78egIndJwPdF5sSyWQnO-XVkl0VRVjBUjjf8N0BUoDF-KWRsiXSqvNgjTo8LL2Rzfid-4kK_yZQ6EyEywliLl-Cpc7TiME76Rr1kvCn0YMWij2jTAXZeSmuQydz_9mJK79z4stOAertFUYuQ2rACDgxnrhl8cgmc0mYk5c52iVaHEZRT69gtitXjZ2E0nQoaKsw-fUJbScKK_EoOnq1H7-29sgbXEGUUFe32NzfM66x6NO3rVEXlBpvmQBrzgzuzox_xw7qB5CxdvHUJJfHUub67fgb0tDmmg7YHqhESmvxNWzgnramxJNN0KGWELGBVjCHsU

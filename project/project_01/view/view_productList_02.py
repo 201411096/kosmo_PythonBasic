@@ -10,8 +10,10 @@ class ProductListWindow:
         self.window.mainloop()
     def makeProductList(self):
         productList = Product.select_product()
-        for product in productList:
-            tempLabel = Label(self.window, text=product.name)
-            tempLabel.pack()
+        for idx, product in enumerate(productList):
+            tempFrame = Frame(master=self.window, borderwidth=1, relief=RAISED)
+            tempFrame.grid(row=idx // 3, column=idx % 3, sticky='nesw')
+            tempLabel = Label(tempFrame, text=product.name)
+            tempLabel.grid()
 
 productListWindow = ProductListWindow()

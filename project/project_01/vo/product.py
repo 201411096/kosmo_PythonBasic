@@ -75,4 +75,4 @@ class Product:
 # Product.update_product(102, "테스트제품11", 2500, 30)
 
 # 4. 데이터 삭제
-Product.delete_product(102)
+# Product.delete_product(102)

@@ -37,7 +37,32 @@ class Product:
         cursor.close()
         conn.commit()
         conn.close()
-
+    @staticmethod
+    def update_product(productId, name, price, cnt):
+        print("update_product 확인", "productId :", productId, "name :", name)
+        conn = oci.connect("hrr/hrr@192.168.56.1:1521/xe")
+        cursor = conn.cursor()
+        sql = """
+            UPDATE product 
+            set PRODUCT_NAME = :name, PRODUCT_PRICE = :price, PRODUCT_CNT=:cnt
+            where PRODUCT_ID = :productId
+        """
+        cursor.execute(sql, (name, price, cnt, productId))
+        cursor.close()
+        conn.commit()
+        conn.close()
+    @staticmethod
+    def delete_product(productId):
+        conn = oci.connect("hrr/hrr@192.168.56.1:1521/xe")
+        cursor = conn.cursor()
+        sql = """
+            DELETE from product 
+            where PRODUCT_ID = :productId
+        """
+        cursor.execute(sql, (productId, ))
+        cursor.close()
+        conn.commit()
+        conn.close()
 # 1. 데이터 받아와서 확인
 # list = Product.select_product()
 # for idx, item in enumerate(list):
@@ -46,3 +71,8 @@ class Product:
 # 2. 데이터 입력
 #Product.insert_product("테스트제품1", 1500, 20)
 
+# 3. 데이터 수정
+# Product.update_product(102, "테스트제품11", 2500, 30)
+
+# 4. 데이터 삭제
+Product.delete_product(102)

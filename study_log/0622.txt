@@ -150,8 +150,10 @@ g. mv jdk1.8.0_131/* /opt/jdk/1.8.0_131/
 g_2. ls -l /opt/jdk
 	ㄴ 심볼릭 링크 확인
 h. ln -s /opt/jdk/1.8.0_131 /opt/jdk/current
-i. alternatives --install /usr/bin/java java /opt/jdk/1.8.0_131/bin/java 2
-j. alternatives --config java
+i. 
+alternatives --install /usr/bin/java java /opt/jdk/1.8.0_131/bin/java 2
+j. 
+alternatives --config java
 	ㄴ 최소로 설치를 한 상태이기 떄문에 -> 1 입력
 alternatives --install /usr/bin/jar jar /opt/jdk/1.8.0_131/bin/jar 2
 k.
@@ -170,4 +172,39 @@ d. mkdir -p /opt/hadoop/2.7.7
 e. mv hadoop-2.7.7/* /opt/hadoop/2.7.7/
 f. ln -s /opt/hadoop/2.7.7 /opt/hadoop/current
 
+4. Hadoop 사용자 추가
+a. useradd hadoop
+b. passwd hadoop   ( 비밀번호도 hadoop 으로 - 비밀번호 입력시는 글자표시 안됨  )
+c. chown -R hadoop:hadoop /opt/hadoop/  ( 루트에서 만든 파일의 권한을 hadoop에게 권함)
+d. vi /etc/pam.d/su (설정파일 건드릴때는 멀티 풀기)
+	ㄴ 10, 11, 12라인 주석처리 (#붙이기)
+	ㄴ 설정을 하지 않으면 hadoop계정에서 root계정으로 넘어오질 못함
+	ㄴ 설정을 하지 않고 실수로 넘어갔을 경우 logout을 하면 다시 root계정으로 넘어감
+e. su - hadoop (환경변수도 같이 넘어감)
+	ㄴ 확인만 하고 다시 root로 돌아옴
 
+5. 자바 및 Hadoop 환경 변수 추가
+( 설정파일 수정할 때는 MultiExe 보다 하나씩 하는 것이 나을 수도 있다 )
+a. vi ~/.bash_profile
+b. shift + g -> o(커서의 다음줄에 입력) -> 아래 내용 붙이기
+	ㄴ 아래 내용 3번째 라인에 current(심볼릭 링크에 연결해둬서 버전 변경시 설정 파일을 안 건드려도 되게 만듬)
+	ㄴ 기존 PATH 경로에 추가를 해서 명령어를 다른곳에서도 쓰기 위함
+
+  #### HADOOP 2.7.7 start ############
+  PATH=$PATH:$HOME/bin
+  export HADOOP_HOME=/opt/hadoop/current
+  export PATH=$PATH:$HADOOP_HOME/bin
+  export PATH=$PATH:$HADOOP_HOME/sbin
+  #### HADOOP 2.7.7end############
+
+  #### JAVA 1.8.0 start#############
+  export JAVA_HOME=/opt/jdk/current
+  export PATH=$PATH:$JAVA_HOME/bin
+  #### JAVA 1.8.0 end##############
+
+c. source ~/.bash_profile 
+	ㄴ 쉘 스크립트 적용
+
+9. 자바 및 hadoop 버전 확인
+    a. java -version
+    b. hadoop version

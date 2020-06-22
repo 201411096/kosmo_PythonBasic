@@ -1,3 +1,113 @@
 ﻿0622_월요일
 
-1. 
+1. virtualbox 5.2.42
+	ㄴ windows hosts
+2. vagrant 2.2.2
+	ㄴ Vagrant_2.2.2_x86_64.msi
+3. 설치완료시 C:\HashiCorp\Vagrant 폴더 생성됨
+
+4. cmd로 관리자모드 실행 후 c:\HashiCorp까지 이동
+
+5. vagrant init 실행
+
+6. c:\HashiCorp에 존재하는 Vagrantfile의 모든 내용을 제거하고 다음을 추가한다.
+
+7. 아래 내용
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+     config.ssh.insert_key = false
+     config.vm.define :nn01 do |nn01_config|
+        nn01_config.vm.box = "centos/7"
+        nn01_config.vm.hostname = "nn01"
+        nn01_config.vm.network "private_network", ip: "192.168.56.101"
+        nn01_config.vm.provider :virtualbox do |vb|
+            vb.name = "nn01"
+            vb.memory = "4096"
+        end
+
+     end
+
+    config.vm.define :dn01 do |dn01_config|
+        dn01_config.vm.box = "centos/7"
+        dn01_config.vm.hostname = "dn01"
+        dn01_config.vm.network "private_network", ip: "192.168.56.102"
+        dn01_config.vm.provider :virtualbox do |vb|
+            vb.name = "dn01"
+            vb.memory = "4096"
+        end
+    end
+
+
+
+config.vm.define :dn02 do |dn02_config|
+        dn02_config.vm.box = "centos/7"
+        dn02_config.vm.hostname = "dn02"
+        dn02_config.vm.network "private_network", ip: "192.168.56.103"
+        dn02_config.vm.provider :virtualbox do |vb|
+            vb.name = "dn02"
+            vb.memory = "4096"
+        end
+    end
+
+
+end
+
+8. vagrant up 실행
+
+9. vagrant 설치 중 에러 발생시
+	ㄴ c->user->VirtualBox VMs에 생긴 폴더, .virtualbox 에 생긴 폴더, HashiCorp .vagrant에 생긴 폴더를 지우고 다시 시도
+
+10. 3개를 하나씩 들어가서 ip addr로 확인하는데 셋 중 가장 밑에껄로 확인하는듯
+11. 마우스 잡기
+	ㄴ 파일 -> 환경설정 -> 입력 -> 가상머신 -> 호스트 키 조합 -> Ctrl + Alt (둘다 왼쪽)
+12. putty 연결
+	ㄴ https://putty.ko.softonic.com/
+	ㄴ putty-0.70-installer.msi  다운받아 설치
+	ㄴ 실행
+		ㄴ 192.168.56.101  nn01  [Save]버튼
+		ㄴ 192.168.56.102  dn01  [Save]버튼
+		ㄴ 192.168.56.103  dn02  [Save]버튼
+13. sshd config 수정
+[root@nn01 ~]vi /etc/ssh/sshd_config
+/Password를 검색한다.
+PasswordAuthentication no를
+PasswordAuthentication yes로 변경한다.
+(63라인은 주석, 65라인을 수정해야됨)
+[root@nn01 ~]systemctl restart sshd
+putty접속이 가능하다
+dn01, dn02에도 같은 작업을 한다.
+[root@dn01 ~]vi /etc/ssh/sshd_config
+[root@dn01 ~]systemctl restart sshd
+[root@dn02 ~]vi /etc/ssh/sshd_config
+[root@dn02 ~]systemctl restart sshd
+14. putty 접속을 확인한다.
+15. mobaxterm 설치
+16. mobaxterm 사용
+설치 작업을 편리하게 해주는 도구(Putty 세션을 동기화 한다.)
+https://mobaxterm.mobatek.net > 왼쪽 메뉴 > download
+다운 받아 zip 파일을 푼다
+실행하면 Putty의 세션이 자동으로 로드 된다.
+왼쪽에 Putty Sessions에 putty 연결이 들어온거 확인하고 하나씩 눌러놓고
+MultiExec 을 클릭한다.
+17. winscp
+Windows용 그래픽 유저 인터페이스 SFTP 및 FTP 클라이언트 프로그램이고 오픈소스 프리웨어입니다.
+이 프로그램을 사용하여 로컬 컴퓨터와 원격 컴퓨터 간에 안전하게 파일을 복사할 수 있습니다.
+https://winscp.net/eng/download.php
+WinSCP-5.15-Setup.exe
+18. 패키지 추가
+yum update
+19. 자주 쓰는 프로그램 설치
+yum install telnet svn git nc ntp wget vim net-tools 
+20. 방화벽 끄기
+systemctl stop firewalld
+systemctl disable firewalld
+21. vi 에디터 설정 변경
+	vi /etc/virc
+	shift + g -> 맨 마지막줄로 이동
+	o -> 커서의 다음줄에 입력
+	set nu -> 입력 후 저장하고 나감
+++ backspace로 지워지지 않을 경우(^H^H등의 문자가 나올경우)
+	ㄴ ctrl backspace를 누르기
+22. 

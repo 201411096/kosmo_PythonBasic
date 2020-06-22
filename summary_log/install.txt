@@ -49,6 +49,8 @@ root 비밀번호 : admin1234
 	ㄴ 64비트 tar 파일 (압축파일 개념, zip, jar와 비슷)
 	ㄴ 압축 풀어서 가져옴
 	ㄴ yum -> rpm -> 스크립트 설정
+	ㄴ yum : Yellowdog Updater, Modified
+	ㄴ rpm : Red-hat Package Manager
 ----------------------------------------
 yum
 	ㄴ yum remove java*

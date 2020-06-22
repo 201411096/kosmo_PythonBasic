@@ -122,6 +122,41 @@ JDK, Hadoop설치
 		설치되었는지 확인하기
 		[root@nn01 ~]$ which java
 1. protobuf 설치
-yum install -y autoconf automake libtool curl gcc-c++ unzip
-cd /tmp
-wget https://github.com/protocolbuffers/protobuf/releases/download/v2.5.0/protobuf-2.5.0.tar.gz
+(1) 설치전 필요 툴 ( root 계정에서 )
+ $ yum install -y autoconf automake libtool curl gcc-c++ unzip
+(2) 다운로드 ( 책마다 버전이 중요하다고 강조하는데 )
+# cd /tmp
+# wget https://github.com/protocolbuffers/protobuf/releases/download/v2.5.0/protobuf-2.5.0.tar.gz
+# tar -zxvf protobuf-2.5.0.tar.gz
+# mv protobuf-2.5.0  /opt/
+# 이동되었는지 확인
+(3) 설치 ( protobuf 폴더로 이동 )
+# ./configure
+# make                ( 여기서 에러가 발생하면 ./configure에서 안되는 것임 )
+# make install
+(4) 확인
+protoc --version
+만일 에러 발생시 lfconfig ( 소문자 엘) 후 다시 protoc --version
+
+2. JDK 8 설치 (nn01,dn01,dn02)
+a. cd /tmp
+b. yum install -y vim wget unzip          
+c. wget --no-check-certificate --no-cookies - --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.tar.gz
+                       ( Local에 이미 다운로드 한 경우 Winscp를 이용하여 업로드 )
+d. ls jdk*
+e. tar -xvzpf jdk-8u131-linux-x64.tar.gz
+f. mkdir -p /opt/jdk/1.8.0_131
+g. mv jdk1.8.0_131/* /opt/jdk/1.8.0_131/
+g_2. ls -l /opt/jdk
+	ㄴ 심볼릭 링크 확인
+h. ln -s /opt/jdk/1.8.0_131 /opt/jdk/current
+i. alternatives --install /usr/bin/java java /opt/jdk/1.8.0_131/bin/java 2
+j. alternatives --config java
+	ㄴ 최소로 설치를 한 상태이기 떄문에 -> 1 입력
+alternatives --install /usr/bin/jar jar /opt/jdk/1.8.0_131/bin/jar 2
+k.
+alternatives --install /usr/bin/jar jar /opt/jdk/1.8.0_131/bin/jar 2
+alternatives --install /usr/bin/javac javac /opt/jdk/1.8.0_131/bin/javac 2
+alternatives --set jar /opt/jdk/1.8.0_131/bin/jar
+alternatives --set javac /opt/jdk/1.8.0_131/bin/javac
+l. java -version 확인

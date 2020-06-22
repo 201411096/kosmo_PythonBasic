@@ -164,7 +164,10 @@ l. java -version 확인
 3. Hadoop 설치 (nn01 / dn01 / dn02)
 a. cd /tmp
 b. wget http://apache.tt.co.kr/hadoop/common/hadoop-2.7.7/hadoop-2.7.7.tar.gz
+wget  https://archive.apache.org/dist/hadoop/common/hadoop-2.7.7/hadoop-2.7.7.tar.gz
 c. tar -xvzf hadoop-2.7.7.tar.gz
 d. mkdir -p /opt/hadoop/2.7.7
 e. mv hadoop-2.7.7/* /opt/hadoop/2.7.7/
 f. ln -s /opt/hadoop/2.7.7 /opt/hadoop/current
+
+

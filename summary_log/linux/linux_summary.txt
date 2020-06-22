@@ -11,6 +11,34 @@
 	ㄴ ln : 링크 생성(link)
 	ㄴ ps : 프로세스 확인
 ----------------
+패키지 관리자 도구
+	ㄴ yum(레드햇/페도라/센트os)
+		ㄴ 패키지 설치 : yum install <패키지>
+		ㄴ 패키지 제거 : yum remove <패키지>
+		ㄴ 시스템 업그레이드 : yum update 또는 yum upgrade
+			ㄴ yum update가 더 안정적인 선택(권장사항)
+			ㄴ yum upgrade 는 더이상 사용되지 않는 관련된 파일이나 패키지를 삭제함
+	ㄴ apt(데비안/우분투/민트)
+		ㄴ 패키지 설치 : apt install <패키지>
+		ㄴ 패키지 제거 : apt remove <패키지>
+		ㄴ 시스템 업그레이드 : apt update 또는 apt upgrade
+	ㄴ pacman(아치/만자로)
+		ㄴ 패키지 설치 : pacman -S <패키지>
+		ㄴ 패키지 제거 : pacman -R <패키지>
+		ㄴ 시스템 업그레이드 : pacman -Syu
+----------------
+systemctl
+	ㄴ 서비스 시작
+		ㄴ systemctl start <서비스 이름>
+	ㄴ 서비스 재시작
+		ㄴ systemctl restart <서비스 이름>
+	ㄴ 서비스 중지
+		ㄴ systemctl stop <서비스 이름>
+	ㄴ 서비스 활성화
+		ㄴ systemctl enable <서비스 이름>
+	ㄴ 서비스 비활성화
+		ㄴ systemctl disable <서비스 이름>
+----------------
 ls : 목록보기
 	ㄴ 옵션
 		ㄴ -l : 자세히보기

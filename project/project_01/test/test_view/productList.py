@@ -1,5 +1,5 @@
 from tkinter import *
-from vo.product import *
+from test.test_vo.product import *
 class ProductListWindow:
     def __init__(self):
         self.window = Tk()

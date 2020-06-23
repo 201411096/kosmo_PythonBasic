@@ -1,5 +1,4 @@
 from tkinter import *
-from vo.product import *
 
 root = Tk()
 image = PhotoImage(file=("../../image/unnamed.png"))

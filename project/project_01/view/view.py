@@ -2,6 +2,7 @@
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import *
+from dao.buyList import *
 
 price = {'제품1': 1500, '제품2': 2000, '제품3': 1000, '제품4': 500, '제품5': 300, '제품6': 4500,'제품7': 900, '제품8': 600, '제품9': 300}
 #order = []  #prev 주문 리스트

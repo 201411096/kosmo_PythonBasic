@@ -13,6 +13,8 @@ class buyList:
         for product in orderList.keys():
             tempPrice = int(price[product])
             cnt = int(orderList[product])
+            print(tempPrice)
+            print(cnt)
             sql2 = """
                 INSERT INTO buy(buy_id, buylist_id, buy_price, buy_productname, buy_cnt)
                 VALUES (seq_buy_pk.nextval, seq_buylist_pk.currval, :price, :product, :cnt) 

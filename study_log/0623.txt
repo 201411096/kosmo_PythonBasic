@@ -16,6 +16,7 @@ hdfs dfs -put /opt/hadoop/current/*.txt /input
 		ㄴ 알아서 분산처리가 시작됨
 --------------------------------------------------------------------------------
 2. 하둡 예제
+	ㄴ references 개념 하둡 참고
 a) 프로젝트 생성
 	ㄴ group id
 		ㄴ com.kosmo
@@ -41,6 +42,90 @@ c)winscp에 추가
 	ㄴ hdfs dfs -put /home/hadoop/temp/mydata.txt /input/data
 	ㄴ hdfs dfs -ls /input/data
 	ㄴ yarn jar /home/hadoop/source/lab1.jar
-		ㄴ pom.xml에 주석을 안 달았으면 메인함수가 포함된 클래스를 기술하지 않고 이런식으로 돌리면 됬었음
+		ㄴ pom.xml에 클래스명을 달았으면 메인함수가 포함된 클래스를 기술하지 않고 이런식으로 돌리면 됬었음
 	ㄴ yarn jar /home/hadoop/source/lab1.jar sample.WordCount /input/data/mydata.txt /output/wordcount
 	ㄴ map 100% reduce 100%면 성공
+	ㄴ hdfs dfs -ls /output/wordcount
+	ㄴ hdfs dfs -cat /output/wordcount/part-r-00000
+d) 10k 파일을 hadoop/temp로 이동
+	ㄴ HDFS 에 /input/data/wiki 폴더 생성
+		ㄴ hdfs dfs -ls /input/data
+		ㄴ hdfs dfs -mkdir -p /input/data/wiki
+		ㄴ hdfs dfs -ls /input/data
+		ㄴ hdfs dfs -put /home/hadoop/temp/10K.ID.CONTENTS /input/data/wiki
+		ㄴ hdfs dfs -ls /input/data/wiki
+	ㄴ 10K.ID.CONTENTS 파일을 /input/data/wiki 폴더에 저장하기
+e) matrix.txt를 hadoop의 /input/data로 이동
+...
+--------------------------------------------------------------------------------
+flume 설치
+	ㄴ dn01 노드의 root계정 (에코시스템은 대부분 dn01 root에 설치)
+--------------------------------------------------------------------------------
+history log
+    1  su - root
+    2  logout
+    3  exit
+    4  vi ~/.bash_profile
+    5  source ~/.bash_profile
+    6  start-all.sh
+    7  jps
+    8  clear
+    9  hdfs
+   10  hdfs dfs -ls
+   11  hdfs dfs -mkdir /input
+   12  hdfs dfs -ls
+   13  hdfs dfs -ls /
+   14  ls /opt/hadoop/current
+   15  hdfs dfs -put /opt/hadoop/current/*.txt /input
+   16  hdfs dfs -ls /input
+   17  ls source
+   18  ls
+   19  mkdir temp
+   20  vi temp/mydata.txt
+   21  pwd
+   22  ls -l
+   23  pwd
+   24  ls -l
+   25  ls temp
+   26  hdfs dfs -mkdir -p /input/data
+   27  hdfs dfs -ls /input
+   28  hdfs dfs -put /home/hadoop/temp/mydata.txt /input/data
+   29  hdfs dfs -ls /input/data
+   30  yarn jar /home/hadoop/source/lab1.jar sample.WordCount /input/data/mydata.txt /output/wordcount
+   31  hdfs dfs -ls /output/wordcount
+   32  hdfs dfs -cat /output/wordcount/part-r-00000
+   33  ls -l temp
+   34  hdfs dfs -ls
+   35  hdfs dfs -mkdir -p /input/data/wiki
+   36  hdfs dfs -ls /input/data
+   37  hdfs dfs -put /home/hadoop/temp/10K.ID.CONTENTS /input/data/wiki
+   38  hdfs dfs -ls /input/data/wiki
+   39*
+   40  hdfs dfs -ls /output/wordcount2
+   41  hdfs dfs -cat /output/wordcount2/part-r-00000 | head -100
+   42  ls -l
+   43  ls -l temp
+   44  hdfs dfs -put /home/hadoop/temp/matrix.txt /input/data
+   45  hdfs dfs -ls /input/data
+   46  yarn jar /home/hadoop/source/lab1.jar sample3.MatrixProduct /input/data/matrix.txt /output/matrixproduct
+   47  hdfs dfs -ls /output
+   48  hdfs dfs -ls /output/matrixproduct
+   49  hdfs dfs -ls /output/matrixproduct/part-r-00000
+   50  hdfs dfs -cat /output/matrixproduct/part-r-00000
+   51  history
+dn01---
+    1  su - root
+    2  logout
+    3  exit
+    4  vi ~/.bash_profile
+    5  source ~/.bash_profile
+    6  ls -l /opt/flume
+    7*
+    8  source ~/.bash_profile
+    9  vi ~/.bash_profile
+   10  cd $FLUME_HOME/conf
+   11  ls -l
+   12  cat flume-conf.properties.template
+   13  cp flume-conf.properties.template flume-conf.properties
+   14  ls -l
+   15  history

@@ -1,0 +1,94 @@
+package sample;
+
+import java.io.IOException;
+import java.util.StringTokenizer;
+
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.Mapper;
+import org.apache.hadoop.mapreduce.Reducer;
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
+
+/*
+ * 파일을 읽어서 단어의 수를 계산하여 그 결과를 파일에 저장
+*/
+
+public class WordCount2 {
+
+	public static class MyMapper // inner class : 원래 분리해줘야됨
+	 extends Mapper<Text, Text, Text, LongWritable>{
+		//입력키 입력값 / 출력키 출력값
+		private final static LongWritable one = new LongWritable(1);	// hadoop 자료형 // long one = 1L;
+		private Text word = new Text(); // String 대신
+		
+		@Override
+		public void map(Text key, Text value, Context context) throws IOException, InterruptedException{
+			String line = value.toString();
+			StringTokenizer st = new StringTokenizer(line, "\t\r\n\f |:;,.()<>");
+			while(st.hasMoreTokens()) {
+				word.set(st.nextToken());
+				context.write(word, one);
+			}
+		}
+	}
+	
+	public static class MyReducer // inner class : 원래 분리해줘야됨 
+	 extends Reducer<Text, LongWritable, Text, LongWritable>{
+		//입력키 입력값 / 출력키 출력값
+		//context.write(word, one);의 자료형
+		
+		private LongWritable result = new LongWritable();	// 반환하는데 사용되는 value값
+		
+		@Override
+		public void reduce(Text key, Iterable<LongWritable> values, Context context) throws IOException, InterruptedException{
+			//Iterable enumeration 비슷?.. -> 특정 값을 뽑아내는?..
+			int sum = 0;
+			for(LongWritable v : values) {
+				sum += v.get();		// hadoop -> java (자료형)
+			}
+			result.set(sum);		// java -> hadoop (자료형)
+			context.write(key, result);
+		}
+	}
+	
+
+	public static void main(String[] args) throws Exception{
+		
+		// Configuration : 하둡의 설정파일을 조회하고 변경할 수 있는 클래스
+		Configuration conf = new Configuration();
+		if (args.length != 2) {
+			System.err.println("Usage: WordCount <input> <output>");
+			System.exit(2);
+		}
+		
+		// Job에 Configuration(설정) 지정
+		Job job = Job.getInstance(conf, "WordCount");
+
+		// 각 클래스 지정
+		job.setJarByClass(WordCount2.class); // 나중에 jar로 실행해야 함
+		job.setMapperClass(MyMapper.class);
+		job.setReducerClass(MyReducer.class);
+
+		// 출력의 Key / Value 타입을 지정
+		job.setOutputKeyClass(Text.class);
+		job.setOutputValueClass(LongWritable.class);
+		
+		// 입력포맷과 출력포맷을 지정
+		job.setInputFormatClass(TextInputFormat.class);
+		job.setOutputFormatClass(TextOutputFormat.class);
+
+		// 파일입력포맷과 파일출력포맷을 지정
+		FileInputFormat.addInputPath(job, new Path(args[0]));
+		FileOutputFormat.setOutputPath(job, new Path(args[1]));
+
+		// Job이 다 완성될때까지 대기하기
+		job.waitForCompletion(true);
+	}
+
+}

@@ -1,0 +1,41 @@
+
+----------------------------------------------------
+(3) TopNMain.java
+
+0. 소스
+	` WordFreq.java
+	` TopNMain.java
+
+1- 데이터 준비
+	$ hdfs dfs -mkdir -p /input/data/wiki
+	$ hdfs dfs -put /home/hadoop/data/wiki/* /input/data/wiki
+
+2- 실행	
+	$ hdfs dfs -rm -r /output/topn
+	$ yarn jar /home/hadoop/source/lab1.jar sample2.TopNMain /output/wordcount2/part-r-00000   /output/topn  10 
+		` 입력데이타가 wordcount의 결과가 입력이 됨 
+		` 출력폴더  /output/topn
+		` 10 : 보여줄 개수
+	$ hdfs dfs -ls /output/topn
+	$ hdfs dfs -cat /output/topn/part-r-00000 
+
+
+----------------------------------------------------
+
+(4) CountTrigram.java ( N-gram )
+
+1- 데이터 준비
+	
+2- 실행	
+	$ hdfs dfs -rm -r /output/trigram
+	$ yarn jar /home/hadoop/source/lab1.jar sample2.CountTrigram /input/data/wiki/10K.ID.CONTENTS  
+		 /output/trigram  100
+		 
+	$ hdfs dfs -ls -R /output/trigram
+	
+	$ hdfs dfs -cat /output/trigram/part-r-00000 | head -100
+
+	$ hdfs dfs -cat /output/trigram/topN/part-r-00000 | head -100
+
+	물론 하둡프로그램으로 정렬구현 할 수 있지만 복잡하다.
+

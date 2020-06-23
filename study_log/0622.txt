@@ -1,4 +1,5 @@
 ﻿0622_월요일
+	ㄴ 하둡 환경 구축 시작
 
 1. virtualbox 5.2.42
 	ㄴ windows hosts

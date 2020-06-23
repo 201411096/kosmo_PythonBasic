@@ -1,1 +1,46 @@
-﻿
+﻿0623_화요일
+
+
+hdfs
+	ㄴ hadoop distributed file system
+--------------------------------------------------------------------------------
+1.
+hdfs dfs -ls /
+hdfs dfs -mkdir /input
+ls /input
+	ㄴ /input 디렉토리가 보이지 않음
+		ㄴ 하둡위에서 만들어지는 거라 리눅스랑 상관없음
+ls /opt/hadoop.current
+hdfs dfs -put /opt/hadoop/current/*.txt /input
+	ㄴ /opt/hadoop/current의 txt파일들을 hadoop의 input 디렉토리로 올려둠
+		ㄴ 알아서 분산처리가 시작됨
+--------------------------------------------------------------------------------
+2. 하둡 예제
+a) 프로젝트 생성
+	ㄴ group id
+		ㄴ com.kosmo
+	ㄴ artifact id
+		ㄴ lab1
+	ㄴ packaging
+		ㄴ jar
+	ㄴ map, reduce 부분만 코딩을 하면 됨
+b) run as -> maven install 2번
+	ㄴ target 에 생성된 lab1-0.0.1-SNAPSHOT.jar 파일이 실행파일
+c)winscp에 추가
+	ㄴ 192.168.56.101
+	ㄴ hadoop hadoop
+	ㄴ 저장 -> 암호저장
+	ㄴ winscp에서 source폴더를 만들어둠
+	ㄴ lab1-0.0.1-SNAPSHOT.jar 파일이름을 lab1.jar 파일로 변경하고 source폴더로 이동
+	ㄴ ls 했을 경우 lab1.jar파일이 보임
+	ㄴ mkdir temp
+	ㄴ vi temp/mydata.txt
+		ㄴ 영단어 3개짜리 4줄 입력
+	ㄴ hdfs dfs -mkdir -p /input/data
+	ㄴ hdfs dfs -ls /input
+	ㄴ hdfs dfs -put /home/hadoop/temp/mydata.txt /input/data
+	ㄴ hdfs dfs -ls /input/data
+	ㄴ yarn jar /home/hadoop/source/lab1.jar
+		ㄴ pom.xml에 주석을 안 달았으면 메인함수가 포함된 클래스를 기술하지 않고 이런식으로 돌리면 됬었음
+	ㄴ yarn jar /home/hadoop/source/lab1.jar sample.WordCount /input/data/mydata.txt /output/wordcount
+	ㄴ map 100% reduce 100%면 성공

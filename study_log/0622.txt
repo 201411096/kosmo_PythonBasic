@@ -441,3 +441,7 @@ a. start-all.sh
 7041 DataNode
 7141 NodeManager
 7271 Jps
+
+GUI (윈도우 브라우저로 접속가능)
+http://192.168.56.101:50070/
+http://192.168.56.101:8088/

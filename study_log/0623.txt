@@ -61,6 +61,16 @@ e) matrix.txt를 hadoop의 /input/data로 이동
 flume 설치
 	ㄴ dn01 노드의 root계정 (에코시스템은 대부분 dn01 root에 설치)
 --------------------------------------------------------------------------------
+flume 예제
+	ㄴ groupid : com.kosmo
+	ㄴ artifactid : bitcoin (프로젝트 이름)
+	ㄴ maven update -> maven install
+	ㄴ jar파일을 옮김 /home/hadoop/source로..
+
+a) 실행하고 dn02로 넘어와서..
+ssh dn01
+
+--------------------------------------------------------------------------------
 history log
     1  su - root
     2  logout
@@ -129,3 +139,26 @@ dn01---
    13  cp flume-conf.properties.template flume-conf.properties
    14  ls -l
    15  history
+   16*
+   17  history
+   18  ls -l
+   19  ls -l /source
+   20  ls -l ~/source
+   21  mkdir -p /home/hadoop/source_data/bitthumbitCoin
+   22  mkdir -p /home/hadoop/crawler
+   23  vi /home/hadoop/crawler/bitThumb_fileCount.txt
+   24  hdfs dfs -mkdir -p /user/hadoop/testInput/bitThumb
+   25  pwd
+   26  ls -l
+   27  vi flume-conf.properties
+   28  vi flume-bitcoin.properties
+   29  flume-ng agent --conf-file $FLUME_HOME/conf/flume-bitcoin.properties --name agent -Dflume.root.logger=INFO,console
+   30  ls -l
+   31  history
+dn-02
+[hadoop@dn02 ~]$ ssh dn01
+Last login: Tue Jun 23 04:07:53 2020
+[hadoop@dn01 ~]$ ls ~/source
+bitcoin.jar
+[hadoop@dn01 ~]$ java -jar /home/hadoop/source/bitcoin.jar
+

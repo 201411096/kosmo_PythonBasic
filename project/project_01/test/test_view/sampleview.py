@@ -4,7 +4,8 @@ from tkinter import messagebox
 from tkinter import *
 
 price = {'coffee': 3500, 'latte': 4000, 'smoothie': 4500, 'tea': 3000}
-order = []  #주문 리스트
+order = []  #prev 주문 리스트
+orderList = {}
 sum = 0     # 총 금액
 
 def add(item):
@@ -59,6 +60,7 @@ textarea.pack()
 label1 = tk.Label(frame2, text="금액: 0원", width=20, height=2, fg='blue')
 label1.pack()
 
-
+orderButton = tk.Button(frame2, text="결제", width=20, height=2)
+orderButton.pack()
 
 window.mainloop()   # .mainloop(): 이벤트 메시지 루프로서 키보드나 마우스 혹은 화면 Redraw와 같은 다양한 이벤트로부터 오는 메시지를 받고 전달하는 역활을 한다.

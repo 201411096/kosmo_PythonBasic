@@ -181,7 +181,7 @@ d. vi /etc/pam.d/su (설정파일 건드릴때는 멀티 풀기)
 	ㄴ 설정을 하지 않으면 hadoop계정에서 root계정으로 넘어오질 못함
 	ㄴ 설정을 하지 않고 실수로 넘어갔을 경우 logout을 하면 다시 root계정으로 넘어감
 e. su - hadoop (환경변수도 같이 넘어감)
-	ㄴ 확인만 하고 다시 root로 돌아옴
+	ㄴ 확인만 하고 다시 root로 돌아옴(5번 부분에서 여기서 실수한듯 -> hadoop에서 하는게 맞음)
 
 5. 자바 및 Hadoop 환경 변수 추가 (***** hadoop계정에서 해야되는듯 *****)
 ( 설정파일 수정할 때는 MultiExe 보다 하나씩 하는 것이 나을 수도 있다 )
@@ -224,11 +224,11 @@ su - hadoop 으로 전부 하둡계정으로 전환함
 [hadoop@nn01 ~]$ ssh-keygen
 [hadoop@dn01 ~]$ ssh-keygen
 [hadoop@dn02 ~]$ ssh-keygen
-엔터만 3번친다
+각각 입력하는 부분에서 엔터만 3번친다
 
 (2) 키복사하기 
 ( 여기서는 MultiExec 풀고 작업 - 각 노드별로 작업)
-( 자기 자신에게도 복사를 해야 됨 )
+(***** 자기 자신에게도 복사를 해야 됨 *****)
 
 [hadoop@nn01 ~]$ ssh-copy-id hadoop@dn01
 [hadoop@nn01 ~]$ ssh-copy-id hadoop@nn01
@@ -257,7 +257,7 @@ yes >  비밀번호 hadoop
 nn01에서 하고 dn01, dn02 전송하던가
 한 노드씩 같이 하던가 (권장)
 
-12. Hadoop 설정
+12. Hadoop 설정 (-> 모든 노드에서 해야되는듯 )
  ( 설정은 MultiExec를 풀고 각 노드마다 하는 것이 낫다
   또 복사하고 제발 확인하고 다시 열여서 또 확인하자
   우선 nn01에서 작업하자
@@ -420,7 +420,7 @@ mkdir -p ~/hadoop_data/hdfs/datanode
 16. Namenode 포맷 (nn01)
 hadoop namenode -format
 
-17. Daemon 시작 (nn01)
+17. Daemon 시작 (nn01) - ***** virtualbox 끄기 전에 stop-all.sh 하고 종료하기
 a. start-all.sh
 
 18. 서비스 정상 확인

@@ -24,11 +24,17 @@ def add(item):
         tempLine = str(product) + " : " + str(orderList[product]) + '개 ' + str(int(orderList[product])*int(price[product])) + "원 \n";
         textarea.insert(tk.INSERT, tempLine)
     label1['text'] = "금액: " + str(sum) + "원"
+def order():
+    global sum
+    buyList.insert_buyList(sum, orderList, price)
+    orderList.clear()
+    sum = 0
+    label1['text'] = "금액: 0원"
 
-# def btn_exit():
-#     msgbox = tk.messagebox.askquestion('확인', '주문을 마치시겠습니까?')
-#     if msgbox == 'yes':
-#         exit()
+def btn_exit():
+    msgbox = tk.messagebox.askquestion('확인', '주문을 마치시겠습니까?')
+    if msgbox == 'yes':
+        exit()
 
 def btn_clear():
     global sum
@@ -49,9 +55,12 @@ frame0 = tk.Frame(window, width=1100, height=700)
 frame0.pack()
 frame1 = tk.Frame(frame0, width=850, height=700)
 frame1.pack(side=LEFT)
-
 frame2 = tk.Frame(frame0, width=250, height=700)
 frame2.pack(side=RIGHT)
+
+frame2_bottom = tk.Frame(frame2, width=250, height=10)
+frame2_bottom.pack(side=BOTTOM)
+
 
 # 프레임 안에 버튼 들 배열
 tk.Button(frame1, text='제품1', command=lambda: add('제품1'), width=30, height=15).grid(row=0, column=0)
@@ -73,11 +82,14 @@ textarea.pack()
 label1 = tk.Label(frame2, text="금액: 0원", width=20, height=2, fg='blue')
 label1.pack()
 
-orderButton = tk.Button(frame2, command=lambda: btn_clear(), text="주문초기화", width=20, height=2)
-orderButton.pack()
+orderCancelButton = tk.Button(frame2_bottom, command=lambda: btn_clear(), text="주문초기화", width=20, height=2)
+orderCancelButton.grid(row=0, column=0)
 
-orderButton = tk.Button(frame2, text="결제", width=20, height=2)
-orderButton.pack()
+orderButton = tk.Button(frame2_bottom, command=lambda: order(), text="결제", width=20, height=2)
+orderButton.grid(row=0, column=1)
+
+exitButton = tk.Button(frame2_bottom, command=lambda: btn_exit(), text="주문종료하기", width=20, height=2)
+exitButton.grid(row=0, column=2)
 
 
 

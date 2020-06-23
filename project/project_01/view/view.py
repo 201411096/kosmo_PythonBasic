@@ -28,6 +28,7 @@ def order():
     global sum
     buyList.insert_buyList(sum, orderList, price)
     orderList.clear()
+    textarea.delete('1.0', END)
     sum = 0
     label1['text'] = "금액: 0원"
 
@@ -42,6 +43,12 @@ def btn_clear():
     orderList.clear()
     textarea.delete('1.0', END)
     label1['text'] = "금액: 0원"
+
+def btn_orderList():
+    print('a')
+#    window.destroy()
+
+
 
 window = tk.Tk()    # 화면을 띄움
 window.title("음료 주문")
@@ -82,14 +89,18 @@ textarea.pack()
 label1 = tk.Label(frame2, text="금액: 0원", width=20, height=2, fg='blue')
 label1.pack()
 
-orderCancelButton = tk.Button(frame2_bottom, command=lambda: btn_clear(), text="주문초기화", width=20, height=2)
+orderCancelButton = tk.Button(frame2_bottom, command=lambda: btn_clear(), text="주문초기화", width=15, height=2)
 orderCancelButton.grid(row=0, column=0)
 
-orderButton = tk.Button(frame2_bottom, command=lambda: order(), text="결제", width=20, height=2)
+orderButton = tk.Button(frame2_bottom, command=lambda: order(), text="결제", width=15, height=2)
 orderButton.grid(row=0, column=1)
 
-exitButton = tk.Button(frame2_bottom, command=lambda: btn_exit(), text="주문종료하기", width=20, height=2)
+exitButton = tk.Button(frame2_bottom, command=lambda: btn_orderList(), text="영수증", width=15, height=2)
 exitButton.grid(row=0, column=2)
+
+exitButton = tk.Button(frame2_bottom, command=lambda: btn_exit(), text="주문종료하기", width=15, height=2)
+exitButton.grid(row=0, column=3)
+
 
 
 

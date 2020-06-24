@@ -4,7 +4,6 @@ from tkinter import messagebox
 from tkinter import *
 from dao.buyList import *
 
-#price = {'제품1': 1500, '제품2': 2000, '제품3': 1000, '제품4': 500, '제품5': 300, '제품6': 4500,'제품7': 900, '제품8': 600, '제품9': 300}
 price = {'이탈리안치즈피자': 6900, '콤비네이션피자': 8900, '페페로니피자': 7900, '포테이토피자': 9500, '고구마피자': 9500, '불고기피자': 9900, '치킨텐더피자': 11900, '스테이크불갈비피자': 11900, '치즈오븐스파게티': 4900}
 orderList = {}
 sum = 0     # 총 금액
@@ -41,6 +40,7 @@ def btn_clear():
     orderList.clear()
     textarea.delete('1.0', END)
     label1['text'] = "금액: 0원"
+
 def btn_orderList():
     textarea2.delete('1.0', END)
     textarea2.insert(tk.INSERT, buyList.select_buyList())

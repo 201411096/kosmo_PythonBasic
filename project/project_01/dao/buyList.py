@@ -13,8 +13,8 @@ class buyList:
         for product in orderList.keys():
             tempPrice = int(price[product])
             cnt = int(orderList[product])
-            print(tempPrice)
-            print(cnt)
+#            print(tempPrice)
+#            print(cnt)
             sql2 = """
                 INSERT INTO buy(buy_id, buylist_id, buy_price, buy_productname, buy_cnt)
                 VALUES (seq_buy_pk.nextval, seq_buylist_pk.currval, :price, :product, :cnt) 
@@ -29,7 +29,7 @@ class buyList:
         conn = oci.connect("scott/tiger@192.168.0.18:1521/orcl")
         cursor = conn.cursor()
         sql1 = """
-                    select * from buylist order by buylist_id
+                    select * from buylist order by buylist_id desc
                 """
         cursor.execute(sql1)
         datas = cursor.fetchall()
@@ -39,20 +39,15 @@ class buyList:
             returnString = returnString + "주문날짜 : " + str(row[1]) + "\n"
             returnString = returnString + "----------------------------------------------------------------------------------\n"
             sql2 = "select * from buy where buylist_id = :buylistId"
-            print("row0 확인", row[0])
             cursor.execute(sql2, (row[0], ))
             datas2 = cursor.fetchall()
             returnString = returnString + "제품이름\t\t\t" + "제품개수\t\t\t" + " 제품가격" + "\n"
             for row2 in datas2:
-                print(row2)
                 returnString = returnString + str(row2[3]) + "\t\t\t" + str(row2[4]) + "\t\t\t" + str(row2[2]) + "\n"
-                #returnString = returnString + "제품이름 : " + str(row2[3]) + " 제품개수 : " + str(row2[4]) + " 제품가격 :" + str(row2[2]) + "\n"
             returnString = returnString + "----------------------------------------------------------------------------------\n"
             returnString = returnString + "가격총합 : " + str(row[2]) + "\n"
             returnString = returnString + "----------------------------------------------------------------------------------\n"
             returnString = returnString + "\n\n"
-        print(returnString)
-
         cursor.close()
         conn.close()
         return returnString

@@ -231,3 +231,32 @@ vi 명령모드에서.. "/ConnectionURL" 이런식으로 찾으면됨
 user
 hive
 warehouse 에서 앞으로 확인
+
+12. beeline  접속하기 위한 추가 작업
+     beeline은 그룹과 유저가 other이기 때문에
+
+****** nn01의 hadoop계정에서 진행
+
+* 모든 노드의 core-site.xml 에 수정 :
+모든 그룹과 호스트에게 접속하기 위한 관문역할의  proxy를 모두가 가능하도록 변경
+cd $HADOOP_HOME/etc/hadoop
+vi core-site.xml
+
+<property>
+  <name>hadoop.proxyuser.hadoop.groups</name>
+  <value>*</value>
+</property>
+<property>
+  <name>hadoop.proxyuser.hadoop.hosts</name>
+  <value>*</value>
+</property>
+
+* beeline은 others 권한으로 접속하므로, HDFS 권한을 수정해준다.
+hdfs dfs -chmod -R 777 /tmp
+hdfs dfs -chmod -R 777 /user/hive/warehouse
+
+core-site.xml 수정하여 dn01, dn02에 복사.
+scp core-site.xml hadoop@dn01:/opt/hadoop/current/etc/hadoop
+scp core-site.xml hadoop@dn02:/opt/hadoop/current/etc/hadoop
+
+

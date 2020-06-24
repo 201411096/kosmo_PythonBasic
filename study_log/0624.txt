@@ -372,5 +372,68 @@ OK
 2 rows selected (0.276 seconds)
 0: jdbc:hive2://> !quit
 
+----------------------------------------------------------------------------------------------------
+테스트 시작
+hadoop@dn01에서..
+
+[hadoop@dn01 ~]$ hive
+hive (default)> create database kdatademo;
+OK
+Time taken: 5.635 seconds
+hive (default)> use kdatademo;
+OK
+Time taken: 0.029 seconds
+hive (kdatademo)> create table customers(
+                > id bigint,
+                > name string,
+                > address string);
+OK
+Time taken: 0.537 seconds
+hive (kdatademo)> desc customers;
+OK
+id                      bigint
+name                    string
+address                 string
+Time taken: 0.167 seconds, Fetched: 3 row(s)
+insert into customers values
+( 1111, "John", "WA" ),
+( 2222, "Emily", "WA" ),
+( 3333, "Rick", "WA" ),
+( 4444, "Jane", "CA" ),
+( 5555, "Amit", "NJ" ),
+( 6666, "Nina", "NY" );
+hive (kdatademo)> select * from customers;
+OK
+1111    John    WA
+2222    Emily   WA
+3333    Rick    WA
+4444    Jane    CA
+5555    Amit    NJ
+6666    Nina    NY
+Time taken: 0.276 seconds, Fetched: 6 row(s)
+hive (kdatademo)> create table if not exists orders(
+                > id bigint,
+                > product_id string,
+                > customer_id bigint,
+                > quantity int,
+                > amount double);
+OK
+Time taken: 0.594 seconds
+hive (kdatademo)> desc orders
+                > ;
+OK
+id                      bigint
+product_id              string
+customer_id             bigint
+quantity                int
+amount                  double
+Time taken: 0.161 seconds, Fetched: 5 row(s)
+hive (kdatademo)> insert into orders values
+                > (111111, "phone", 1111, 3, 1200 ),
+                > (111112, "camera", 1111, 1, 5200 ),
+                > (111113, "notebook", 1111, 1, 10 ),
+                > (111114, "bag", 2222, 2, 20 ),
+                > (111115, "t-shirt", 4444, 2, 66 );
+
 
 

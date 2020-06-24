@@ -259,4 +259,118 @@ core-site.xml 수정하여 dn01, dn02에 복사.
 scp core-site.xml hadoop@dn01:/opt/hadoop/current/etc/hadoop
 scp core-site.xml hadoop@dn02:/opt/hadoop/current/etc/hadoop
 
+----------------------------------------------------------------------------------------------------
+mariadb 상태 확인
+[hadoop@dn01 ~]$ systemctl status mariadb.service
+----------------------------------------------------------------------------------------------------
+[hadoop@dn01 ~]$ hive --service metastore &
+	ㄴ enter 치면 됨
+[hadoop@dn01 ~]$ ps -ef | grep metastore
+[hadoop@dn01 ~]$ hive --service hiveserver2 &
+	ㄴ enter 치면 됨
+[hadoop@dn01 ~]$ ps -ef | grep hiveserver2
+
+hive (default)> show databases;
+OK
+default
+Time taken: 5.894 seconds, Fetched: 1 row(s)
+hive (default)> create database sample1;
+OK
+Time taken: 0.154 seconds
+hive (default)> show databases;
+OK
+default
+sample1
+Time taken: 0.019 seconds, Fetched: 2 row(s)
+hive (default)> use sample1;
+OK
+Time taken: 0.023 seconds
+hive (sample1)> create table emp(name string);
+OK
+Time taken: 0.469 seconds
+hive (sample1)> insert into emp(name) values('KIM');
+WARNING: Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
+Query ID = hadoop_20200624030212_2bd65b0e-8063-4fd4-936e-2eaa7b0e4031
+Total jobs = 3
+Launching Job 1 out of 3
+Number of reduce tasks is set to 0 since there's no reduce operator
+Starting Job = job_1592958835330_0001, Tracking URL = http://nn01:8088/proxy/application_1592958835330_0001/
+Kill Command = /opt/hadoop/current/bin/hadoop job  -kill job_1592958835330_0001
+Hadoop job information for Stage-1: number of mappers: 1; number of reducers: 0
+2020-06-24 03:02:28,817 Stage-1 map = 0%,  reduce = 0%
+2020-06-24 03:02:38,800 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 0.99 sec
+MapReduce Total cumulative CPU time: 990 msec
+Ended Job = job_1592958835330_0001
+Stage-4 is selected by condition resolver.
+Stage-3 is filtered out by condition resolver.
+Stage-5 is filtered out by condition resolver.
+Moving data to directory hdfs://nn01:9000/user/hive/warehouse/sample1.db/emp/.hive-staging_hive_2020-06-24_03-02-12_806_167839477531097723-1/-ext-10000
+Loading data to table sample1.emp
+MapReduce Jobs Launched:
+Stage-Stage-1: Map: 1   Cumulative CPU: 0.99 sec   HDFS Read: 3757 HDFS Write: 71 SUCCESS
+Total MapReduce CPU Time Spent: 990 msec
+OK
+Time taken: 27.789 seconds
+hive (sample1)>
+
+--dn02에서 확인..
+[root@dn02 ~]# ssh dn01
+The authenticity of host 'dn01 (192.168.56.102)' can't be established.
+ECDSA key fingerprint is SHA256:Jb0VaQ3QBJATHVFbGOaC6V3ZpY26bQRxcXEwhHm9jt8.
+ECDSA key fingerprint is MD5:05:40:37:4b:20:a2:18:5c:dc:41:a4:c4:02:a2:1c:03.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'dn01,192.168.56.102' (ECDSA) to the list of known hosts.
+root@dn01's password:
+Last login: Wed Jun 24 00:32:18 2020 from 192.168.56.1
+[root@dn01 ~]# hdfs dfs -ls /user/hive/warehouse/sample1.db/emp
+Found 1 items
+-rwxrwxrwx   1 hadoop supergroup          4 2020-06-24 03:02 /user/hive/warehouse/sample1.db/emp/000000_0
+[root@dn01 ~]# hdfs dfs -cat /user/hive/warehouse/sample1.db/emp
+cat: `/user/hive/warehouse/sample1.db/emp': Is a directory
+[root@dn01 ~]# hdfs dfs -cat /user/hive/warehouse/sample1.db/emp/000000_0
+KIM
+[root@dn01 ~]#
+--다시 dn01에서..
+[hadoop@dn01 ~]$ beeline
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/opt/hive/2.3.7/lib/log4j-slf4j-impl-2.6.2.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/opt/hadoop/2.7.7/share/hadoop/common/lib/slf4j-log4j12-1.7.10.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.apache.logging.slf4j.Log4jLoggerFactory]
+Beeline version 2.3.7 by Apache Hive
+beeline> !connect jdbc:hive2://
+Connecting to jdbc:hive2://
+Enter username for jdbc:hive2://: hive
+Enter password for jdbc:hive2://: ****
+20/06/24 03:14:29 [main]: WARN session.SessionState: METASTORE_FILTER_HOOK will be ignored, since hive.security.authorization.manager is set to instance of HiveAuthorizerFactory.
+Connected to: Apache Hive (version 2.3.7)
+Driver: Hive JDBC (version 2.3.7)
+Transaction isolation: TRANSACTION_REPEATABLE_READ
+0: jdbc:hive2://> show databases;
+OK
++----------------+
+| database_name  |
++----------------+
+| default        |
+| sample1        |
++----------------+
+2 rows selected (1.452 seconds)
+0: jdbc:hive2://> use sample1
+. . . . . . . . > ;
+OK
+No rows affected (0.193 seconds)
+0: jdbc:hive2://> insert into emp(name) values('park');
+....
+0: jdbc:hive2://> select * from emp;
+OK
++-----------+
+| emp.name  |
++-----------+
+| KIM       |
+| park      |
++-----------+
+2 rows selected (0.276 seconds)
+0: jdbc:hive2://> !quit
+
+
 

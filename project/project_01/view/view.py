@@ -69,16 +69,30 @@ frame2_bottom = tk.Frame(frame2, width=250, height=10)
 frame2_bottom.pack(side=BOTTOM)
 
 
+#버튼 이미지
+
+img1 = PhotoImage(file ="../image/image.png")
+img2 = PhotoImage(file ="../image/image.png")
+img3 = PhotoImage(file ="../image/image.png")
+img4 = PhotoImage(file ="../image/image.png")
+img5 = PhotoImage(file ="../image/image.png")
+img6 = PhotoImage(file ="../image/image.png")
+img7 = PhotoImage(file ="../image/image.png")
+img8 = PhotoImage(file ="../image/image.png")
+img9 = PhotoImage(file ="../image/image.png")
+
 # 프레임 안에 버튼 들 배열
-tk.Button(frame1, text='제품1', command=lambda: add('제품1'), width=30, height=15).grid(row=0, column=0)
-tk.Button(frame1, text='제품2', command=lambda: add('제품2'), width=30, height=15).grid(row=0, column=1)
-tk.Button(frame1, text='제품3', command=lambda: add('제품3'), width=30, height=15).grid(row=0, column=2)
-tk.Button(frame1, text='제품4', command=lambda: add('제품4'), width=30, height=15).grid(row=1, column=0)
-tk.Button(frame1, text='제품5', command=lambda: add('제품5'), width=30, height=15).grid(row=1, column=1)
-tk.Button(frame1, text='제품6', command=lambda: add('제품6'), width=30, height=15).grid(row=1, column=2)
-tk.Button(frame1, text='제품7', command=lambda: add('제품7'), width=30, height=15).grid(row=2, column=0)
-tk.Button(frame1, text='제품8', command=lambda: add('제품8'), width=30, height=15).grid(row=2, column=1)
-tk.Button(frame1, text='제품9', command=lambda: add('제품9'), width=30, height=15).grid(row=2, column=2)
+tk.Button(frame1, text='제품1', image= img1, command=lambda: add('제품1'), width=200, height=200).grid(row=0, column=0)
+tk.Button(frame1, text='제품2', image= img2, command=lambda: add('제품2'), width=200, height=200).grid(row=0, column=1)
+tk.Button(frame1, text='제품3', image= img3, command=lambda: add('제품3'), width=200, height=200).grid(row=0, column=2)
+tk.Button(frame1, text='제품4', image= img4, command=lambda: add('제품4'), width=200, height=200).grid(row=1, column=0)
+tk.Button(frame1, text='제품5', image= img5, command=lambda: add('제품5'), width=200, height=200).grid(row=1, column=1)
+tk.Button(frame1, text='제품6', image= img6, command=lambda: add('제품6'), width=200, height=200).grid(row=1, column=2)
+tk.Button(frame1, text='제품7', image= img7, command=lambda: add('제품7'), width=200, height=200).grid(row=2, column=0)
+tk.Button(frame1, text='제품8', image= img8, command=lambda: add('제품8'), width=200, height=200).grid(row=2, column=1)
+tk.Button(frame1, text='제품9', image= img9, command=lambda: add('제품9'), width=200, height=200).grid(row=2, column=2)
+
+
 
 
 # 선택한 메뉴를 나열하는 textarea 형성

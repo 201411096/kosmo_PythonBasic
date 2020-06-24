@@ -1,0 +1,233 @@
+﻿0624_수요일
+
+	수집	->	저장	->	처리	->	분석	->	시각화
+----------------------------------------------------------------------------------------------------
+jsoup			hadoop		hadoop		python		python
+beautifulsoup		RDBMS		pig		R		R
+flume					hive
+kafka
+logstash
+
+* hadoop = hadoop(hdfs) + hadoop(MapReduce) + yarn(Resource Manage)
+	ㄴ 저장
+		ㄴ hadoop(hdfs)
+	ㄴ 처리
+		ㄴ hadoop(mapreduce)
+* flume = source -> channel -> sink
+	ㄴ 실습 때는 sink를 hadoop으로 맞춤 (agent)
+		ㄴ 여러개의 agent로 구성될 수도 있음
+	
+elk : logstash - elastic search - kibana
+
+데이터 참고 : kaggle
+----------------------------------------------------------------------------------------------------
+hive
+	ㄴ 파일로 되어있는 데이터들을 db에 있는 테이블 구조처럼 데이터를 가져옴
+	ㄴ 정형화된 데이터를 관리하는데 용이함
+	ㄴ metastore
+		ㄴ 테이블 구조와 데이터 위치를 mysql에 ...
+	ㄴ 관리자가 설치하고 사용권한을 넘겨주는 방식
+----------------------------------------------------------------------------------------------------
+mariadb 설치
+
+[root@dn01 ~]# yum install mariadb-server mariadb
+[root@dn01 ~]# rpm -qa | grep maria
+[root@dn01 ~]# systemctl enable mariadb.service
+[root@dn01 ~]# systemctl start mariadb.service
+[root@dn01 ~]# mysql_secure_installation
+-----
+Enter current password for root (enter for none):
+OK, successfully used password, moving on...
+
+Setting the root password ensures that nobody can log into the MariaDB
+root user without the proper authorisation.
+
+Set root password? [Y/n] Y
+New password:
+Re-enter new password:
+Password updated successfully!
+Reloading privilege tables..
+ ... Success!
+
+
+By default, a MariaDB installation has an anonymous user, allowing anyone
+to log into MariaDB without having to have a user account created for
+them.  This is intended only for testing, and to make the installation
+go a bit smoother.  You should remove them before moving into a
+production environment.
+
+Remove anonymous users? [Y/n] n
+ ... skipping.
+
+Normally, root should only be allowed to connect from 'localhost'.  This
+ensures that someone cannot guess at the root password from the network.
+
+Disallow root login remotely? [Y/n] n
+ ... skipping.
+
+By default, MariaDB comes with a database named 'test' that anyone can
+access.  This is also intended only for testing, and should be removed
+before moving into a production environment.
+
+Remove test database and access to it? [Y/n] n
+ ... skipping.
+
+Reloading the privilege tables will ensure that all changes made so far
+will take effect immediately.
+
+Reload privilege tables now? [Y/n] Y
+ ... Success!
+
+Cleaning up...
+
+All done!  If you've completed all of the above steps, your MariaDB
+installation should now be secure.
+
+Thanks for using MariaDB!
+
+-----
+입력값 요약
+	enter -> Y -> admin1234 -> admin1234 -> n -> n -> n -> Y
+-----
+[root@dn01 ~]# vi /etc/my.cnf
+	bind-address=192.168.56.102
+	[mysqld_safe] 바로 윗단에... 수정..
+[root@dn01 ~]# systemctl restart mariadb.service
+[root@dn01 ~]# mysql -u root -p
+	ㄴ admin1234 입력 후 확인
+MariaDB [(none)]> show databases;
+MariaDB [(none)]> grant all privileges on *.* to hive@"%" identified by "hive" with grant option;
+MariaDB [(none)]> flush privileges;
+MariaDB [(none)]> grant all privileges on *.* to hive@"dn01" identified by "hive" with grant option;
+MariaDB [(none)]> flush privileges;
+MariaDB [(none)]> use mysql;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [mysql]> select user, host from user;
++------+-----------+
+| user | host      |
++------+-----------+
+| hive | %         |
+| root | 127.0.0.1 |
+| root | ::1       |
+|      | dn01      |
+| hive | dn01      |
+| root | dn01      |
+|      | localhost |
+| root | localhost |
++------+-----------+
+8 rows in set (0.00 sec)
+
+MariaDB [mysql]>exit
+Bye
+----------------------------------------------------------------------------------------------------
+하이브 설치
+[ dn01 노드의  root 계정에서 ]
+1. Hive 설치 ( 버전이 계속 변경된다 )
+[root@dn01 ~]# cd /tmp
+[root@dn01 ~]# wget http://apache.mirror.cdnetworks.com/hive/hive-2.3.7/apache-hive-2.3.7-bin.tar.gz
+[root@dn01 ~]# tar xzvf apache-hive-2.3.7-bin.tar.gz
+[root@dn01 ~]# mkdir -p /opt/hive/2.3.7
+[root@dn01 ~]# mv apache-hive-2.3.7-bin/* /opt/hive/2.3.7/
+[root@dn01 ~]# ln -s /opt/hive/2.3.7 /opt/hive/current
+[root@dn01 ~]# cd /opt/hive/current/
+
+2. Hive 폴더 접근 권한 설정
+[root@dn01 ~]# chmod -R 775 /opt/hive/2.3.7/
+[root@dn01 ~]# chown -R hadoop:hadoop /opt/hive/
+
+3. Hadoop 계정으로 전환
+[root@dn01 ~]# su - hadoop
+
+4. HIVE 환경 변수 추가
+[hadoop@dn01 ~]# vi ~/.bash_profile
+
+        #### HIVE 2.3.7 #######################
+           export HIVE_HOME=/opt/hive/current
+           export PATH=$PATH:$HIVE_HOME/bin
+           export CLASSPATH=.:${JAVA_HOME}/lib:${JREHOME}/lib:/opt/hive/current/lib
+        #### HIVE 2.3.7 #######################
+
+[hadoop@dn01 ~]# source .bash_profile
+
+5. HIVE 설정 파일 복사
+[hadoop@dn01 ~]# cp /opt/hive/current/conf/hive-env.sh.template /opt/hive/current/conf/hive-env.sh
+[hadoop@dn01 ~]# cp /opt/hive/current/conf/hive-default.xml.template /opt/hive/current/conf/hive-site.xml
+
+6. HIVE 설정 파일 수정 ( 해당 부분을 찾아서 수정 - 제발 오타 확인!!!!!  )
+[hadoop@dn01 ~]# vi /opt/hive/current/conf/hive-env.sh
+HADOOP_HOME=/opt/hadoop/current
+
+vi 명령모드에서.. "/ConnectionURL" 이런식으로 찾으면됨
+
+<property>
+  <name>javax.jdo.option.ConnectionURL</name>
+  <value>jdbc:mysql://192.168.56.102:3306/hive?createDatabaseIfNotExist=true</value>
+  <description>JDBC connect string for a JDBC metastore</description>
+</property>
+	ㄴ value값만 수정함 ****************************************
+<property>
+  <name>javax.jdo.option.ConnectionDriverName</name>
+  <value>com.mysql.jdbc.Driver</value>
+  <description>Driver class name for a JDBC metastore</description>
+</property>
+<property>
+  <name>javax.jdo.option.ConnectionUserName</name>
+  <value>hive</value>
+  <description>username to use against metastore database</description>
+</property>
+<property>
+  <name>javax.jdo.option.ConnectionPassword</name>
+  <value>hive</value>
+  <description>password to use against metastore database</description>
+</property>
+	ㄴ 529라인으로 가야됨 ***********************************************
+ <property>
+ <name>hive.exec.local.scratchdir</name>
+ <value>/home/hadoop/iotmp</value>
+ <description>Local scratch space for Hive jobs</description>
+ </property>
+	ㄴ 74라인으로 감
+ <property>
+ <name>hive.downloaded.resources.dir</name>
+ <value>/home/hadoop/iotmp</value>
+ <description>Temporary local directory for added resources in the remote file system.</description>
+ </property>
+<property>
+    <name>hive.cli.print.current.db</name>
+    <value>true</value>
+    <description>Whether to include the current database in the Hive prompt.</description>
+</property>
+
+7. HIVE 관련 디렉토리 생성 및 권한 변경
+[hadoop@dn01 ~]# mkdir -p /home/hadoop/iotmp
+[hadoop@dn01 ~]# chmod -R 775 /home/hadoop/iotmp/
+
+8. MYSQL Connector 다운로드 및 hive lib로 복사
+[hadoop@dn01 ~]# cd /tmp
+[hadoop@dn01 tmp]# wget http://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.38.tar.gz
+[hadoop@dn01 tmp]# tar xzvf mysql-connector-java-5.1.38.tar.gz
+[hadoop@dn01 tmp]# cd mysql-connector-java-5.1.38
+[hadoop@dn01 mysql-connector-java-5.1.38]# mv mysql-connector-java-5.1.38-bin.jar /opt/hive/current/lib/
+
+9. HIVE 기본 디렉터리 생성 및 권한 추가
+[hadoop@dn01 ~]# hdfs dfs -mkdir /tmp
+[hadoop@dn01 ~]# hdfs dfs -mkdir -p /user/hive/warehouse
+[hadoop@dn01 ~]# hdfs dfs -chmod -R 777 /tmp
+[hadoop@dn01 ~]# hdfs dfs -chmod -R 777 /user/hive/warehouse
+
+10. HIVE mysql 기본 스키마 생성
+[hadoop@dn01 ~]# schematool -initSchema -dbType mysql
+( 에러가 발생한다면 기존에 같은 이름의 데이타베이스가 있으니깐
+  show databases에서 drop database hive; 제거 )
+
+11. HIVE 접속
+[hadoop@dn01 ~]# hive
+브라우저에서 http://192.168.56.101:50070
+메뉴 >  Utitlies > Browser Directory >
+ /   
+user
+hive
+warehouse 에서 앞으로 확인

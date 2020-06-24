@@ -435,5 +435,187 @@ hive (kdatademo)> insert into orders values
                 > (111114, "bag", 2222, 2, 20 ),
                 > (111115, "t-shirt", 4444, 2, 66 );
 
+-----------------------------------------------------------------------
+hive의 complex data type
+hive (kdatademo)> create table mobilephones(
+                > id string,
+                > title string,
+                > cost float,
+                > colors array<string>,
+                > screen_size array<float>
+                > );
+OK
+hive (kdatademo)> desc mobilephones;
+OK
+id                      string
+title                   string
+cost                    float
+colors                  array<string>
+screen_size             array<float>
+Time taken: 0.076 seconds, Fetched: 5 row(s)
+hive (kdatademo)>
+
+hive (kdatademo)>
+INSERT INTO table mobilephones 
+SELECT "galaxynote20", "galaxy note 20", 300, array("white", "red", "black"), array(float(4.5))
+UNION ALL
+SELECT "iphone10", "iphone plus", 500, array("gold", "black"), array(float(4.5), float(5.5))
+
+hive (kdatademo)> select * from mobilephones;
+OK
+galaxynote20    galaxy note 20  300.0   ["white","red","black"] [4.5]
+iphone10        iphone plus     500.0   ["gold","black"]        [4.5,5.5]
+Time taken: 0.149 seconds, Fetched: 2 row(s)
+hive (kdatademo)> select title, colors from mobilephones;
+OK
+galaxy note 20  ["white","red","black"]
+iphone plus     ["gold","black"]
+Time taken: 0.17 seconds, Fetched: 2 row(s)
+hive (kdatademo)> select title, colors[0] from mobilephones;
+OK
+galaxy note 20  white
+iphone plus     gold
+Time taken: 0.269 seconds, Fetched: 2 row(s)
+hive (kdatademo)>
+
+hive (kdatademo)> drop table mobilephones;
+
+--dn02로 이동(hadoop@dn01로 되어있음)
+[hadoop@dn01 ~]$ mkdir /home/hadoop/hive_data
+vi /home/hadoop/hive_data/mobilephones.csv	(로컬 디렉토리..)
+ㄴ 안에 내용을 아래 내용으로 채움
+ Samsungg7,Samsung G7,250,red#blue#black,5.5,camera:true#dualsim:false
+ IPhonePlus7,Iphone Plus 7,450,gold#white,4.5#5.5,autofocus:true
+
+--dn01로 이동(hive 되어있는상태)
+hive (kdatademo)> create table mobilephones
+    (id string, title string, cost float, colors array<string>, screen_size array<float>,
+     features map<string, Boolean> )
+     row format delimited fields terminated by ','
+     collection items terminated by '#'
+     map keys terminated by ':';
+
+hive (kdatademo)> create table mobilephones
+                >     (id string, title string, cost float, colors array<string>, screen_size array<float>,
+                >      features map<string, Boolean> )
+                >      row format delimited fields terminated by ','
+                >      collection items terminated by '#'
+                >      map keys terminated by ':';
+OK
+Time taken: 0.077 seconds
+hive (kdatademo)> desc mobilephones
+                > ;
+OK
+id                      string
+title                   string
+cost                    float
+colors                  array<string>
+screen_size             array<float>
+features                map<string,boolean>
+Time taken: 0.041 seconds, Fetched: 6 row(s)
+hive (kdatademo)> load data local inpath '/home/hadoop/hive_data/mobilephones.csv' into table mobilephones;
+			ㄴ local 저장소라서 load data 뒤에 local을 붙임
+			ㄴ 하둡경로라면 local붙이면 안됨
+Loading data to table kdatademo.mobilephones
+OK
+Time taken: 0.442 seconds
+hive (kdatademo)> select * from mobilephones;
+OK
+amsungg7        Samsung G7      250.0   ["red","blue","black"]  [5.5]   {"camera":true,"dualsim":false}
+IPhonePlus7     Iphone Plus 7   450.0   ["gold","white"]        [4.5,5.5]       {"autofocus":true}
+Time taken: 0.163 seconds, Fetched: 2 row(s)
+hive (kdatademo)> select id, colors[0] from mobilephones;
+OK
+amsungg7        red
+IPhonePlus7     gold
+Time taken: 0.149 seconds, Fetched: 2 row(s)
+--------------------------------------------------------------------------------------------------
+dn02로 이동(이동했지만 dn01임)
+
+[root@dn01 ~]# su - root
+[root@dn01 ~]# yum install unzip
+[root@dn01 ~]# su - hadoop
+[hadoop@dn01 ~]$ cd /home/hadoop/hive_data
+[hadoop@dn01 hive_data]$ wget http://www.grouplens.org/system/files/ml-100k.zip
+[hadoop@dn01 hive_data]$ unzip ml-100k.zip
+[hadoop@dn01 hive_data]$ cd ml-100k/
+[hadoop@dn01 ml-100k]$ ll
+	ㄴ ls -l 을 줄여서 ll(둘 다 L 소문자)
+[hadoop@dn01 ml-100k]$ head -10 u.item
+[hadoop@dn01 ml-100k]$ head -10 u.user
+[hadoop@dn01 ml-100k]$ hdfs dfs -mkdir /user/hadoop/movies
+[hadoop@dn01 ml-100k]$ hdfs dfs -mkdir /user/hadoop/userinfo
+[hadoop@dn01 ml-100k]$ hdfs dfs -ls /user/hadoop
+Found 3 items
+drwxr-xr-x   - hadoop supergroup          0 2020-06-24 06:39 /user/hadoop/movies
+drwxr-xr-x   - hadoop supergroup          0 2020-06-23 05:56 /user/hadoop/testInput
+drwxr-xr-x   - hadoop supergroup          0 2020-06-24 06:39 /user/hadoop/userinfo
+[hadoop@dn01 ml-100k]$ hdfs dfs -put u.item /user/hadoop/movies
+[hadoop@dn01 ml-100k]$ hdfs dfs -put u.user /user/hadoop/userinfo
+[hadoop@dn01 ml-100k]$ hdfs dfs -chown -R hadoop:hadoop /user/hadoop
+			ㄴ 하위 요소들도 전부 소유자를 바꿈..
+[hadoop@dn01 ml-100k]$ hdfs dfs -ls /user/hadoop
+Found 3 items
+drwxr-xr-x   - hadoop hadoop          0 2020-06-24 06:41 /user/hadoop/movies
+drwxr-xr-x   - hadoop hadoop          0 2020-06-23 05:56 /user/hadoop/testInput
+drwxr-xr-x   - hadoop hadoop          0 2020-06-24 06:42 /user/hadoop/userinfo
+
+--------------------------------------------------------------------------------------------------
+다시 dn01로 이동
+hive (kdatademo)> create database hivedemo;
+OK
+Time taken: 0.038 seconds
+hive (kdatademo)> use hivedemo;
+OK
+Time taken: 0.012 seconds
+hive (hivedemo)> ! hdfs dfs -ls /user/hive/warehouse;
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/opt/hive/2.3.7/lib/log4j-slf4j-impl-2.6.2.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/opt/hadoop/2.7.7/share/hadoop/common/lib/slf4j-log4j12-1.7.10.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.apache.logging.slf4j.Log4jLoggerFactory]
+Found 3 items
+drwxrwxrwx   - hadoop supergroup          0 2020-06-24 06:57 /user/hive/warehouse/hivedemo.db
+drwxrwxrwx   - hadoop supergroup          0 2020-06-24 06:05 /user/hive/warehouse/kdatademo.db
+drwxrwxrwx   - hadoop supergroup          0 2020-06-24 03:01 /user/hive/warehouse/sample1.db
+
+ hive (hivedemo)> CREATE TABLE movies (
+    movie_id INT,
+    movie_title STRING,
+    release_date STRING,
+    video_release_date STRING,
+    imdb_url STRING,
+    unknown INT,
+    action INT,
+    adventure INT,
+    animation INT,
+    children INT,
+    comedy INT,
+    crime INT,
+    documentary INT,
+    drama INT,
+    fantasy INT,
+    film_noir INT,
+    horror INT,
+    musical INT,
+    mystery INT,
+    romance INT,
+    sci_fi INT,
+    thriller INT,
+    war INT,
+    Western INT
+)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '|'
+STORED AS TEXTFILE;
+
+dn02에서 확인
+[hadoop@dn01 ml-100k]$ hdfs dfs -ls /user/hive/warehouse/
+
+다시 dn01로.. 이동
+hive (hivedemo)> desc movies;
+hive (hivedemo)> load data inpath '/user/hadoop/movies' into table movies;
+	ㄴ 하둡 위에 올라가있는 파일을 테이블로 가져옴
+	ㄴ 지정시 원래 있던 위치에서 hive의 default 경로로 이동함
+hive (hivedemo)> select * from movies limit 30;
 
 

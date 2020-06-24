@@ -44,14 +44,12 @@ def btn_clear():
     label1['text'] = "금액: 0원"
 
 def btn_orderList():
-    print('a')
-#    window.destroy()
-
-
+    textarea2.delete('1.0', END)
+    textarea2.insert(tk.INSERT, buyList.select_buyList())
 
 window = tk.Tk()    # 화면을 띄움
 window.title("음료 주문")
-window.geometry("1200x800+350+100")  #화면 크기 설정
+window.geometry("1500x800+350+100")  #화면 크기 설정
 window.resizable(False, False)
 
 # 윈도우 안에 있는 프레임 형성, 프레임에 버튼 나열을 위한 프레임 형성)
@@ -96,11 +94,11 @@ tk.Button(frame1, text='제품9', image=img9, command=lambda: add('제품9'), wi
 
 
 # 선택한 메뉴를 나열하는 textarea 형성
-textarea = tk.Text(frame2, width=70, height=20)
+textarea = tk.Text(frame2, width=100, height=20)
 textarea.pack()
 
 # 매출 목록을 나열하는 textarea 형성
-textarea2 = tk.Text(frame2, width=70, height=20)
+textarea2 = tk.Text(frame2, width=100, height=20)
 textarea2.pack()
 
 # 총금액이 표시되는 label 추가

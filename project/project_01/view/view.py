@@ -96,16 +96,24 @@ textarea2.pack()
 label1 = tk.Label(frame2, text="금액: 0원", width=20, height=2, fg='blue')
 label1.pack()
 
-orderCancelButton = tk.Button(frame2_bottom, command=lambda: btn_clear(), text="주문초기화", width=15, height=2)
+orderCancelButton = tk.Button(frame2_bottom, command=lambda: btn_clear(), text="주문초기화", width=20, height=2)
 orderCancelButton.grid(row=0, column=0)
 
-orderButton = tk.Button(frame2_bottom, command=lambda: order(), text="결제", width=15, height=2)
+orderButton = tk.Button(frame2_bottom, command=lambda: order(), text="결제", width=20, height=2)
 orderButton.grid(row=0, column=1)
 
-orderListButton = tk.Button(frame2_bottom, command=lambda: btn_orderList(), text="매출 목록", width=15, height=2)
+orderListButton = tk.Button(frame2_bottom, command=lambda: btn_orderList(), text="매출 목록", width=20, height=2)
 orderListButton.grid(row=0, column=2)
 
-exitButton = tk.Button(frame2_bottom, command=lambda: btn_exit(), text="주문종료하기", width=15, height=2)
-exitButton.grid(row=0, column=3)
+# exitButton = tk.Button(frame2_bottom, command=lambda: btn_exit(), text="주문종료하기", width=20, height=2)
+# exitButton.grid(row=2, column=1)
+
+orderIdLabel = Label(frame2_bottom, text="주문번호")
+orderIdLabel.grid(row=1, column=0)
+orderIdEntry = Entry(frame2_bottom)
+orderIdEntry.grid(row=1, column=1)
+refundButton = tk.Button(frame2_bottom, text='환불하기', command=lambda: btn_exit(), width=20, height=1)
+refundButton.grid(row=1, column=2)
+
 
 window.mainloop()   # .mainloop(): 이벤트 메시지 루프로서 키보드나 마우스 혹은 화면 Redraw와 같은 다양한 이벤트로부터 오는 메시지를 받고 전달하는 역활을 한다.

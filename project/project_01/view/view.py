@@ -4,7 +4,8 @@ from tkinter import messagebox
 from tkinter import *
 from dao.buyList import *
 
-price = {'제품1': 1500, '제품2': 2000, '제품3': 1000, '제품4': 500, '제품5': 300, '제품6': 4500,'제품7': 900, '제품8': 600, '제품9': 300}
+#price = {'제품1': 1500, '제품2': 2000, '제품3': 1000, '제품4': 500, '제품5': 300, '제품6': 4500,'제품7': 900, '제품8': 600, '제품9': 300}
+price = {'이탈리안치즈피자': 6900, '콤비네이션피자': 8900, '페페로니피자': 7900, '포테이토피자': 9500, '고구마피자': 9500, '불고기피자': 9900, '치킨텐더피자': 11900, '스테이크불갈비피자': 11900, '치즈오븐스파게티': 4900}
 orderList = {}
 sum = 0     # 총 금액
 
@@ -30,19 +31,16 @@ def order():
     textarea.delete('1.0', END)
     sum = 0
     label1['text'] = "금액: 0원"
-
 def btn_exit():
     msgbox = tk.messagebox.askquestion('확인', '주문을 마치시겠습니까?')
     if msgbox == 'yes':
         exit()
-
 def btn_clear():
     global sum
     sum = 0
     orderList.clear()
     textarea.delete('1.0', END)
     label1['text'] = "금액: 0원"
-
 def btn_orderList():
     textarea2.delete('1.0', END)
     textarea2.insert(tk.INSERT, buyList.select_buyList())
@@ -61,14 +59,10 @@ frame1 = tk.Frame(frame0, width=850, height=700)
 frame1.pack(side=LEFT)
 frame2 = tk.Frame(frame0, width=250, height=700)
 frame2.pack(side=RIGHT)
-
 frame2_bottom = tk.Frame(frame2, width=250, height=10)
 frame2_bottom.pack(side=BOTTOM)
 
-
 #버튼 이미지
-
-#img1 = PhotoImage(file ="../image/image.png")
 img1 = PhotoImage(file ="../image/1.png")
 img2 = PhotoImage(file ="../image/2.png")
 img3 = PhotoImage(file ="../image/3.png")
@@ -80,18 +74,15 @@ img8 = PhotoImage(file ="../image/8.png")
 img9 = PhotoImage(file ="../image/9.png")
 
 # 프레임 안에 버튼 들 배열
-tk.Button(frame1, text='제품1', image=img1, command=lambda: add('제품1'), width=200, height=200).grid(row=0, column=0)
-tk.Button(frame1, text='제품2', image=img2, command=lambda: add('제품2'), width=200, height=200).grid(row=0, column=1)
-tk.Button(frame1, text='제품3', image=img3, command=lambda: add('제품3'), width=200, height=200).grid(row=0, column=2)
-tk.Button(frame1, text='제품4', image=img4, command=lambda: add('제품4'), width=200, height=200).grid(row=1, column=0)
-tk.Button(frame1, text='제품5', image=img5, command=lambda: add('제품5'), width=200, height=200).grid(row=1, column=1)
-tk.Button(frame1, text='제품6', image=img6, command=lambda: add('제품6'), width=200, height=200).grid(row=1, column=2)
-tk.Button(frame1, text='제품7', image=img7, command=lambda: add('제품7'), width=200, height=200).grid(row=2, column=0)
-tk.Button(frame1, text='제품8', image=img8, command=lambda: add('제품8'), width=200, height=200).grid(row=2, column=1)
-tk.Button(frame1, text='제품9', image=img9, command=lambda: add('제품9'), width=200, height=200).grid(row=2, column=2)
-
-
-
+tk.Button(frame1, text='아이템1', image=img1, command=lambda: add('이탈리안치즈피자'), width=200, height=200).grid(row=0, column=0)
+tk.Button(frame1, text='아이템2', image=img2, command=lambda: add('콤비네이션피자'), width=200, height=200).grid(row=0, column=1)
+tk.Button(frame1, text='아이템3', image=img3, command=lambda: add('페페로니피자'), width=200, height=200).grid(row=0, column=2)
+tk.Button(frame1, text='아이템4', image=img4, command=lambda: add('포테이토피자'), width=200, height=200).grid(row=1, column=0)
+tk.Button(frame1, text='아이템5', image=img5, command=lambda: add('고구마피자'), width=200, height=200).grid(row=1, column=1)
+tk.Button(frame1, text='아이템6', image=img6, command=lambda: add('불고기피자'), width=200, height=200).grid(row=1, column=2)
+tk.Button(frame1, text='아이템7', image=img7, command=lambda: add('치킨텐더피자'), width=200, height=200).grid(row=2, column=0)
+tk.Button(frame1, text='아이템8', image=img8, command=lambda: add('스테이크불갈비피자'), width=200, height=200).grid(row=2, column=1)
+tk.Button(frame1, text='아이템9', image=img9, command=lambda: add('치즈오븐스파게티'), width=200, height=200).grid(row=2, column=2)
 
 # 선택한 메뉴를 나열하는 textarea 형성
 textarea = tk.Text(frame2, width=100, height=20)
@@ -116,8 +107,5 @@ orderListButton.grid(row=0, column=2)
 
 exitButton = tk.Button(frame2_bottom, command=lambda: btn_exit(), text="주문종료하기", width=15, height=2)
 exitButton.grid(row=0, column=3)
-
-
-
 
 window.mainloop()   # .mainloop(): 이벤트 메시지 루프로서 키보드나 마우스 혹은 화면 Redraw와 같은 다양한 이벤트로부터 오는 메시지를 받고 전달하는 역활을 한다.

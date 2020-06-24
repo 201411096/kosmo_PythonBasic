@@ -35,15 +35,18 @@ class buyList:
         datas = cursor.fetchall()
         for row in datas:
             returnString = returnString + "----------------------------------------------------------------------------------\n"
-            returnString = returnString + "주문리스트번호 : " + str(row[0]) + " 주문날짜 : " + str(row[1]) + "\n"
+            returnString = returnString + "주문번호 : " + str(row[0]) + "\n"
+            returnString = returnString + "주문날짜 : " + str(row[1]) + "\n"
             returnString = returnString + "----------------------------------------------------------------------------------\n"
             sql2 = "select * from buy where buylist_id = :buylistId"
             print("row0 확인", row[0])
             cursor.execute(sql2, (row[0], ))
             datas2 = cursor.fetchall()
+            returnString = returnString + "제품이름\t\t\t" + "제품개수\t\t\t" + " 제품가격" + "\n"
             for row2 in datas2:
                 print(row2)
-                returnString = returnString + "제품이름 : " + str(row2[3]) + " 제품개수 : " + str(row2[4]) + " 제품가격 :" + str(row2[2]) + "\n"
+                returnString = returnString + str(row2[3]) + "\t\t\t" + str(row2[4]) + "\t\t\t" + str(row2[2]) + "\n"
+                #returnString = returnString + "제품이름 : " + str(row2[3]) + " 제품개수 : " + str(row2[4]) + " 제품가격 :" + str(row2[2]) + "\n"
             returnString = returnString + "----------------------------------------------------------------------------------\n"
             returnString = returnString + "가격총합 : " + str(row[2]) + "\n"
             returnString = returnString + "----------------------------------------------------------------------------------\n"

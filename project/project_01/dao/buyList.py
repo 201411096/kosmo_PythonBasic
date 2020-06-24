@@ -56,3 +56,18 @@ class buyList:
         cursor.close()
         conn.close()
         return returnString
+    @staticmethod
+    def delete_buyList(orderListId):
+        conn = oci.connect("scott/tiger@192.168.0.18:1521/orcl")
+        cursor = conn.cursor()
+        sql1 = """
+                    DELETE FROM buy where buylist_id = :orderListId
+                """
+        cursor.execute(sql1, (orderListId,))
+        sql2 = """
+                    DELETE FROM buylist where buylist_id = :orderListId
+                """
+        cursor.execute(sql2, (orderListId,))
+        cursor.close()
+        conn.commit()
+        conn.close()

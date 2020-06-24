@@ -45,6 +45,12 @@ def btn_orderList():
     textarea2.delete('1.0', END)
     textarea2.insert(tk.INSERT, buyList.select_buyList())
 
+def btn_refund():
+    refundId = orderIdEntry.get()
+    buyList.delete_buyList(refundId)
+    orderIdEntry.delete(0, END)
+
+
 window = tk.Tk()    # 화면을 띄움
 window.title("음료 주문")
 window.geometry("1500x800+350+100")  #화면 크기 설정
@@ -112,7 +118,7 @@ orderIdLabel = Label(frame2_bottom, text="주문번호")
 orderIdLabel.grid(row=1, column=0)
 orderIdEntry = Entry(frame2_bottom)
 orderIdEntry.grid(row=1, column=1)
-refundButton = tk.Button(frame2_bottom, text='환불하기', command=lambda: btn_exit(), width=20, height=1)
+refundButton = tk.Button(frame2_bottom, text='환불하기', command=lambda: btn_refund(), width=20, height=1)
 refundButton.grid(row=1, column=2)
 
 

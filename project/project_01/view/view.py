@@ -5,7 +5,6 @@ from tkinter import *
 from dao.buyList import *
 
 price = {'제품1': 1500, '제품2': 2000, '제품3': 1000, '제품4': 500, '제품5': 300, '제품6': 4500,'제품7': 900, '제품8': 600, '제품9': 300}
-#order = []  #prev 주문 리스트
 orderList = {}
 sum = 0     # 총 금액
 
@@ -71,33 +70,38 @@ frame2_bottom.pack(side=BOTTOM)
 
 #버튼 이미지
 
-img1 = PhotoImage(file ="../image/image.png")
-img2 = PhotoImage(file ="../image/image.png")
-img3 = PhotoImage(file ="../image/image.png")
-img4 = PhotoImage(file ="../image/image.png")
-img5 = PhotoImage(file ="../image/image.png")
-img6 = PhotoImage(file ="../image/image.png")
-img7 = PhotoImage(file ="../image/image.png")
-img8 = PhotoImage(file ="../image/image.png")
-img9 = PhotoImage(file ="../image/image.png")
+#img1 = PhotoImage(file ="../image/image.png")
+img1 = PhotoImage(file ="../image/1.png")
+img2 = PhotoImage(file ="../image/2.png")
+img3 = PhotoImage(file ="../image/3.png")
+img4 = PhotoImage(file ="../image/4.png")
+img5 = PhotoImage(file ="../image/5.png")
+img6 = PhotoImage(file ="../image/6.png")
+img7 = PhotoImage(file ="../image/7.png")
+img8 = PhotoImage(file ="../image/8.png")
+img9 = PhotoImage(file ="../image/9.png")
 
 # 프레임 안에 버튼 들 배열
-tk.Button(frame1, text='제품1', image= img1, command=lambda: add('제품1'), width=200, height=200).grid(row=0, column=0)
-tk.Button(frame1, text='제품2', image= img2, command=lambda: add('제품2'), width=200, height=200).grid(row=0, column=1)
-tk.Button(frame1, text='제품3', image= img3, command=lambda: add('제품3'), width=200, height=200).grid(row=0, column=2)
-tk.Button(frame1, text='제품4', image= img4, command=lambda: add('제품4'), width=200, height=200).grid(row=1, column=0)
-tk.Button(frame1, text='제품5', image= img5, command=lambda: add('제품5'), width=200, height=200).grid(row=1, column=1)
-tk.Button(frame1, text='제품6', image= img6, command=lambda: add('제품6'), width=200, height=200).grid(row=1, column=2)
-tk.Button(frame1, text='제품7', image= img7, command=lambda: add('제품7'), width=200, height=200).grid(row=2, column=0)
-tk.Button(frame1, text='제품8', image= img8, command=lambda: add('제품8'), width=200, height=200).grid(row=2, column=1)
-tk.Button(frame1, text='제품9', image= img9, command=lambda: add('제품9'), width=200, height=200).grid(row=2, column=2)
+tk.Button(frame1, text='제품1', image=img1, command=lambda: add('제품1'), width=200, height=200).grid(row=0, column=0)
+tk.Button(frame1, text='제품2', image=img2, command=lambda: add('제품2'), width=200, height=200).grid(row=0, column=1)
+tk.Button(frame1, text='제품3', image=img3, command=lambda: add('제품3'), width=200, height=200).grid(row=0, column=2)
+tk.Button(frame1, text='제품4', image=img4, command=lambda: add('제품4'), width=200, height=200).grid(row=1, column=0)
+tk.Button(frame1, text='제품5', image=img5, command=lambda: add('제품5'), width=200, height=200).grid(row=1, column=1)
+tk.Button(frame1, text='제품6', image=img6, command=lambda: add('제품6'), width=200, height=200).grid(row=1, column=2)
+tk.Button(frame1, text='제품7', image=img7, command=lambda: add('제품7'), width=200, height=200).grid(row=2, column=0)
+tk.Button(frame1, text='제품8', image=img8, command=lambda: add('제품8'), width=200, height=200).grid(row=2, column=1)
+tk.Button(frame1, text='제품9', image=img9, command=lambda: add('제품9'), width=200, height=200).grid(row=2, column=2)
 
 
 
 
 # 선택한 메뉴를 나열하는 textarea 형성
-textarea = tk.Text(frame2, width=70, height=33)
+textarea = tk.Text(frame2, width=70, height=20)
 textarea.pack()
+
+# 매출 목록을 나열하는 textarea 형성
+textarea2 = tk.Text(frame2, width=70, height=20)
+textarea2.pack()
 
 # 총금액이 표시되는 label 추가
 label1 = tk.Label(frame2, text="금액: 0원", width=20, height=2, fg='blue')
@@ -109,8 +113,8 @@ orderCancelButton.grid(row=0, column=0)
 orderButton = tk.Button(frame2_bottom, command=lambda: order(), text="결제", width=15, height=2)
 orderButton.grid(row=0, column=1)
 
-exitButton = tk.Button(frame2_bottom, command=lambda: btn_orderList(), text="영수증", width=15, height=2)
-exitButton.grid(row=0, column=2)
+orderListButton = tk.Button(frame2_bottom, command=lambda: btn_orderList(), text="매출 목록", width=15, height=2)
+orderListButton.grid(row=0, column=2)
 
 exitButton = tk.Button(frame2_bottom, command=lambda: btn_exit(), text="주문종료하기", width=15, height=2)
 exitButton.grid(row=0, column=3)

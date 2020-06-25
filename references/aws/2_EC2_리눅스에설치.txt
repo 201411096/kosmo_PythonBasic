@@ -1,0 +1,89 @@
+1. JAVA 8
+	` 아마존 리눅스 1는 기본이 openjdk 7 임
+	` 
+
+@ openjdk 설치가 아닌 일반 jdk 설치
+	( 권한 오류 발생하면 앞에 sudo 로 실행 )
+a. cd /tmp
+        b. sudo yum install -y vim wget unzip
+        c. wget --no-check-certificate --no-cookies - --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.tar.gz
+d. ls jdk*
+        e. tar -xvzpf jdk-8u131-linux-x64.tar.gz
+        f. sudo mkdir -p /opt/jdk/1.8.0_131
+        g. sudo mv jdk1.8.0_131/* /opt/jdk/1.8.0_131/
+        h. sudo ln -s /opt/jdk/1.8.0_131 /opt/jdk/current
+        i. install java with alternatives (에러)
+  
+alternatives명령어 : centos의 yum을 통해 java를 install하게 되면 버젼관리 대상으로 들어간다.  
+그리고 centos는 버젼관리를 위한 명령어를 제공하는데 그것이 바로 alternatives라는 명령어이다.
+
+
+sudo alternatives --install /usr/bin/java java /opt/jdk/1.8.0_131/bin/java 2
+sudo alternatives --config java
+
+	There is 1 program that provides 'java'.
+	Selection Command
+	-----------------------------------------------
+	*+ 1        /usr/lib/jvm/jre-1.7.0-openjdk.x86_64/bin/java
+   	2           /opt/jdk/1.8.0_131/bin/java
+	Enter to keep the current selection[+], or type selection number: 2  (입력)
+
+	javac와 jar 명령어 경로도 alternatives 적용 권장
+	At this point JAVA 8 has been successfully installed on your system. 
+	We also recommend to setup javac and jar commands path using alternatives
+
+sudo alternatives --install /usr/bin/jar jar /opt/jdk/1.8.0_131/bin/jar 2
+sudo alternatives --install /usr/bin/javac javac /opt/jdk/1.8.0_131/bin/javac 2
+sudo alternatives --set jar /opt/jdk/1.8.0_131/bin/jar
+sudo alternatives --set javac /opt/jdk/1.8.0_131/bin/javac
+
+java -version
+
+j. 사용하지 않는 Java 7 삭제
+sudo yum remove java-1.7.0-openjdk
+
+@ 위의 Java 말고 openjdk 8로 설치해도 된다
+	sudo yum install -y java-1.8.0-openjdk-devel.x86_64
+	sudo /usr/sbin/alternatives --config java  ( java 8 버전 선택 )
+java -version
+
+
+2. 타임존 변경
+	` EC2 서버의 기본 타임존은 UTC이기에 한국 시간대가 아닐 수 있다.
+
+sudo rm /etc/localtime
+sudo ln -s /usr/share/zoneinfo/Asia/Seoul /etc/localtime
+
+
+3. 호스트명 변경
+
+(1) 
+sudo vim /etc/sysconfig/network
+
+NETWORKING=yes
+HOSTNAME=my-first-webservice  ( 원하는 서비스명 )
+NOZEROCONF=yes
+
+(2) 
+sudo reboot 
+
+모두 닫고 다시 연결하면 ( 시간소요 ) ip 주소 대신 호스트명으로 출력되어 있음
+
+또한 호스트 주소를 찾을 때 가장 먼저 검색하는 /etc/host에 hostname을 등록해야 한다.
+
+(3) 
+sudo vim /etc/hosts
+
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost6 localhost6.localdomain6
+
+127.0.0.1 my-first-webservice   ( 이부분 추가 )
+
+(4) 
+호스트명 확인
+[ec2-user@my-first-webservice ~]$ curl my-first-webservice
+curl: (7) Failed to connect to my-first-webservice port 80: Connection refused
+
+위처럼 port 80 연결 안되는 에러가 성공한 것이고 “Could not resolve host” 같은 다른 에러가 발생한 것은 잘못 지정한 것이다.
+
+

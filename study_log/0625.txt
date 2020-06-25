@@ -336,3 +336,36 @@ MariaDB [sqoopdemo]> select * from dept;
 5,Outdoors
 6,Fanshop
 7,IT
+pwd
+/opt/sqoop/current
+----------------------------------------------------------------------------------------------------
+spark
+	ㄴ rdd : 탄력적으로 분산된 데이터셋
+		ㄴ 변경이 불가능
+	ㄴ 주의사항 ***** - spark 위치까지 이동해서..
+		ㄴ ./start-all.sh를 해야함
+			ㄴ .을 빼면 hadoop이 실행됨
+		ㄴ 하둡을 먼저 실행시킨 후 실행해야함
+	ㄴ java는 거의 사용하지 않음, 중급 이상은 scala를 많이 사용
+----------------------------------------------------------------------------------------------------
+iaas
+	ㄴ infrastructure as a service
+paas
+	ㄴ platform as a service
+saas
+	ㄴ software as a service
+----------------------------------------------------------------------------------------------------
+aws
+	ㄴ 인스턴스 생성
+		ㄴ Amazon Linux AMI 2018.03.0 (HVM), SSD Volume Type - ami-0a2778941dc6f2820
+	ㄴ puttygen
+		ㄴ aws에서 받은 키 load 후 save
+	ㄴ putty
+		ㄴ ssh - auth - browse - puttygen 키를 선택
+		ㄴ session 클릭
+		ㄴ aws에서 public ipv4주소 복사
+		ㄴ aws_linux save 후 open
+		ㄴ login as : ec2-user
+		ㄴ sudo yum update
+			ㄴ sudo : root권한?
+		ㄴ logout으로 나가기

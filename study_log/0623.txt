@@ -12,6 +12,8 @@ ls /input
 		ㄴ 하둡위에서 만들어지는 거라 리눅스랑 상관없음
 ls /opt/hadoop.current
 hdfs dfs -put /opt/hadoop/current/*.txt /input
+	ㄴ hdfs dfs -put A B
+		ㄴ A를 B에 put함
 	ㄴ /opt/hadoop/current의 txt파일들을 hadoop의 input 디렉토리로 올려둠
 		ㄴ 알아서 분산처리가 시작됨
 --------------------------------------------------------------------------------

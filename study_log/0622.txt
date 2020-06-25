@@ -424,7 +424,7 @@ hadoop namenode -format
 17. Daemon 시작 (nn01) - ***** virtualbox 끄기 전에 stop-all.sh 하고 종료하기
 a. start-all.sh
 
-18. 서비스 정상 확인
+18. 서비스 정상 확인 ----- ***** hadoop에서 start-all.sh를 안하면 계속 비밀번호를 요구함
 [hadoop@nn01 ~]$ jps
 16624 ResourceManager
 16883 Jps
@@ -443,5 +443,6 @@ a. start-all.sh
 7271 Jps
 
 GUI (윈도우 브라우저로 접속가능)
+하둡 gui 주소
 http://192.168.56.101:50070/
 http://192.168.56.101:8088/

@@ -619,3 +619,21 @@ hive (hivedemo)> load data inpath '/user/hadoop/movies' into table movies;
 hive (hivedemo)> select * from movies limit 30;
 
 
+---------------------------------------------------------------------------------------------------------------------------
+hive 테이블 생성
+CREATE TABLE employee (
+  id            String,
+  name       String,
+  lists         ARRAY<STRING>,
+  maps       MAP<STRING, STRING>
+) 
+ROW FORMAT DELIMITED 
+  FIELDS TERMINATED BY '\t'                 -- 칼럼을 구분하는 기준
+  ESCAPED BY '\\'                               -- 값을 입력하지 않음
+  COLLECTION ITEMS TERMINATED BY ','   -- 리스트를 구분하는 기준
+  MAP KEYS TERMINATED BY '='              -- 맵데이터의 키와 밸류를 구분하는 기준
+  LINES TERMINATED BY '\n'                  -- 로(row)를 구분하는 기준
+  NULL DEFINED AS 'null'                       -- null 값을 표현(0.13 버전에서 추가)
+  ;
+-- 생성한 테이블에 데이터 입력(hdfs 상의 데이터는 local을 빼고, 덮어 쓰지 않을경우 overwrite 를 빼고 입력)
+LOAD DATA LOCAL INPATH '경로' OVERWRITE INTO TABLE 테이블명;

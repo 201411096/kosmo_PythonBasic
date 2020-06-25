@@ -1,0 +1,289 @@
+﻿0623_화요일
+
+
+hdfs
+	ㄴ hadoop distributed file system
+--------------------------------------------------------------------------------
+1.
+hdfs dfs -ls /
+hdfs dfs -mkdir /input
+ls /input
+	ㄴ /input 디렉토리가 보이지 않음
+		ㄴ 하둡위에서 만들어지는 거라 리눅스랑 상관없음
+ls /opt/hadoop.current
+hdfs dfs -put /opt/hadoop/current/*.txt /input
+	ㄴ hdfs dfs -put A B
+		ㄴ A를 B에 put함
+	ㄴ /opt/hadoop/current의 txt파일들을 hadoop의 input 디렉토리로 올려둠
+		ㄴ 알아서 분산처리가 시작됨
+--------------------------------------------------------------------------------
+2. 하둡 예제
+	ㄴ references 개념 하둡 참고
+a) 프로젝트 생성
+	ㄴ group id
+		ㄴ com.kosmo
+	ㄴ artifact id
+		ㄴ lab1
+	ㄴ packaging
+		ㄴ jar
+	ㄴ map, reduce 부분만 코딩을 하면 됨
+b) run as -> maven install 2번
+	ㄴ target 에 생성된 lab1-0.0.1-SNAPSHOT.jar 파일이 실행파일
+c)winscp에 추가
+	ㄴ 192.168.56.101
+	ㄴ hadoop hadoop
+	ㄴ 저장 -> 암호저장
+	ㄴ winscp에서 source폴더를 만들어둠
+	ㄴ lab1-0.0.1-SNAPSHOT.jar 파일이름을 lab1.jar 파일로 변경하고 source폴더로 이동
+	ㄴ ls 했을 경우 lab1.jar파일이 보임
+	ㄴ mkdir temp
+	ㄴ vi temp/mydata.txt
+		ㄴ 영단어 3개짜리 4줄 입력
+	ㄴ hdfs dfs -mkdir -p /input/data
+	ㄴ hdfs dfs -ls /input
+	ㄴ hdfs dfs -put /home/hadoop/temp/mydata.txt /input/data
+	ㄴ hdfs dfs -ls /input/data
+	ㄴ yarn jar /home/hadoop/source/lab1.jar
+		ㄴ pom.xml에 클래스명을 달았으면 메인함수가 포함된 클래스를 기술하지 않고 이런식으로 돌리면 됬었음
+	ㄴ yarn jar /home/hadoop/source/lab1.jar sample.WordCount /input/data/mydata.txt /output/wordcount
+	ㄴ map 100% reduce 100%면 성공
+	ㄴ hdfs dfs -ls /output/wordcount
+	ㄴ hdfs dfs -cat /output/wordcount/part-r-00000
+d) 10k 파일을 hadoop/temp로 이동
+	ㄴ HDFS 에 /input/data/wiki 폴더 생성
+		ㄴ hdfs dfs -ls /input/data
+		ㄴ hdfs dfs -mkdir -p /input/data/wiki
+		ㄴ hdfs dfs -ls /input/data
+		ㄴ hdfs dfs -put /home/hadoop/temp/10K.ID.CONTENTS /input/data/wiki
+		ㄴ hdfs dfs -ls /input/data/wiki
+	ㄴ 10K.ID.CONTENTS 파일을 /input/data/wiki 폴더에 저장하기
+e) matrix.txt를 hadoop의 /input/data로 이동
+...
+--------------------------------------------------------------------------------
+flume 설치
+	ㄴ dn01 노드의 root계정 (에코시스템은 대부분 dn01 root에 설치)
+--------------------------------------------------------------------------------
+flume 예제
+	ㄴ groupid : com.kosmo
+	ㄴ artifactid : bitcoin (프로젝트 이름)
+	ㄴ maven update -> maven install
+	ㄴ jar파일을 옮김 /home/hadoop/source로..
+
+a) 실행하고 dn02로 넘어와서..
+ssh dn01
+----------------------------------------------------------------------------------
+***** flume 파일 실행
+1. 저장 폴더 및 파일생성 ( dn01에서 )
+
+( 자바에서 저장되고 플룸에서 읽을 폴더 )
+mkdir -p /home/hadoop/source_data/bitthumbitCoin
+# mkdir -p /home/hadoop/source_data/coinonebitCoin
+# mkdir -p /home/hadoop/source_data/upbitbitCoin
+
+( 파일 갯수를 저장할 파일들 )
+mkdir -p /home/hadoop/crawler
+vi /home/hadoop/crawler/bitThumb_fileCount.txt   -> 0 입력 후 저장
+# vi /home/hadoop/crawler/upBit_fileCount.txt      -> 0 입력 후 저장
+# vi /home/hadoop/crawler/coinOne_fileCount.txt  -> 0 입력 후 저장
+[주의] 숫자 0만 있어야 한다
+
+( 플롬이 읽어서 HDFS에 저장될 폴더 )
+ hdfs dfs -mkdir -p /user/hadoop/testInput/bitThumb
+#
+#
+
+2. 플룸 파일 생성하고 실행
+cd $FLUME_HOME/conf
+vi flume-bitcoin.properties 파일 생성하고 붙여넣기로 생성
+
+#------------------------------------------------
+# 기본적인 소스, 채널, 싱크를  변수(?) 선언
+agent.sources = s1
+agent.channels = m1
+agent.sinks = h1
+
+# 소스를 정해진 디렉토리와 파일로 설정
+# For each one of the sources, the type is defined
+agent.sources.s1.type = taildir
+# The channel can be defined as follows.
+agent.sources.s1.channels = m1
+agent.sources.s1.filegroups = f1
+agent.sources.s1.filegroups.f1 = /home/hadoop/source_data/bitthumbitCoin/bitthumbitCoin[0-9]{1,}.csv
+
+# Each sink's type must be defined
+# 싱크가 hdfs인 경우는 플롬을 거쳐 hdfs로 보낸다는 것이다
+agent.sinks.h1.type = hdfs  
+#Specify the channel the sink should use
+agent.sinks.h1.channel = m1
+agent.sinks.h1.hdfs.path = hdfs://nn01:9000/user/hadoop/testInput/bitThumb
+agent.sinks.h1.hdfs.writeFormat = Text
+agent.sinks.h1.hdfs.rollSize = 64000000
+agent.sinks.h1.hdfs.rollInterval = 0
+agent.sinks.h1.hdfs.rollCount = 0
+agent.sinks.h1.hdfs.batchSize = 9900
+agent.sinks.h1.hdfs.fileType = DataStream
+
+# 채널 설정
+# Each channel's type is defined.
+agent.channels.m1.type = memory
+# Other config values specific to each type of channel(sink or source)
+# can be defined as well
+# In this case, it specifies the capacity of the memory channel
+agent.channels.m1.capacity = 10000
+agent.channels.m1.transactionCapacity = 10000
+---------------------------------------------------------------------
+
+flume-ng agent --conf-file $FLUME_HOME/conf/flume-bitcoin.properties --name agent -Dflume.root.logger=INFO,console
+
+3. jar 파일 (dn01노드에)
+   jar 파일을 /home/hadoop/source에 저장 (winscp 이용)
+
+   [dn02노드] 현재 dn01에서 플롬이 구동되기에 [dn02] ssh dn01에 접속하여 실행
+   $ java -jar /home/hadoop/source/bitcoin.jar temp.MainApp
+ ( pom.xml에 지정했으면 temp.MainApp 생략 가능 )
+
+4. 확인 ( 5분정도 지켜보자 )
+   [nn01노드]  현재 dn01(플롬구동) + dn02(dn01 연결하여 자바실행) 중이기에
+        [nn01] ssh dn01 접속하여 실행
+ 
+ $ ssh dn01
+ $ ls /home/hadoop/source_data/bitthumbitCoin ( tmp 파일 생성확인-> 몇 분후 csv 파일 생성확인 )
+  csv 파일이 생기면 hdfs에서 확인
+
+ $ hdfs dfs -ls /user/hadoop/testInput/bitThumb ( tmp 파일 생성확인 -> 시간지나면 .tmp 없어짐)
+
+   ` tmp로 임시로 저장하다가 완료되면 csv로 변경된 후에 HDFS에 올라간다.
+   ` 웹 브라우저 http://192.168.56.101:50070 > Utilities > Broswer the file system
+    /   > user > hadoop > testInput > bitThumb
+
+    [dn01] 플롬 콘솔에 complete 뜨면  웹 브라우저에서 새로고침으로 확인 ( 시간소요 )
+          ( tmp 파일이 만들어지면 웹에서 보이긴 하지만 최종적인 csv 확인 )
+
+  
+
+6. 마무리
+   ` HDFS에 쌓인 파일을 지운다
+
+--------------------------------------------------------------------------------
+history log
+    1  su - root
+    2  logout
+    3  exit
+    4  vi ~/.bash_profile
+    5  source ~/.bash_profile
+    6  start-all.sh
+    7  jps
+    8  clear
+    9  hdfs
+   10  hdfs dfs -ls
+   11  hdfs dfs -mkdir /input
+   12  hdfs dfs -ls
+   13  hdfs dfs -ls /
+   14  ls /opt/hadoop/current
+   15  hdfs dfs -put /opt/hadoop/current/*.txt /input
+   16  hdfs dfs -ls /input
+------------------------------------------------- 위에까지는 하둡에 파일 올리고 확인?..
+   17  ls source
+   18  ls
+   19  mkdir temp
+   20  vi temp/mydata.txt
+   21  pwd
+   22  ls -l
+   23  pwd
+   24  ls -l
+   25  ls temp
+   26  hdfs dfs -mkdir -p /input/data
+   27  hdfs dfs -ls /input
+   28  hdfs dfs -put /home/hadoop/temp/mydata.txt /input/data
+   29  hdfs dfs -ls /input/data
+---------------------------------------------------- jar파일을 리눅스에 데이터파일을 하둡에 올린 후 실행..
+   30  yarn jar /home/hadoop/source/lab1.jar sample.WordCount /input/data/mydata.txt /output/wordcount
+   31  hdfs dfs -ls /output/wordcount
+   32  hdfs dfs -cat /output/wordcount/part-r-00000
+   33  ls -l temp
+   34  hdfs dfs -ls
+   35  hdfs dfs -mkdir -p /input/data/wiki
+   36  hdfs dfs -ls /input/data
+   37  hdfs dfs -put /home/hadoop/temp/10K.ID.CONTENTS /input/data/wiki
+   38  hdfs dfs -ls /input/data/wiki
+   39*
+   40  hdfs dfs -ls /output/wordcount2
+   41  hdfs dfs -cat /output/wordcount2/part-r-00000 | head -100
+   42  ls -l
+   43  ls -l temp
+   44  hdfs dfs -put /home/hadoop/temp/matrix.txt /input/data
+   45  hdfs dfs -ls /input/data
+   46  yarn jar /home/hadoop/source/lab1.jar sample3.MatrixProduct /input/data/matrix.txt /output/matrixproduct
+   47  hdfs dfs -ls /output
+   48  hdfs dfs -ls /output/matrixproduct
+   49  hdfs dfs -ls /output/matrixproduct/part-r-00000
+   50  hdfs dfs -cat /output/matrixproduct/part-r-00000
+   51  history
+---------------------------------------------------- 여기까지가 하둡프로그래밍 예제인듯
+dn01---
+    1  su - root
+    2  logout
+    3  exit
+---------------------------------------------------- flume 설치 부분 시작(history log와 중복되는 부분 존재)
+[root@dn01 ~]# cd /tmp
+[root@dn01 tmp]# wget http://apache.mirror.cdnetworks.com/flume/stable/apache-flume-1.9.0-bin.tar.gz
+[root@dn01 tmp]# tar xzvf apache-flume-1.9.0-bin.tar.gz
+[root@dn01 tmp]# mkdir -p /opt/flume/1.9.0
+[root@dn01 tmp]# mv apache-flume-1.9.0-bin/* /opt/flume/1.9.0/
+[root@dn01 tmp]# ln -s /opt/flume/1.9.0 /opt/flume/current
+[root@dn01 tmp]# chown -R hadoop:hadoop /opt/flume/
+[root@dn01 tmp]# su - hadoop
+[hadoop@dn01 ~]$ vi ~/.bash_profile
+#### FLUME 1.9.0 ######################
+        export FLUME_HOME=/opt/flume/current
+        export PATH=$PATH:$FLUME_HOME/bin
+#### FLUME 1.9.0 ######################
+[hadoop@dn01 ~]$ source ~/.bash_profile
+[hadoop@dn01 ~]$ cd $FLUME_HOME/conf
+[hadoop@dn01 conf]$ cp flume-conf.properties.template flume-conf.properties
+---------------------------------------------------- flume 설치 부분 끝(history log와 중복되는 부분 존재)
+---------------------------------------------------- 설정파일에 flume 환경변수 설정(hadoop계정으로..)
+    4  vi ~/.bash_profile
+#### FLUME 1.9.0 ######################
+        export FLUME_HOME=/opt/flume/current
+        export PATH=$PATH:$FLUME_HOME/bin
+#### FLUME 1.9.0 ######################
+    5  source ~/.bash_profile
+    6  ls -l /opt/flume
+    7*
+    8  source ~/.bash_profile
+    9  vi ~/.bash_profile
+---------------------------------------------------- flume의 설정파일이 모여있는 폴더로 이동
+   10  cd $FLUME_HOME/conf
+   11  ls -l
+   12  cat flume-conf.properties.template
+---------------------------------------------------- flume의 기본 설정이 모여있는 template 파일을 복사함
+   13  cp flume-conf.properties.template flume-conf.properties
+   14  ls -l
+   15  history
+   16*
+   17  history
+   18  ls -l
+   19  ls -l /source
+   20  ls -l ~/source
+   21  mkdir -p /home/hadoop/source_data/bitthumbitCoin
+   22  mkdir -p /home/hadoop/crawler
+   23  vi /home/hadoop/crawler/bitThumb_fileCount.txt
+   24  hdfs dfs -mkdir -p /user/hadoop/testInput/bitThumb
+   25  pwd
+   26  ls -l
+   27  vi flume-conf.properties
+   28  vi flume-bitcoin.properties
+---------------------------------------------------- 0623.txt 파일의 flume 실행부분에 존재
+   29  flume-ng agent --conf-file $FLUME_HOME/conf/flume-bitcoin.properties --name agent -Dflume.root.logger=INFO,console
+   30  ls -l
+   31  history
+dn-02
+[hadoop@dn02 ~]$ ssh dn01
+Last login: Tue Jun 23 04:07:53 2020
+[hadoop@dn01 ~]$ ls ~/source
+bitcoin.jar
+[hadoop@dn01 ~]$ java -jar /home/hadoop/source/bitcoin.jar
+
+
+

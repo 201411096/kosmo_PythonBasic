@@ -1,0 +1,371 @@
+﻿0625_목요일
+------------------------------------------------------------------------------------------------------------------------
+스쿱 설치
+
+nn01 - hadoop@nn01
+dn01 - root@dn01
+dn02 - hadoop@dn01
+-----
+Sqoop은 1버전이 복잡해서 간소한 것이 2버전이라 1버전으로
+
+[Sqoop1] dn01의 root 계정에서 (@@@@@@)
+
+1. 스쿱 다운
+[root@dn01 ~]# cd /tmp
+[root@dn01 tmp]# wget http://mirror.apache-kr.org/sqoop/1.4.7/sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz
+[root@dn01 tmp]# tar xzvf sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz
+[root@dn01 tmp]# mkdir -p /opt/sqoop/1.4.7
+[root@dn01 tmp]# mv sqoop-1.4.7.bin__hadoop-2.6.0/* /opt/sqoop/1.4.7/
+[root@dn01 tmp]# ln -s /opt/sqoop/1.4.7 /opt/sqoop/current
+
+2. MYSQL Connector 다운로드 및 sqoop 의  lib로 복사
+[root@dn01 ~]# cd /tmp
+[root@dn01 tmp]# wget http://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.38.tar.gz
+	ㄴ 이전에 다운로드 받은 것이 있어서 여기는 안해도 됨
+[root@dn01 tmp]# tar xzvf mysql-connector-java-5.1.38.tar.gz
+[root@dn01 tmp]# cd mysql-connector-java-5.1.38
+[root@dn01 mysql-connector-java-5.1.38]# mv mysql-connector-java-5.1.38-bin.jar /opt/sqoop/current/lib/
+[root@dn01 mysql-connector-java-5.1.38]# cd ~
+[root@dn01]# ls /opt/sqoop/current/lib/
+
+3. 스쿱경로를 hadoop 계정에게 소유권변경
+[root@dn01 ~]# chown -R hadoop:hadoop /opt/sqoop/
+	ㄴ chown -R
+		ㄴ /opt/sqoop을 포함한 하위 디렉토리 파일들의 소유권을 변경해줌
+
+4. hadoop 계정에서 환경변수 설정
+[root@dn01 ~]# su - hadoop
+[hadoop@dn01 ~]$ vi ~/.bash_profile
+#### SQOOP 1.4.7 ######################
+        export SQOOP_HOME=/opt/sqoop/current
+        export PATH=$PATH:$SQOOP_HOME/bin
+#### SQOOP 1.4.7 ######################
+	ㄴ ~/.bash_profile은 ~자신의 홈 디렉토리의 설정파일(hadoop 계정의..)
+	ㄴ ls -al ~/ 로 확인 가능
+	ㄴ opt/sqoop/current는 진짜 경로가 아님(심볼릭 링크)
+		ㄴ 진짜 경로는 .. /opt/sqoop/1.4.7/
+		ㄴ linux /opt 의미
+			ㄴ /opt stands for optional (as in optional add-on packages)
+[hadoop@dn01 ~]$ source ~/.bash_profile
+
+5. 스쿱 환경설정
+[hadoop@dn01 ~]$ cd $SQOOP_HOME/conf
+[hadoop@dn01 ~]$ mv sqoop-env-template.sh sqoop-env.sh
+	ㄴ cp sqoop-env-template.sh sqoop-env.sh
+[hadoop@dn01 ~]$ vi sqoop-env.sh
+--아래 내용을 추가
+export HADOOP_COMMON_HOME=/opt/hadoop/current
+export HADOOP_MAPRED_HOME=/opt/hadoop/current
+export HIVE_HOME=/opt/hive/current
+
+6. 스쿱 확인
+[hadoop@dn01 ~]$ sqoop-version
+
+7. 스쿱 라이브러리를 하둡에 복사
+[hadoop@dn01 ~]$ cd $SQOOP_HOME
+[hadoop@dn01 current]$ cp sqoop-1.4.7.jar /opt/hadoop/current/share/hadoop/tools/lib/
+
+8. mariadb 확인
+[hadoop@dn01 current]$ systemctl status mariadb.service
+	ㄴ active enable 이 아니라면..
+		ㄴ systemctl start mariadb.service
+++ dn02가 hadoop@dn01 로 되어있는지 확인하기
+----------------------------------------------------------------------------------------------------
+mobaxterm의 dn02에서.. (hadoop@dn01)
+
+[hadoop@dn01 ~]$ mysql -u root -p
+	ㄴ admin1234
+
+MariaDB [(none)]> create database sqoopdemo;
+Query OK, 1 row affected (0.00 sec)
+
+MariaDB [(none)]> use sqoopdemo;
+Database changed
+
+MariaDB [sqoopdemo]> create table departments(
+    -> department_id int(10) unsigned not null,
+    -> department_name varchar(30) not null,
+    -> primary key (department_id)
+    -> );
+Query OK, 0 rows affected (0.00 sec)
+
+insert into departments(department_id, department_name) values
+(1, 'Fitness'),
+(2, 'Footware'),
+(3, 'Apparel'),
+(4, 'Golf'),
+(5, 'Outdoors'),
+(6, 'Fanshop');
+
+MariaDB [sqoopdemo]> select * from departments;
++---------------+-----------------+
+| department_id | department_name |
++---------------+-----------------+
+|             1 | Fitness         |
+|             2 | Footware        |
+|             3 | Apparel         |
+|             4 | Golf            |
+|             5 | Outdoors        |
+|             6 | Fanshop         |
++---------------+-----------------+
+6 rows in set (0.00 sec)
+----------------------------------------------------------------------------------------------------
+rdbms의 데이터를 하둡으로 올리는 방법(dn01에서,,)
+
+-- 1) 데이터베이스명 가져오기 (hive 계정에 접속)
+	ㄴ sqoop 명령어를 쉘스크립트로 만듬?...
+sqoop list-databases --connect jdbc:mysql://dn01 --username hive --password hive
+-- 1) 실행결과
+[hadoop@dn01 current]$ sqoop list-databases --connect jdbc:mysql://dn01 --username hive --password hive
+Warning: /opt/sqoop/current/../hbase does not exist! HBase imports will fail.
+Please set $HBASE_HOME to the root of your HBase installation.
+Warning: /opt/sqoop/current/../hcatalog does not exist! HCatalog jobs will fail.
+Please set $HCAT_HOME to the root of your HCatalog installation.
+Warning: /opt/sqoop/current/../accumulo does not exist! Accumulo imports will fail.
+Please set $ACCUMULO_HOME to the root of your Accumulo installation.
+Warning: /opt/sqoop/current/../zookeeper does not exist! Accumulo imports will fail.
+Please set $ZOOKEEPER_HOME to the root of your Zookeeper installation.
+20/06/25 01:46:15 INFO sqoop.Sqoop: Running Sqoop version: 1.4.7
+20/06/25 01:46:15 WARN tool.BaseSqoopTool: Setting your password on the command-line is insecure. Consider using -P instead.
+20/06/25 01:46:15 INFO manager.MySQLManager: Preparing to use a MySQL streaming resultset.
+information_schema
+hive
+mysql
+performance_schema
+sqoopdemo
+test
+
+-- 2) 테이블명 가져오기 (hive 계정에 접속)
+sqoop list-tables --connect jdbc:mysql://dn01/sqoopdemo --username hive --password hive
+-- 2) 실행결과
+[hadoop@dn01 current]$ sqoop list-tables --connect jdbc:mysql://dn01/sqoopdemo --username hive --password hive
+Warning: /opt/sqoop/current/../hbase does not exist! HBase imports will fail.
+Please set $HBASE_HOME to the root of your HBase installation.
+Warning: /opt/sqoop/current/../hcatalog does not exist! HCatalog jobs will fail.
+Please set $HCAT_HOME to the root of your HCatalog installation.
+Warning: /opt/sqoop/current/../accumulo does not exist! Accumulo imports will fail.
+Please set $ACCUMULO_HOME to the root of your Accumulo installation.
+Warning: /opt/sqoop/current/../zookeeper does not exist! Accumulo imports will fail.
+Please set $ZOOKEEPER_HOME to the root of your Zookeeper installation.
+20/06/25 01:48:41 INFO sqoop.Sqoop: Running Sqoop version: 1.4.7
+20/06/25 01:48:41 WARN tool.BaseSqoopTool: Setting your password on the command-line is insecure. Consider using -P instead.
+20/06/25 01:48:41 INFO manager.MySQLManager: Preparing to use a MySQL streaming resultset.
+departments
+
+-- 3) 테이블의 데이터를 HDFS에 가져오기 (*****)
+sqoop import --connect jdbc:mysql://dn01/sqoopdemo --table departments --username hive --password hive
+-- 3) 실행결과
+[hadoop@dn01 current]$ sqoop list-tables --connect jdbc:mysql://dn01/sqoopdemo --username hive --password hive
+Warning: /opt/sqoop/current/../hbase does not exist! HBase imports will fail.
+Please set $HBASE_HOME to the root of your HBase installation.
+Warning: /opt/sqoop/current/../hcatalog does not exist! HCatalog jobs will fail.
+Please set $HCAT_HOME to the root of your HCatalog installation.
+Warning: /opt/sqoop/current/../accumulo does not exist! Accumulo imports will fail.
+Please set $ACCUMULO_HOME to the root of your Accumulo installation.
+Warning: /opt/sqoop/current/../zookeeper does not exist! Accumulo imports will fail.
+Please set $ZOOKEEPER_HOME to the root of your Zookeeper installation.
+20/06/25 01:48:41 INFO sqoop.Sqoop: Running Sqoop version: 1.4.7
+20/06/25 01:48:41 WARN tool.BaseSqoopTool: Setting your password on the command-line is insecure. Consider using -P instead.
+20/06/25 01:48:41 INFO manager.MySQLManager: Preparing to use a MySQL streaming resultset.
+departments
+[hadoop@dn01 current]$ sqoop import --connect jdbc:mysql://dn01/sqoopdemo --table departments --username hive --password hive
+Warning: /opt/sqoop/current/../hbase does not exist! HBase imports will fail.
+Please set $HBASE_HOME to the root of your HBase installation.
+Warning: /opt/sqoop/current/../hcatalog does not exist! HCatalog jobs will fail.
+Please set $HCAT_HOME to the root of your HCatalog installation.
+Warning: /opt/sqoop/current/../accumulo does not exist! Accumulo imports will fail.
+Please set $ACCUMULO_HOME to the root of your Accumulo installation.
+Warning: /opt/sqoop/current/../zookeeper does not exist! Accumulo imports will fail.
+Please set $ZOOKEEPER_HOME to the root of your Zookeeper installation.
+20/06/25 01:51:12 INFO sqoop.Sqoop: Running Sqoop version: 1.4.7
+20/06/25 01:51:12 WARN tool.BaseSqoopTool: Setting your password on the command-line is insecure. Consider using -P instead.
+20/06/25 01:51:12 INFO manager.MySQLManager: Preparing to use a MySQL streaming resultset.
+20/06/25 01:51:12 INFO tool.CodeGenTool: Beginning code generation
+20/06/25 01:51:13 INFO manager.SqlManager: Executing SQL statement: SELECT t.* FROM `departments` AS t LIMIT 1
+20/06/25 01:51:13 INFO manager.SqlManager: Executing SQL statement: SELECT t.* FROM `departments` AS t LIMIT 1
+20/06/25 01:51:13 INFO orm.CompilationManager: HADOOP_MAPRED_HOME is /opt/hadoop/current
+Note: /tmp/sqoop-hadoop/compile/7c3a6c1e9e933f58cd78d9dee75f9917/departments.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+20/06/25 01:51:15 INFO orm.CompilationManager: Writing jar file: /tmp/sqoop-hadoop/compile/7c3a6c1e9e933f58cd78d9dee75f9917/departments.jar
+20/06/25 01:51:15 WARN manager.MySQLManager: It looks like you are importing from mysql.
+20/06/25 01:51:15 WARN manager.MySQLManager: This transfer can be faster! Use the --direct
+20/06/25 01:51:15 WARN manager.MySQLManager: option to exercise a MySQL-specific fast path.
+20/06/25 01:51:15 INFO manager.MySQLManager: Setting zero DATETIME behavior to convertToNull (mysql)
+20/06/25 01:51:15 INFO mapreduce.ImportJobBase: Beginning import of departments
+20/06/25 01:51:16 INFO Configuration.deprecation: mapred.jar is deprecated. Instead, use mapreduce.job.jar
+20/06/25 01:51:17 INFO Configuration.deprecation: mapred.map.tasks is deprecated. Instead, use mapreduce.job.maps
+20/06/25 01:51:17 INFO client.RMProxy: Connecting to ResourceManager at nn01/192.168.56.101:8032
+20/06/25 01:51:19 INFO db.DBInputFormat: Using read commited transaction isolation
+20/06/25 01:51:19 INFO db.DataDrivenDBInputFormat: BoundingValsQuery: SELECT MIN(`department_id`), MAX(`department_id`) FROM `departments`
+20/06/25 01:51:19 INFO db.IntegerSplitter: Split size: 1; Num splits: 4 from: 1 to: 6
+20/06/25 01:51:19 INFO mapreduce.JobSubmitter: number of splits:4
+20/06/25 01:51:20 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1593044799960_0001
+20/06/25 01:51:21 INFO impl.YarnClientImpl: Submitted application application_1593044799960_0001
+20/06/25 01:51:21 INFO mapreduce.Job: The url to track the job: http://nn01:8088/proxy/application_1593044799960_0001/
+20/06/25 01:51:21 INFO mapreduce.Job: Running job: job_1593044799960_0001
+20/06/25 01:51:32 INFO mapreduce.Job: Job job_1593044799960_0001 running in uber mode : false
+20/06/25 01:51:32 INFO mapreduce.Job:  map 0% reduce 0%
+20/06/25 01:51:43 INFO mapreduce.Job:  map 25% reduce 0%
+20/06/25 01:51:45 INFO mapreduce.Job:  map 50% reduce 0%
+20/06/25 01:51:47 INFO mapreduce.Job:  map 75% reduce 0%
+20/06/25 01:51:48 INFO mapreduce.Job:  map 100% reduce 0%
+20/06/25 01:51:48 INFO mapreduce.Job: Job job_1593044799960_0001 completed successfully
+20/06/25 01:51:49 INFO mapreduce.Job: Counters: 31
+        File System Counters
+                FILE: Number of bytes read=0
+                FILE: Number of bytes written=567872
+                FILE: Number of read operations=0
+                FILE: Number of large read operations=0
+                FILE: Number of write operations=0
+                HDFS: Number of bytes read=481
+                HDFS: Number of bytes written=59
+                HDFS: Number of read operations=16
+                HDFS: Number of large read operations=0
+                HDFS: Number of write operations=8
+        Job Counters
+                Killed map tasks=1
+                Launched map tasks=4
+                Other local map tasks=4
+                Total time spent by all maps in occupied slots (ms)=41281
+                Total time spent by all reduces in occupied slots (ms)=0
+                Total time spent by all map tasks (ms)=41281
+                Total vcore-milliseconds taken by all map tasks=41281
+                Total megabyte-milliseconds taken by all map tasks=42271744
+        Map-Reduce Framework
+                Map input records=6
+                Map output records=6
+                Input split bytes=481
+                Spilled Records=0
+                Failed Shuffles=0
+                Merged Map outputs=0
+                GC time elapsed (ms)=338
+                CPU time spent (ms)=3130
+                Physical memory (bytes) snapshot=479338496
+                Virtual memory (bytes) snapshot=7508508672
+                Total committed heap usage (bytes)=243531776
+        File Input Format Counters
+                Bytes Read=0
+        File Output Format Counters
+                Bytes Written=59
+20/06/25 01:51:49 INFO mapreduce.ImportJobBase: Transferred 59 bytes in 32.0826 seconds (1.839 bytes/sec)
+20/06/25 01:51:49 INFO mapreduce.ImportJobBase: Retrieved 6 records.
+[hadoop@dn01 current]$ hdfs dfs -ls /user/hadoop
+Found 4 items
+drwxr-xr-x   - hadoop hadoop          0 2020-06-25 01:51 /user/hadoop/departments
+drwxr-xr-x   - hadoop hadoop          0 2020-06-24 07:03 /user/hadoop/movies
+drwxr-xr-x   - hadoop hadoop          0 2020-06-23 05:56 /user/hadoop/testInput
+drwxr-xr-x   - hadoop hadoop          0 2020-06-24 06:42 /user/hadoop/userinfo
+	ㄴ ************** /user/hadoop 이라는 경로가 기본 경로????
+[hadoop@dn01 current]$ hdfs dfs -ls /user/hadoop/departments
+Found 5 items
+-rw-r--r--   1 hadoop hadoop          0 2020-06-25 01:51 /user/hadoop/departments/_SUCCESS
+-rw-r--r--   1 hadoop hadoop         21 2020-06-25 01:51 /user/hadoop/departments/part-m-00000
+-rw-r--r--   1 hadoop hadoop         10 2020-06-25 01:51 /user/hadoop/departments/part-m-00001
+-rw-r--r--   1 hadoop hadoop          7 2020-06-25 01:51 /user/hadoop/departments/part-m-00002
+-rw-r--r--   1 hadoop hadoop         21 2020-06-25 01:51 /user/hadoop/departments/part-m-00003
+[hadoop@dn01 current]$ hdfs dfs -cat /user/hadoop/departments/part-m-00000
+1,Fitness
+2,Footware
+	ㄴ 6개 데이터를 분산으로 저장해서 2개씩..
+[hadoop@dn01 current]$ hdfs dfs -cat /user/hadoop/departments/part-m-*
+1,Fitness
+2,Footware
+3,Apparel
+4,Golf
+5,Outdoors
+6,Fanshop
+	ㄴ 여러 파일의 데이터를 한꺼번에 봄
+----------------------------------------------------------------------------------------------------
+--하둡의 데이터를 db로 가져오는 방법(dn02에서,,)
+
+MariaDB [sqoopdemo]> create table dept like departments;
+Query OK, 0 rows affected (0.00 sec)
+
+MariaDB [sqoopdemo]> select * from dept;
+Empty set (0.00 sec)
+
+MariaDB [sqoopdemo]> desc dept;
++-----------------+------------------+------+-----+---------+-------+
+| Field           | Type             | Null | Key | Default | Extra |
++-----------------+------------------+------+-----+---------+-------+
+| department_id   | int(10) unsigned | NO   | PRI | NULL    |       |
+| department_name | varchar(30)      | NO   |     | NULL    |       |
++-----------------+------------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+--dn01로 이동..
+[hadoop@dn01 current]$ sqoop export --connect jdbc:mysql://dn01/sqoopdemo --table dept --username hive --password hive --export-dir departments
+--dn02로 이동..
+MariaDB [sqoopdemo]> select * from dept;
++---------------+-----------------+
+| department_id | department_name |
++---------------+-----------------+
+|             1 | Fitness         |
+|             2 | Footware        |
+|             3 | Apparel         |
+|             4 | Golf            |
+|             5 | Outdoors        |
+|             6 | Fanshop         |
++---------------+-----------------+
+6 rows in set (0.00 sec)
+
+MariaDB [sqoopdemo]> insert into dept values(7, 'IT');
+Query OK, 1 row affected (0.00 sec)
+
+MariaDB [sqoopdemo]> select * from dept;
++---------------+-----------------+
+| department_id | department_name |
++---------------+-----------------+
+|             1 | Fitness         |
+|             2 | Footware        |
+|             3 | Apparel         |
+|             4 | Golf            |
+|             5 | Outdoors        |
+|             6 | Fanshop         |
+|             7 | IT              |
++---------------+-----------------+
+7 rows in set (0.00 sec)
+
+--db를 다시 하둡으로 올리는 방법
+[hadoop@dn01 current]$ sqoop import --connect jdbc:mysql://dn01/sqoopdemo --table dept --username hive --password hive
+[hadoop@dn01 current]$ hdfs dfs -cat /user/hadoop/dept/part-m-*
+1,Fitness
+2,Footware
+3,Apparel
+4,Golf
+5,Outdoors
+6,Fanshop
+7,IT
+pwd
+/opt/sqoop/current
+----------------------------------------------------------------------------------------------------
+spark
+	ㄴ rdd : 탄력적으로 분산된 데이터셋
+		ㄴ 변경이 불가능
+	ㄴ 주의사항 ***** - spark 위치까지 이동해서..
+		ㄴ ./start-all.sh를 해야함
+			ㄴ .을 빼면 hadoop이 실행됨
+		ㄴ 하둡을 먼저 실행시킨 후 실행해야함
+	ㄴ java는 거의 사용하지 않음, 중급 이상은 scala를 많이 사용
+----------------------------------------------------------------------------------------------------
+iaas
+	ㄴ infrastructure as a service
+paas
+	ㄴ platform as a service
+saas
+	ㄴ software as a service
+----------------------------------------------------------------------------------------------------
+aws
+	ㄴ 인스턴스 생성
+		ㄴ Amazon Linux AMI 2018.03.0 (HVM), SSD Volume Type - ami-0a2778941dc6f2820
+	ㄴ puttygen
+		ㄴ aws에서 받은 키 load 후 save
+	ㄴ putty
+		ㄴ ssh - auth - browse - puttygen 키를 선택
+		ㄴ session 클릭
+		ㄴ aws에서 public ipv4주소 복사
+		ㄴ aws_linux save 후 open
+		ㄴ login as : ec2-user
+		ㄴ sudo yum update
+			ㄴ sudo : root권한?
+		ㄴ logout으로 나가기

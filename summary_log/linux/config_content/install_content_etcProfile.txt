@@ -1,3 +1,4 @@
+# /etc/profile (root계정에서 사용하는 듯 : 모든 사용자에게 적용)
 # /etc/profile
 
 # System wide environment and startup programs, for login setup

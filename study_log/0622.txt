@@ -61,6 +61,7 @@ end
 	ㄴ c->user->VirtualBox VMs에 생긴 폴더, .virtualbox 에 생긴 폴더, HashiCorp .vagrant에 생긴 폴더를 지우고 다시 시도
 
 10. 3개를 하나씩 들어가서 ip addr로 확인하는데 셋 중 가장 밑에껄로 확인하는듯
+	ㄴ root / vagrant
 11. 마우스 잡기
 	ㄴ 파일 -> 환경설정 -> 입력 -> 가상머신 -> 호스트 키 조합 -> Ctrl + Alt (둘다 왼쪽)
 12. putty 연결
@@ -141,7 +142,7 @@ protoc --version
 
 2. JDK 8 설치 (nn01,dn01,dn02)
 a. cd /tmp
-b. yum install -y vim wget unzip          
+b. yum install -y vim wget unzip
 c. wget --no-check-certificate --no-cookies - --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.tar.gz
                        ( Local에 이미 다운로드 한 경우 Winscp를 이용하여 업로드 )
 d. ls jdk*

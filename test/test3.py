@@ -5,8 +5,9 @@ charcnt = 0
 while True:
     line = f.readline()
     if not line: break
-    templine = line.replace('\n', '')
-    templine = templine.replace(' ', '')
+    # templine = line.replace('\n', '')
+    # templine = templine.replace(' ', '')
+    templine = line.replace('\n', '').replace(' ', '')
     charcnt+=len(templine)
     wordcnt+=len(line.split())
     linecnt+=1

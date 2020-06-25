@@ -412,7 +412,7 @@ c. [root@dn02 ~]# chown -R hadoop:hadoop /opt/hadoop/
  b. mkdir -p ~/hadoop_data/hdfs/namesecondary
 
 15. Hadoop datanode 디렉토리 생성 (dn01 : Datanode)
- mkdir -p ~/hadoop_data/hdfs/datanode
+mkdir -p ~/hadoop_data/hdfs/datanode
 
 Hadoop datanode 디렉토리 생성 (dn02 : Datanode)
 mkdir -p ~/hadoop_data/hdfs/datanode

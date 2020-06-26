@@ -161,7 +161,7 @@ Bye
 HADOOP_HOME=/opt/hadoop/current
 
 vi 명령모드에서.. "/ConnectionURL" 이런식으로 찾으면됨
-
+[hadoop@dn01 ~]# vi /opt/hive/current/conf/hive-site.xml
 <property>
   <name>javax.jdo.option.ConnectionURL</name>
   <value>jdbc:mysql://192.168.56.102:3306/hive?createDatabaseIfNotExist=true</value>

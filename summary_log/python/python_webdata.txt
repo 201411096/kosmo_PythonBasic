@@ -22,4 +22,12 @@
 			ㄴ json to string
 		ㄴ json.loads
 			ㄴ string to json
+	ㄴ selenium
+		ㄴ from selenium import webdriver
 ----------------------------------------------------------------------------------------------------
+naverlogin
+
+사용된 document.getElementsByName('id')[0].value=\' 는 자바스크립트에서 사용되는 함수인데
+파이썬에서 키를 직접적으로 넘겨주는 게 아니라 브라우져 내에서 자바스크립트로 아이디 값을 넘겨주기 때문에 네이버의 자동화된 소프트와 알고리즘을 우회하는 원리이다.
+요즘 네이버는 자동로그인 같은 자동화된 소프트웨어를 막는 추세
+execute_script도 언제든지 네이버의 조치에 의해 막힐 수 있다.

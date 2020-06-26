@@ -14,17 +14,28 @@
 """
 
 from selenium import webdriver
-
+from bs4 import BeautifulSoup
+import time
 #-------------------------------1. 웹 페이지 접근
 # 웹드라이버 객체 생성
 driver = webdriver.Chrome('./webdriver/chromedriver')
 driver.implicitly_wait(3)
 
-# 페이지 접근
-driver.get('http://www.goobne.co.kr/store/search_store.jsp')
+for i in range(1, 10):
+    # 페이지 접근
+    driver.get('http://www.goobne.co.kr/store/search_store.jsp')
+    driver.execute_script('store.getList({0})'.format(i))
+    
+    time.sleep(5)
+    html = driver.page_source
 
-
-
-
-
+    soup = BeautifulSoup(html, 'html.parser')
+    for store_list in soup.findAll('tbody', attrs={'id':'store_list'}):
+        name = soup.select('tr > td:first-child')
+        tel = soup.select('.store_phone > a')
+        addr = soup.select('.t_left > a')
+        print("tel", tel)
+        for n, t, a in zip(name, tel, addr):
+            print(n.text, " - ", t.text, "-", a.text)
+        #print(name.text, ":")
 

@@ -11,3 +11,29 @@
 """
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+
+usr=''
+pwd=''
+
+
+
+
+
+
+
+
+
+
+
+
+
+driver = webdriver.Chrome('./webdriver/chromedriver')
+driver.implicitly_wait(3) # 암묵적으로 자원로드될 때까지 3초 기다림
+
+
+driver.get('https://www.facebook.com')
+driver.find_element_by_name('email').send_keys(usr)
+driver.find_element_by_name('pass').send_keys(pwd)
+#driver.send_keys(Keys.RETURN)
+driver.find_element_by_id('u_0_e').click()
+#driver.submit()

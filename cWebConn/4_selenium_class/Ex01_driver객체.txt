@@ -31,6 +31,7 @@ is_enabled()
 is_selected()
 save_screenshot(filename)
 submit()
+execute_script()
 
 외에도 많은 속성과 메소드가 있습니다.
 

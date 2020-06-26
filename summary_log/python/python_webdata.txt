@@ -18,4 +18,8 @@
 		ㄴ from bs4 import BeautifulSoup
 	ㄴ json
 		ㄴ import json
+		ㄴ json.dumps
+			ㄴ json to string
+		ㄴ json.loads
+			ㄴ string to json
 ----------------------------------------------------------------------------------------------------

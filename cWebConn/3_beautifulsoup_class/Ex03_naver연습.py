@@ -14,3 +14,8 @@ from urllib import request as req
 # 웹 문서 가져오기
 url = 'https://finance.naver.com/marketindex/'
 
+res = req.urlopen(url)
+
+soup = BeautifulSoup(res, 'html.parser')
+usd = soup.select_one('div.head_info > span.value')
+print(usd.text)

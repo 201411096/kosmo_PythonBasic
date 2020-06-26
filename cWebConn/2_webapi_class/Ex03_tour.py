@@ -60,6 +60,27 @@ def main():
 
     #-----------------------------------------------------------
     # 여기에 코딩하기
+    for year in range(nStartYear, nEndYear): #2015 ~ 2016
+        for month in range(1, 13):
+            # {1:0>2} => 2자리 공간을 만들고 빈 공간은 0으로 채우기
+            yyyymm = "{0}{1:0>2}".format(str(year), str(month))
+            nPagenum = 1
+            while True:
+                jsonData = getTourPointVistor(yyyymm, sido, gungu, nPagenum, nItems)
+                if jsonData['response']['header']['resultMsg'] == 'OK':
+                    nTotal = jsonData['response']['body']['totalCount']
+                    if nTotal == 0:break
+
+                    for item in jsonData['response']['body']['items']['item']:
+                        getTourPointData(item, yyyymm, jsonResult)
+                    nPage = math.ceil(nTotal/100); # 올림 nTotal=80, nPage=1 | nTotal=180, nPage=2
+                    if nPage == nPagenum: break
+                    nPagenum += 1
+                else : break
+            with open('./data/%s_관광지입장정보_%d_%d.json'%(sido, nStartYear, nEndYear-1), "w", encoding='utf-8') as f:
+                # 속성 찾아보기
+                saveToJson = json.dumps(jsonResult, indent=4, sort_keys=True, ensure_ascii=False)
+                f.write(saveToJson)
 
 
 

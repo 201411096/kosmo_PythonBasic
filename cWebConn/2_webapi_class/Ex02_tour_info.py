@@ -14,9 +14,11 @@
 
 from urllib import request
 from urllib import parse
+from ast import literal_eval # str을 dictionary로 변경
 import json
+import requests
 
-access_key = '키값을입력하세요'
+access_key = '발급받은 키 값'
 url = 'http://openapi.tour.go.kr/openapi/service/TourismResourceStatsService/getPchrgTrrsrtVisitorList'
 queryParams = '?_type=json'
 queryParams += '&serviceKey=' + access_key
@@ -24,4 +26,20 @@ queryParams += '&YM=' + '201201'
 queryParams += '&SIDO=' + parse.quote('부산광역시')
 queryParams += '&GUNGU=' + parse.quote('해운대구')
 queryParams += '&RES_NM=' + parse.quote('부산시립미술관')
+# queryParams += '&SIDO=' + parse.quote('서울특별시')
+# queryParams += '&GUNGU=' + parse.quote('종로구')
+# queryParams += '&RES_NM=' + parse.quote('경복궁')
 
+req = request.Request(url + queryParams) # request 객체
+response = request.urlopen(req)
+returndata = response.read().decode('utf-8')
+
+print(returndata)
+print(type(returndata))
+returndata = literal_eval(returndata)
+#str을 dictionary 로 변경
+
+#내국인 관광객 수
+print(returndata["response"]["body"]['items']['item']['csNatCnt'])
+#외국인 관광객 수
+print(returndata["response"]["body"]['items']['item']['csForCnt'])

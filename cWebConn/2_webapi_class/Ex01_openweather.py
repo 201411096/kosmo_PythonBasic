@@ -17,3 +17,14 @@ api = "http://api.openweathermap.org/data/2.5/weather?q={city}&APPID={key}"
 
 # 켈빈 온도를 섭씨 온도로 변환하는 함수
 k2c = lambda k: k - 273.15
+
+import requests
+import json
+for city in cities:
+    url = api.format(city=city, key=apikey)
+    res = requests.get(url)
+    print(res.text)
+    data = json.loads(res.text)
+    print('도시 :', data['name'])
+    print('날씨 :', data['weather'][0]['description'])
+    print('온도 :', k2c(data['main']['temp_max']))

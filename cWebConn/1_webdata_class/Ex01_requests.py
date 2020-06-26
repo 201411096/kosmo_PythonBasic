@@ -10,6 +10,9 @@
     requests 라이브러리 추가
     메뉴 > File > Settings > Project Interpreter > + 버튼 > 'requests' 검색 후 인스톨
 
+    터미널에서 (파이참을 사용하지 않는다면 ... )
+        > pip install requests
+
 [ requests 모듈 ]
 (1) Rest API 지원
     import requests
@@ -26,3 +29,16 @@
     resp.json()
 """
 
+import requests as rq
+
+url = "http://www.google.com"
+
+# response 객체의 내용들을 확인
+res = rq.get(url)
+#print(res)
+#print(res.text)
+#print(res.content)
+
+headers = res.headers
+for header in headers:
+    print(header, '>>', headers[header])    # header의 key >> value 형태로 봄

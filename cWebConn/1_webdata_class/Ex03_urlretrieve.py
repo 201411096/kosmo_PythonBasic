@@ -12,3 +12,10 @@
                 - urlretrieve() 함수를 이용하여 이미지를 다운로드 받아 파일로 저장한다.
 """
 
+url = "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png"
+imgName = "data/google.png"
+#ㄴ 데이터를 다운받을 이미지
+import urllib.request as req
+#from urllib import request as req
+
+req.urlretrieve(url, imgName)

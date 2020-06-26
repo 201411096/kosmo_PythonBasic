@@ -19,6 +19,7 @@ import json
 import requests
 
 access_key = '발급받은 키 값'
+
 url = 'http://openapi.tour.go.kr/openapi/service/TourismResourceStatsService/getPchrgTrrsrtVisitorList'
 queryParams = '?_type=json'
 queryParams += '&serviceKey=' + access_key
@@ -36,7 +37,8 @@ returndata = response.read().decode('utf-8')
 
 print(returndata)
 print(type(returndata))
-returndata = literal_eval(returndata)
+returndata = json.loads(returndata)
+#returndata = literal_eval(returndata)
 #str을 dictionary 로 변경
 
 #내국인 관광객 수

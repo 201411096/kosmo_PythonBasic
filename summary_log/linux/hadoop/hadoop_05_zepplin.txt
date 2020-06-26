@@ -1,0 +1,101 @@
+﻿Zepplin 설치하기
+
+
+< dn01 노드의 root 계정에서 >
+[root@dn01 ] cd /tmp
+[root@dn01 tmp]#  wget http://apache.mirror.cdnetworks.com/zeppelin/zeppelin-0.8.2/zeppelin-0.8.2-bin-all.tgz
+[root@dn01 tmp]# tar -xzvf zeppelin-0.8.2-bin-all.tgz
+[root@dn01 tmp]# mkdir -p /opt/zeppelin/0.8.2
+[root@dn01 tmp]# mv zeppelin-0.8.2-bin-all/* /opt/zeppelin/0.8.2/
+[root@dn01 tmp]# ln -s /opt/zeppelin/0.8.2 /opt/zeppelin/current
+
+[root@dn01 ~]# chown -R hadoop:hadoop /opt/zeppelin
+[root@dn01 ~]# su - hadoop
+[hadoop@dn01 ~]$ vi ~/.bash_profile
+
+#### zeppelin ######################
+export ZEPPELIN_HOME=/opt/zeppelin/current
+export PATH=$PATH:$ZEPPELIN_HOME/bin
+#### zeppelin  ######################
+
+[hadoop@dn01 ~]$ source ~/.bash_profile
+
+
+[hadoop@dn01 ~]$ cd /opt/zeppelin/current/conf
+[hadoop@dn01 conf]$ cp zeppelin-site.xml.template zeppelin-site.xml
+[hadoop@dn01 conf]$ cp shiro.ini.template shiro.ini
+[hadoop@dn01 conf]$ cp zeppelin-env.sh.template zeppelin-env.sh
+
+
+[hadoop@dn01 conf]$ vi shiro.ini
+admin = admin, admin
+
+
+[hadoop@dn01 conf]$ vi zeppelin-site.xml
+<property>
+<name>zeppelin.server.addr</name>
+<value>192.168.56.102</value>
+<description>Server address</description>
+</property>
+
+<property>
+<name>zeppelin.server.port</name>
+<value>8082</value>
+<description>Server port.</description>
+</property>
+
+<property>
+<name>zeppelin.anonymous.allowed</name>
+<value>false</value>
+<description>Anonymous user allowed by default</description>
+</property>
+
+
+[hadoop@dn01 conf]$ vi zeppelin-env.sh
+
+export HADOOP_CONF_DIR=/opt/hadoop/current/etc/hadoop
+export JAVA_HOME=/opt/jdk/current
+
+# 스파크설치된 경우는 아래도 세팅
+#export SPARK_HOME=/opt/spark/current
+#export SPARK_CONF_DIR=/opt/spark/current/conf
+#export PYTHONPATH=/home/hadaoop/anaconda3/bin/python3
+#export PYSPARK_PYTHON=/home/hadoop/anaconda3/bin/python3
+
+
+[hadoop@dn01 ~]$ zeppelin.sh start  &  ( 백그라운드로 시작 )
+프로세스 확인 : ps -ef | grep zeppelin
+
+
+http://192.168.56.102:8082
+admin // admin
+
+----------------------------------------------
+하이브 서버 기동
+[hadoop@dn01 ~] hive --service hiveserver2 &
+
+메타 스토어 실행
+[hadoop@dn01 ~] hive --service metastore &
+
+---------------------------------------------
+ 제플린 interpreter에 hive jdbc library 복사
+
+[hadoop@dn01 ~] cp /opt/hive/current/jdbc/hive-jdbc-2.3.7-standalone.jar   /opt/zeppelin/current/interpreter/jdbc/
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@
+[ zeppelin 웹 화면에서 오른쪽 'admin' > 'Interpreter' 에서 'jdbc' 검색하여
+
+jdbc셋팅을 아래처럼 설정
+default driver = org.apache.hive.jdbc.HiveDriver
+default url = jdbc:hive2://192.168.56.102:10000
+default.user = hive
+default.password = hive
+----------------------------------------------
+
+[ 확인 ]
++ Create new note 에서 하나 생성할 때 jdbc 선택하여 생성하고
+
+show databases
+( 세미콜론 있으면 에러 발생 )
+

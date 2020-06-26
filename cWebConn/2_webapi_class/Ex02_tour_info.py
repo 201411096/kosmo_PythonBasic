@@ -20,6 +20,7 @@ import requests
 
 access_key = '발급받은 키 값'
 
+
 url = 'http://openapi.tour.go.kr/openapi/service/TourismResourceStatsService/getPchrgTrrsrtVisitorList'
 queryParams = '?_type=json'
 queryParams += '&serviceKey=' + access_key

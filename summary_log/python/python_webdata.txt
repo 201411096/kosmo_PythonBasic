@@ -13,3 +13,9 @@
 	ㄴ urllib
 		ㄴ from urllib import request
 			ㄴ request에 s가 붙어있지 않음
+	ㄴ bs4
+		ㄴ 설치 필요
+		ㄴ from bs4 import BeautifulSoup
+	ㄴ json
+		ㄴ import json
+----------------------------------------------------------------------------------------------------

@@ -25,8 +25,23 @@ html = """
 """
 
 # 1. 데이타 파서하기
-
+soup = BeautifulSoup(html, 'html.parser')
 # 2. 원하는 요소 접근하기
+h1 = soup.html.body.h1
+print(h1)
+print(h1.text)
+
+# p = soup.html.body.p
+# print(p)
+# print(p.text)
 
 # 3. 요소의 내용 추출하기
+#p = soup.findAll('p')
+#print(p.text) # 에러
+
+plist = soup.find_all('p')
+#plist = soup.findAll('p') #이것도 됨
+for p in plist:
+    print(p.text)
+
 

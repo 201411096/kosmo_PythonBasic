@@ -21,3 +21,14 @@ html = """
     </body></html>
 """
 
+soup = BeautifulSoup(html, 'html.parser')
+# (1) id값으로 찾기
+h1 = soup.select_one('#course > h1')    # 자식 중의 h1
+print(h1.text)
+h1 = soup.select('#course > h1')
+print(h1[0].text) #select_one을 안 쓸경우...
+# (2) class값으로 찾기
+lists = soup.select('.subs > li')
+for item in lists:
+    print(item.text)
+# (3)

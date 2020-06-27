@@ -1,4 +1,0 @@
-
-ÇÏµÓ safe mode off
-	¤¤ hdfs dfsadmin -safemode leave
-	¤¤ hdfs dfsadmin -safemode forceExit

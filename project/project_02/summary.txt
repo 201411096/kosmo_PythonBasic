@@ -1,14 +1,29 @@
 --------------------------------------------------------------------------------
 create database happy
 --------------------------------------------------------------------------------
-2019 structure
+2019_structure
 hrank
 country
 hscore
 gdp
 ssupport
-health
+healthy
 freedom
 generosity
 corruption (부패에 대한 인식)
 --------------------------------------------------------------------------------
+create database happy
+use happy
+--------------------------------------------------------------------------------
+create table happy2019(
+hrank Int,
+country string,
+hscore float,
+gdp float,
+ssupport float,
+healthy float,
+freedom float,
+generosity float,
+corruption float)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+STORED AS TEXTFILE;

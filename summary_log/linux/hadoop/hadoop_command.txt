@@ -13,6 +13,13 @@
 	ㄴ hive --service metastore &
 제플린 서버 가동
 	ㄴ zeppelin.sh start  &
+스파크 실행
+	ㄴ start-all.sh
+	ㄴ stop-all.sh
+	ㄴ hadoop start와 이름이 같음, 해당 경로로 이동 후 실행
+	ㄴ [hadoop@dn01 ~]$ cd /opt/spark/current/sbin
+	ㄴ [hadoop@dn01 sbin]$ ./start-all.sh
+		ㄴ ***** 현재디렉토리표시 점(.)으로 지정하고 명령어 호출
 ----------------------------------------------------------------------------------------------------
 hadoop web
 	ㄴ http://192.168.56.101:50070

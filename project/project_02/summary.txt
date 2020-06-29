@@ -1,6 +1,4 @@
---------------------------------------------------------------------------------
-create database happy
---------------------------------------------------------------------------------
+﻿--------------------------------------------------------------------------------
 2019_structure
 hrank
 country
@@ -27,3 +25,5 @@ generosity float,
 corruption float)
 ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
 STORED AS TEXTFILE;
+--------------------------------------------------------------------------------
+select avg(happy2019.gdp) from happy2019 group by floor(happy2019.hrank/10)

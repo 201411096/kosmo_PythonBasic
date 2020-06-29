@@ -27,3 +27,8 @@ ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
 STORED AS TEXTFILE;
 --------------------------------------------------------------------------------
 select avg(happy2019.gdp) from happy2019 group by floor(happy2019.hrank/10)
+select avg(happy2019.gdp) as gdp, avg(happy2019.ssupport) as ssup, avg(happy2019.healthy) as hea, avg(happy2019.freedom) as free, avg(happy2019.generosity) as geno, avg(happy2019.corruption) as corp, floor(happy2019.hrank/10) as hgroup from happy2019 group by floor(happy2019.hrank/10)
+	ㄴ 그룹별로 ..
+select avg(happy2019.gdp) as gdp, avg(happy2019.ssupport) as ssup, avg(happy2019.healthy) as hea, avg(happy2019.freedom) as free, avg(happy2019.generosity) as geno, avg(happy2019.corruption) as corp, floor(happy2019.hrank/10) as hgroup from happy2019 where floor(happy2019.hrank/10) = 0 group by floor(happy2019.hrank/10)
+	ㄴ 상위 10개 국가의 분포도
+--------------------------------------------------------------------------------

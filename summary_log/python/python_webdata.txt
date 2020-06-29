@@ -24,6 +24,11 @@
 			ㄴ string to json
 	ㄴ selenium
 		ㄴ from selenium import webdriver
+		ㄴ web application testing framework
+	ㄴ folium
+		ㄴ 터미널 창에서..
+			ㄴ pip install folium
+		ㄴ python 지도 모듈
 ----------------------------------------------------------------------------------------------------
 naverlogin
 

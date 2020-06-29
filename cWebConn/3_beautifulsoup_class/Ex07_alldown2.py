@@ -32,6 +32,9 @@ def download_file(url):
     try:
         print('download : ', url)
         request.urlretrieve(url, savepath)
+        # urlretrieve(args1, args2)
+        #       args1 : 다운로드 받을 위치
+        #       args2 : 다운로드 받은 후 파일 이름
         time.sleep(2)
         return savepath
     except:
@@ -40,16 +43,20 @@ def download_file(url):
 
 if __name__ == '__main__':
     url = 'https://docs.python.org/3.6/library/'
+    #url = 'https://search.naver.com/search.naver?sm=top_hty&fbm=0&ie=utf8&query=%E3%85%81%E3%84%B4%E3%85%87%E3%84%B9'
+    # 결과가 생각한 것처럼 안나옴
     result = download_file(url)
     print(result)
 
 
 """
 urlparse
-    ㄴ scheme 
-    ㄴ netloc 
-    ㄴ path 
-    ㄴ params 
-    ㄴ query 
-    ㄴ fragment 
+    ㄴ scheme://netloc/path;parameters?query#fragment
+    ㄴ scheme : URL 스킴 지정자
+    ㄴ netloc : 네트워크 위치 부분
+    ㄴ path : 계층적 경로
+    ㄴ params : 마지막 경로 요소의 파라미터
+    ㄴ query : 쿼리 구성 요소
+        ㄴ 쿼리스트링 부분
+    ㄴ fragment : 프래그먼트 식별자
 """

@@ -1,0 +1,90 @@
+﻿------------------------------------------------------------
+import pandas as pd
+
+df = pd.read_excel('data/2016-01.xls')
+df
+
+#앞에 10개 행 보기
+df.head(10)
+#뒤에 10개 행 보기
+df.tail(10)
+
+import heapq
+
+#판매건수에서 큰 값 순으로 10개 (nㅣgargest()이용)
+heapq.nlargest(10,df.판매건수)
+
+#판매건수에서 작은 값 순으로 10개 (nsmallest()이용)
+heapq.nsmallest(10,df.판매건수)
+
+#컬럼명들을 출력
+df.keys()
+
+#판매건수 데이타 출력
+df.판매건수.values
+
+#야채, 딸기, 봉투행을 추출하여 매출순으로 정렬하기 (sort_values()이용)
+df[(df['상품명']=='야채')|(df['상품명']=='딸기')|(df['상품명']=='봉투')].sort_values('매출',ascending=False)
+
+#바나나행부터 딸기행까지 추출
+df.loc[1:5]
+
+#야채부터 딸기행까지 추출
+df.loc[2:5]
+
+#1번째 행 레코드 출력
+df.loc[1]
+
+#'바나나' 행 레코드 출력
+df[df['상품명']=='바나나']
+
+#가격이 10000 초과 상품 출력
+df[df['가격']>10000]
+
+#가격이 10000에서 20000 사이 상품 출력
+df[(df['가격']>=10000)&(df['가격']<=20000)]
+
+#판매건수로 정렬
+df.sort_values('판매건수')
+
+#가격순으로 정렬하되 판매건수와 가격만 추출
+df[['판매건수','가격']].sort_values('가격',ascending=False)
+------------------------------------------------------------
+DataFrame_연습2
+
+import pandas as pd
+
+df = pd.read_excel('http://qrc.depaul.edu/excel_files/presidents.xlsx')
+df
+
+1.열단위 추출
+
+'President','Age at inauguration' 컬럼명 추출
+
+df.columns[[0,3]]
+
+2.행단위 추출
+
+조지워싱턴 / 링컨/ 오마바 대통령 정보만 출력
+
+loc[] : 명칭 기반 인덱싱
+iloc[] : 위치 기반 인덱싱
+
+현재 인덱스가 글자로 지정되지 않았기에 loc[]/iloc[] 모두 가능
+(1) loc
+df.loc[[0,13,34]]
+
+(2) iloc
+df.iloc[[0,13,34]]
+
+3.마지막행의 데이타 추출
+df.iloc[-1]
+
+4.초대 대통령 10명의 이름과 대학을 추출
+
+행열 모두 지정하여 추출
+
+하지만 컬럼명을 기술하는 것을 권장
+
+print(df.loc[:9][['President','College']])
+#print(df.head(10)[['President','College']])

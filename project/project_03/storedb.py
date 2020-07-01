@@ -29,7 +29,8 @@ def select_data():
     conn.close()
     return datas
 
-def selectOne_data(name):
+def selectOne_data():
+    name = str(input("이름 입력"))
     conn = oci.connect("scott/tiger@192.168.56.1:1521/xe")
     #conn = oci.connect("scott/tiger@192.168.0.18:1521/orcl")
     cursor = conn.cursor()
@@ -41,7 +42,7 @@ def selectOne_data(name):
     cursor.close()
     conn.commit()
     conn.close()
-    return data
+    return data[0][1]
 
 
 def get_key():
@@ -67,7 +68,6 @@ def kakao_conversion(addr):
         }
     )
     result = requests.get("https://dapi.kakao.com/v2/local/search/address.json", headers=headers, params=p)
-    print(type(result))
     return result.json()
     # .json()
     # Returns the json-encoded content of a response

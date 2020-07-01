@@ -43,17 +43,21 @@ def selectOne_data(name):
     conn.close()
     return data
 
-# def conversion(addr):
-#     url = 'https://dapi.kakao.com/v2/local/search/address.json?query='+addr
-#     headers = {"Authorization": "ec8f6fd46ab832e10395eecfabaa2c5a"}
-#     result = json.loads(str(requests.get(url,headers=headers).text))
-#     match_first = result['documents'][0]['address']
-#     return float(match_first['y']), float(match_first['x'])
+
+def get_key():
+    with open('properties.txt') as f:
+        key =str(f.readline())
+    return key
 
 def conversion(addr):
+    value = kakao_conversion(addr)
+    print('conversion 확인', value)
+    return value['documents'][0]['address']
+
+def kakao_conversion(addr):
     headers = {
         'Content-Type': 'application/json; charset=utf-8',
-        'Authorization': 'KakaoAK {}'.format("ec8f6fd46ab832e10395eecfabaa2c5a")
+        'Authorization': 'KakaoAK {}'.format(get_key())
     }
     address = addr.encode("utf-8")
 
@@ -68,3 +72,14 @@ def conversion(addr):
     # .json()
     # Returns the json-encoded content of a response
     # response를 json의 형태로 반환
+
+
+
+
+# 잘 안됨
+# def conversion(addr):
+#     url = 'https://dapi.kakao.com/v2/local/search/address.json?query='+addr
+#     headers = {"Authorization": get_key()}
+#     result = json.loads(str(requests.get(url,headers=headers).text))
+#     match_first = result['documents'][0]['address']
+#     return float(match_first['y']), float(match_first['x'])

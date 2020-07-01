@@ -1,0 +1,14 @@
+﻿0701_수요일
+
+[복습]
+	ㄴ 크롤링 : BeautifulSoup
+	ㄴ 지도 : folium
+	ㄴ 선형대수/행렬 : numpy
+		ㄴ pandas도 numpy기반?.
+	ㄴ 데이터 정제 : pandas
+	ㄴ 시각화 : matplotlib / seaborn
+
+[수업]
+	ㄴ pandas Series / DataFrame
+		ㄴ apply : 각각의 요소를 함수에 적용하는 함수?
+		ㄴ groupby : SQL의 group by와 비슷하지만 성능 저하

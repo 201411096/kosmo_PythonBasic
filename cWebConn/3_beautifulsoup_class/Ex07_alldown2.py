@@ -35,6 +35,7 @@ def download_file(url):
         # urlretrieve(args1, args2)
         #       args1 : 다운로드 받을 위치
         #       args2 : 다운로드 받은 후 파일 이름
+        # retrieve : 검색하다 되찾아오다
         time.sleep(2)
         return savepath
     except:

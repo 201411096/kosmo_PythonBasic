@@ -9,6 +9,8 @@ from urllib import request
 
 # 페이지에 연결되어 있는 링크들을 전부 절대경로의 형태로 return 해줌
 def enum_links(html, base):
+    # html : html 구조화된 텍스트가 들어있음
+    # base : url이 들어있음
     #-------------------------------------
     result = []
     soup = BeautifulSoup(html, 'html.parser')

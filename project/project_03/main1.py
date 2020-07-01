@@ -21,6 +21,7 @@ storeAddrList = []
 for store in storelist:
     name = store.select('.loc_tit')[0].text
     addr = store.select('.loc_lo')[0].text
+
     storeNameList.append(name)
     storeAddrList.append(addr)
 storedb.insert_data(storeNameList, storeAddrList)

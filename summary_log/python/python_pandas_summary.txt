@@ -12,6 +12,28 @@ mydata = {
 df = pd.DataFrame(mydata) # mydata를 dataframe으로 생성..
 df # dataframe확인
 ------------------------------------------------------------
+Series 구조
+
+import pandas as pd
+
+# 시리즈 예시_01
+age_in = pd.Series([22,33,44,25,28])
+print(age_in)
+
+# 시리즈 예시_02
+age_in = pd.Series([22,33,44,25,28], index=['가', '나', '다', '라', '마'])
+print(age_in)
+
+# 딕셔러리를 시리즈 형태로 변환
+info_series = pd.Series(info_list)
+print(info_series)
+------------------------------------------------------------
+Series
+	ㄴ DataFrame의 한 컬럼 데이터세트
+	ㄴ Series 역시 DataFrame의 인덱스와 동일한 인덱스를 가짐
+	ㄴ Series는 컬럼이 하나인 데이터 구조체, DataFrame은 컬럼이 여러개인 데이터 구조체
+	ㄴ Series의 인덱스는 일반적으로 생각하는 key-value와 개념이 다름(key가 아님 -> 중복 가능)
+------------------------------------------------------------
 DataFrame 추출
 	ㄴ 열(컬럼) 추출
 		ㄴ df.컬럼명
@@ -38,6 +60,52 @@ DataFrame 함수들
 	ㄴ .set_index(컬럼명, inplace=True)
 		ㄴ inplace 속성 : 원본에 적용
 			ㄴ df = df.set_index() 한 것과 같은 결과가 나옴 (inplace=True로 할 경우)
-	ㄴ .sort_index() 
+	ㄴ sort_values()
+		ㄴ ascending 속성
+			ㄴ 1 : 오름차순 (Default) 
+			ㄴ 0 : 내림차순
 	ㄴ .describe()
-		ㄴ 기본통계량 구하기
+		ㄴ 기본통계량 구하기 (총개수, 평균, 표준편차, 최소값, 4분위수)
+			ㄴ mean : 평균값
+			ㄴ std : 표준편차
+	ㄴ .T
+		ㄴ transpose : 행렬이 바뀜
+	ㄴ .shape
+		ㄴ 행과 열의 수
+	ㄴ .dtypes
+		ㄴ 각 컬럼들의 데이터타입
+	ㄴ .columns
+		ㄴ print 시에 컬럼명을 확인할 수 잇음
+		ㄴ 컬럼명을 변경할 수 있음
+			ㄴ df.columns = ['' ,,, '']
+	ㄴ .plot
+		ㄴ 데이터를 시각화
+		ㄴ 옵션
+			ㄴ .plot(kind=옵션)
+				ㄴ pie
+				ㄴ hist
+				ㄴ bar
+				ㄴ ...
+	ㄴ .head(숫자)
+		ㄴ 앞에서부터 숫자개수만큼의 행 보기 <default : 5>
+	ㄴ .tail(숫자)
+		ㄴ 뒤에서부터 숫자개수만큼의 행 보기 <default : 5>		
+	ㄴ .nlargest(매개변수1, 매개변수2)
+		ㄴ 매개변수2에 해당하는 컬럼을 큰 순서대로 매개변수1에 해당하는 개수만큼 가져옴
+	ㄴ .nsmallest(매개변수1, 매개변수2)
+		ㄴ 매개변수2에 해당하는 컬럼을 작은 순서대로 매개변수1에 해당하는 개수만큼 가져옴
+------------------------------------------------------------
+통계함수
+	ㄴ count()
+	ㄴ sum() : 합계
+	ㄴ mean() : 평균
+	ㄴ std() : standard deviation(표준편차)
+	ㄴ var() : variance(분산)
+	ㄴ min()
+	ㄴ max()
+	ㄴ cumsum() : 누적합
+		ㄴ axis 옵션
+			ㄴ 0 : 같은 column끼리..
+			ㄴ 1 : 같은 row끼리..
+	ㄴ cumprod() : 누적곱
+	ㄴ .value_counts() : 컬럼 개수를 셈

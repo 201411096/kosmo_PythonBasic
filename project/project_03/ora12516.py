@@ -6,6 +6,7 @@ import cx_Oracle as oci
 
 def insert_data(name, addr):
     conn = oci.connect("scott/tiger@192.168.0.18:1521/orcl")
+    #conn = oci.connect("scott/tiger@192.168.56.1:1521/orcl")
     cursor = conn.cursor()
     sql = """
         INSERT INTO STORE(NAME, ADDR)

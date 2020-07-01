@@ -24,7 +24,7 @@ driver.implicitly_wait(3)
 for i in range(1, 10):
     # 페이지 접근
     driver.get('http://www.goobne.co.kr/store/search_store.jsp')
-    driver.execute_script('store.getList({0})'.format(i))
+    driver.execute_script('store.getList({0})'.format(i)) # 홈페이지에서 페이지 버튼을 누를경우 실행되는 스크립트
     
     time.sleep(5)
     html = driver.page_source

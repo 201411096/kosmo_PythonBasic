@@ -1,0 +1,43 @@
+﻿------------------------------------------------------------
+패키지
+	ㄴ import pandas as pd
+------------------------------------------------------------
+dataframe 구조
+
+mydata = {
+          'name':['홍길동','박길동','김길동'], 
+          'age':[22,33,44], 
+          'dept':['컴공','국어','산업']
+         }
+df = pd.DataFrame(mydata) # mydata를 dataframe으로 생성..
+df # dataframe확인
+------------------------------------------------------------
+DataFrame 추출
+	ㄴ 열(컬럼) 추출
+		ㄴ df.컬럼명
+		ㄴ df['컬럼명']
+	ㄴ 행 추출
+		ㄴ df.loc[]
+			ㄴ 인덱스(순서)와 명칭으로 추출
+			ㄴ label을 통해 값을 찾음
+		ㄴ df.iloc[]
+			ㄴ 인덱스(순서)로 추출
+			ㄴ integer position을 통해 값을 찾음
+	ㄴ 행과 열 추출?..
+		ㄴ df2.loc['이']['name']
+	ㄴ 값 추출
+		ㄴ df.values
+	ㄴ 컬럼 추출
+		ㄴ df.columns
+	ㄴ 인덱스 추출
+		ㄴ df.index
+	ㄴ 키 추출(?)
+		ㄴ df.keys
+------------------------------------------------------------
+DataFrame 함수들
+	ㄴ .set_index(컬럼명, inplace=True)
+		ㄴ inplace 속성 : 원본에 적용
+			ㄴ df = df.set_index() 한 것과 같은 결과가 나옴 (inplace=True로 할 경우)
+	ㄴ .sort_index() 
+	ㄴ .describe()
+		ㄴ 기본통계량 구하기

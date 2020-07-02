@@ -1,13 +1,14 @@
 import storedb
 import folium
 from selenium import webdriver
+## 매점 이름 하나를 입력 받아서 마커를 찍음 
 
 addr = storedb.selectOne_data()
 
 data = storedb.conversion(addr)
 print(data['x'], data['y'])
 
-# 방법 1
+# 방법 1 -> 마커가 찍히지 않음
 #driver = webdriver.Chrome('./webdriver/chromedriver')
 #driver.implicitly_wait(3)
 

@@ -2,9 +2,11 @@ import cx_Oracle as oci
 import json
 import requests
 import urllib
+#connContent = "scott/tiger@192.168.56.1:1521/xe"
+connContent = "scott/tiger@192.168.0.18:1521/orcl"
+
 def insert_data(name, addr):
-    conn = oci.connect("scott/tiger@192.168.56.1:1521/xe")
-    #conn = oci.connect("scott/tiger@192.168.0.18:1521/orcl")
+    conn = oci.connect(connContent)
     cursor = conn.cursor()
     sql = """
         INSERT INTO STORE(NAME, ADDR)
@@ -16,8 +18,7 @@ def insert_data(name, addr):
     conn.commit()
     conn.close()
 def select_data():
-    conn = oci.connect("scott/tiger@192.168.56.1:1521/xe")
-    #conn = oci.connect("scott/tiger@192.168.0.18:1521/orcl")
+    conn = oci.connect(connContent)
     cursor = conn.cursor()
     sql = """
             select * from store
@@ -31,8 +32,7 @@ def select_data():
 
 def selectOne_data():
     name = str(input("이름 입력"))
-    conn = oci.connect("scott/tiger@192.168.56.1:1521/xe")
-    #conn = oci.connect("scott/tiger@192.168.0.18:1521/orcl")
+    conn = oci.connect(connContent)
     cursor = conn.cursor()
     sql = """
             select * from store where name = :name
@@ -46,7 +46,7 @@ def selectOne_data():
 
 
 def get_key():
-    with open('properties.txt') as f:
+    with open('documents/properties.txt') as f:
         key =str(f.readline())
     return key
 

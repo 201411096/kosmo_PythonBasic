@@ -52,8 +52,11 @@ def get_key():
 
 def conversion(addr):
     value = kakao_conversion(addr)
-    print('conversion 확인', value)
-    return value['documents'][0]['address']
+#    print('conversion 확인', value)
+    if len(value['documents'])>=1:
+        return value['documents'][0]['address']
+    else:
+        return None
 
 def kakao_conversion(addr):
     headers = {

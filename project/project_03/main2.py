@@ -2,9 +2,6 @@ import storedb
 import folium
 from selenium import webdriver
 
-# name = str(input("이름 입력"))
-# addr = storedb.selectOne_data(name)
-
 addr = storedb.selectOne_data()
 
 data = storedb.conversion(addr)

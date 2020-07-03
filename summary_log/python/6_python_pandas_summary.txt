@@ -55,6 +55,9 @@ DataFrame 추출
 		ㄴ df.index
 	ㄴ 키 추출(?)
 		ㄴ df.keys
+	ㄴ boolean indexing
+		ㄴ 사용예시
+			ㄴ df[df['age']>=30] # 30세 이상의 레코드 검색
 ------------------------------------------------------------
 DataFrame 함수들
 	ㄴ .set_index(컬럼명, inplace=True)
@@ -78,6 +81,8 @@ DataFrame 함수들
 		ㄴ print 시에 컬럼명을 확인할 수 잇음
 		ㄴ 컬럼명을 변경할 수 있음
 			ㄴ df.columns = ['' ,,, '']
+	ㄴ .reindex
+		ㄴ 인덱스 변경
 	ㄴ .plot
 		ㄴ 데이터를 시각화
 		ㄴ 옵션
@@ -109,3 +114,68 @@ DataFrame 함수들
 			ㄴ 1 : 같은 row끼리..
 	ㄴ cumprod() : 누적곱
 	ㄴ .value_counts() : 컬럼 개수를 셈
+------------------------------------------------------------
+데이터 정제
+	ㄴ pd.concat()
+		ㄴ 데이터프레임을 합침
+		ㄴ dataframe 구조가 일치하는 경우에 사용(-> 일치하지 않는 부분은 결측치로 다 채워짐)
+		ㄴ 사용방법
+			ㄴ pd.concat([데이터프레임 리스트]) # 여러개의 dataframe을 합칠 수 있음
+		ㄴ 사용예시
+			ㄴ pd.concat([201701, 201702])
+				ㄴ 201701, 201702 둘 다 구조가 같지만 내용이 다른 dataframe
+	ㄴ pd.merge()
+		ㄴ 데이터프레임을 합침(sql의 조인처럼)
+		ㄴ 매개변수
+			ㄴ left_on
+			ㄴ right_on
+			ㄴ how
+				ㄴ inner join(default), outer join
+		ㄴ 사용방법_1
+			ㄴ pd.merge(df1, df2, left_on=df1.columnname, right_on=df2.columnname)
+		ㄴ 사용예시_1
+			ㄴ pd.merge(site, visited, left_on='name', right_on='site')
+		ㄴ 사용방법_2
+			ㄴ df1.merge(df2, left_on=df1.columnname, right_on=df2.columnname)
+		ㄴ 사용예시_2
+			ㄴ site.merge(visited, left_on='name', right_on='site')
+		ㄴ outer join 사용예시_01
+			ㄴ pd.merge(person, survey, how='outer', left_on='ident', right_on='person')
+		ㄴ outer join 사용예시_02
+			ㄴ person.merge(survey, how='outer', left_on='ident', right_on='person')
+------------------------------------------------------------
+누락값 : NaN (nan, NaN, NAN)
+	ㄴ 누락값이 생기는 이유
+		ㄴ 데이터 자체적으로 존재
+		ㄴ 데이터 연결하면서
+		ㄴ 데이터 입력시
+		ㄴ 데이터 추출하여 연산할 때
+	ㄴ 누락값 확인하기
+		ㄴ 누락값 인지 확인
+			ㄴ df.isnull()
+			ㄴ df.notnull()
+		ㄴ 누락값 행수 확인
+			ㄴ df.shape[0] - df.count() # ~.shape를 할 경우 dataframe의 행렬을 가져옴 -> shape[0]은 튜플의 첫번째인 행을 의미
+		ㄴ 누락값 수 확인
+			ㄴ numpy lib - count_nonzero() 이용
+			ㄴ 사용예시
+				ㄴ np.count_nonzero(ebola.isnull())
+	ㄴ 누락값 처리하기
+		ㄴ dropna()
+			ㄴ 누락값 삭제하기
+		ㄴ fillna()
+			ㄴ 누락값을 다른 값으로 대치하기
+	ㄴ 데이터가 많은 경우 NaN을 확인하는 방법
+		ㄴ pip install missingno
+		ㄴ 사용예시
+			import missingno as msno
+			df = pd.DataFrame(np.random.rand(100, 100))
+			df = df[df>0.3] # 0.3보다 큰 데이터들을 다시 넣음(0.3보다 작은 값들은 결측치가 됨)
+			msno.matrix(df)
+------------------------------------------------------------
+datetime 라이브러리
+	ㄴ dataframe에서 문자열 처리를 위해 str 접근자를 사용하듯이.. datetime 오브젝트는 dt접근자를 사용해야 datetime 속성이나 메소드를 사용가능
+	ㄴ 사용예시_01 (string 형태의 데이터를를 datetime object 형태의 데이터로 변경)
+		ㄴ ebola['date_dt'] = pd.to_datetime(ebola['Date'])
+	ㄴ 사용예시_02 (파일을 읽는 순간에 변환
+		ㄴ banks = pd.read_csv('./data/banklist.csv', parse_dates=['Closing Date', 'Updated Date'])

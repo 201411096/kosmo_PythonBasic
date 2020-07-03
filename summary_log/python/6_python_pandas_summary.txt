@@ -157,7 +157,10 @@ DataFrame 함수들
 			ㄴ df.isnull()
 			ㄴ df.notnull()
 		ㄴ 누락값 행수 확인
-			ㄴ df.shape[0] - df.count() # ~.shape를 할 경우 dataframe의 행렬을 가져옴 -> shape[0]은 튜플의 첫번째인 행을 의미
+			ㄴ df.shape[0] - df.count() 
+			ㄴ # ~.shape를 할 경우 dataframe의 행렬을 가져옴 -> shape[0]은 튜플의 첫번째인 행을 의미
+			ㄴ df.count() 는 각 열에서 null이 아닌 요소들의 개수를 셈
+				ㄴ 결과 : 각 컬럼별 null인 요소들의 개수가 반환됨
 		ㄴ 누락값 수 확인
 			ㄴ numpy lib - count_nonzero() 이용
 			ㄴ 사용예시

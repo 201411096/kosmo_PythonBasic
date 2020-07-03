@@ -2,21 +2,24 @@ import cx_Oracle as oci
 import json
 import requests
 import urllib
-#connContent = "scott/tiger@192.168.56.1:1521/xe"
-connContent = "scott/tiger@192.168.0.18:1521/orcl"
+connContent = "scott/tiger@192.168.56.1:1521/xe"
+#connContent = "scott/tiger@192.168.0.18:1521/orcl"
 
 def insert_data(name, addr):
+    # name : db에 담을 지점 이름들이 담긴 리스트
+    # addr : db에 담을 지점 주소들이 담긴 리스트
     conn = oci.connect(connContent)
     cursor = conn.cursor()
     sql = """
         INSERT INTO STORE(NAME, ADDR)
         VALUES(:name, :addr)
     """
-    for i in range(len(name)):
+    for i in range(len(name)): # name 리스트의 길이만큼 반복하여 db에 저장
         cursor.execute(sql, (name[i], addr[i]))
     cursor.close()
     conn.commit()
     conn.close()
+
 def select_data():
     conn = oci.connect(connContent)
     cursor = conn.cursor()

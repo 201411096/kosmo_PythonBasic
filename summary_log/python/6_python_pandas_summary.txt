@@ -75,6 +75,8 @@ DataFrame 함수들
 		ㄴ transpose : 행렬이 바뀜
 	ㄴ .shape
 		ㄴ 행과 열의 수
+		ㄴ 행 개수 세기 : .shape[0]
+		ㄴ 열 개수 세기 : .shape[1]
 	ㄴ .dtypes
 		ㄴ 각 컬럼들의 데이터타입
 	ㄴ .columns

@@ -63,6 +63,10 @@ package - requests
 				ㄴ response = requests.post(url, auth=("id", "pass"))
 		ㄴ 그 밖의 옵션들
 			ㄴ headers, cookies, timeout ...
+	ㄴ urllib.request.Request()
+		ㄴ 사용예시
+			ㄴ request.Request(url)
+		ㄴ Request객체 생성
 ----------------------------------------------------------------------------------------------------
 package - urllib
 	ㄴ 일반적인 import 방식
@@ -89,10 +93,22 @@ package - urllib
 			downImg = site.read()
 			with open(imgName, 'wb') as f:
 			    f.write(downImg)
+	ㄴ urlparse
+		ㄴ url을 분석하는 함수
+			ㄴ scheme
+			ㄴ netloc
+			ㄴ path
+			ㄴ params
+			ㄴ query
+			ㄴ fragment
 	ㄴ urljoin
 		ㄴ import 방식?
 			ㄴ from urllib.parse import urljoin # 함수를 하나만 가져오는 경우//
 		ㄴ 상대경로를 절대경로로 변환하는 함수
+		ㄴ 사용방법
+			ㄴ url = parse.urljoin(base, url)
+				ㄴ base가 기본이 되는 url
+				ㄴ url이 상대 경로(혹은 절대 경로)
 		ㄴ 사용예시
 			print(urljoin(baseurl, 'b.html'))
 			print(urljoin(baseurl, 'sub/c.html'))
@@ -100,6 +116,27 @@ package - urllib
 			print(urljoin(baseurl, '../sub/c.html')) #부모로 올라가서..
 			print(urljoin(baseurl, 'http://www.daum.net')) #아예 통째로 변경됨
 		
+----------------------------------------------------------------------------------------------------
+package - bs4
+	ㄴ 일반적인 import 방식
+		ㄴ from bs4 import BeautifulSoup
+	ㄴ BeautifulSoup()
+		ㄴ 사용예시
+			ㄴ soup = BeautifulSoup(html, 'html.parser')
+			ㄴ soup.html.body.h1
+	ㄴ find_all()
+		ㄴ 사용예시
+			ㄴ soup.find_all('a')
+		ㄴ 일반적으로 select() 메소드를 더 많이 사용하는듯
+	ㄴ .attrs[]
+		ㄴ 사용예시
+			ㄴ links.attrs['href'] # 태그의 속성값을 가져옴
+	ㄴ select, select_one
+		ㄴ 사용예시
+			ㄴ soup.select_one('#course > h1')
+			ㄴ h1 = soup.select('#course > h1')
+				ㄴ 한개의 요소를 찾아올때도 list 형태로 반환을 해줌
+
 ----------------------------------------------------------------------------------------------------
 naverlogin
 

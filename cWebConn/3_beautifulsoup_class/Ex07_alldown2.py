@@ -18,7 +18,7 @@ def download_file(url):
         savepath += 'index.html'
         print('3-', savepath)
     
-    # 로컬 폴더에 파일이 존재하는지
+    # 로컬 폴더에 파일이 존재하는지 -> 존재한다면 파일을 생성하지 않고 경로만 return
     if os.path.exists(savepath): return savepath
     
     # 다운받을 폴더가 없으면 생성

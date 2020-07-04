@@ -8,8 +8,9 @@ from urllib import parse
 from urllib import request
 
 # 페이지에 연결되어 있는 링크들을 전부 절대경로의 형태로 return 해줌
+# base(url)에 포함되어 있는 링크들을 return 하는 함수
 def enum_links(html, base):
-    # html : html 구조화된 텍스트가 들어있음
+    # html : html 구조화된 텍스트가 들어있음 ( url(base)의 페이지 소스 )
     # base : url이 들어있음
     #-------------------------------------
     result = []
@@ -20,7 +21,7 @@ def enum_links(html, base):
     for a in links:
         href = a.attrs['href']      # 상대경로와 절대경로가 섞여있음
         # print(href)
-        url = parse.urljoin(base, href)
+        url = parse.urljoin(base, href) # url을 절대경로로 변환해줌
         result.append(url)
         # index.html -> https://docs.python.org/3.7/library/index.html
         # ../start.html -> https://docs.python.org/3.7/start.html

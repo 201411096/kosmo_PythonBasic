@@ -34,13 +34,14 @@ def analyze_html(url, root_url):
     html = f.read()
     links = Ex07_alldown1.enum_links(html, url)
     for link_url in links:
-        if link_url.find(root_url) != 0: continue   # 찾으면 맨 첫번째값을 반환하기 때문에...?
-        if re.search('.html$', link_url):
-            analyze_html(link_url, root_url)    #재귀함수
+        if link_url.find(root_url) != 0:    # 링크가 루트 이외의 경로를 나타내고 있다면 무시
+            continue   # 루트 경로를 찾는다면 맨 첫번째값(0)을 반환하기 때문에...?
+        if re.search('.html$', link_url):   # 링크의 url이 .html로 끝나면... 해당 링크도 탐색
+            analyze_html(link_url, root_url)    # 재귀함수
             continue
         Ex07_alldown2.download_file(link_url)
 
-if __name__ == "__main__":
+if __name__ == "__main__" :
     # URL에 있는 모든 것 다운받기
     url = "https://docs.python.org/3.5/library/"
     analyze_html(url, url)

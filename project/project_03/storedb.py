@@ -49,13 +49,12 @@ def selectOne_data():
 
 
 def get_key():
-    with open('documents/properties.txt') as f:
+    with open('./properties.txt') as f:
         key =str(f.readline())
     return key
 
 def conversion(addr):
     value = kakao_conversion(addr)
-#    print('conversion 확인', value)
     if len(value['documents'])>=1:
         return value['documents'][0]['address']
     else:

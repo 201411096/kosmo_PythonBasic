@@ -20,19 +20,6 @@ def insert_data(name, addr):
     conn.commit()
     conn.close()
 
-def select_data():
-    conn = oci.connect(connContent)
-    cursor = conn.cursor()
-    sql = """
-            select * from store
-        """
-    cursor.execute(sql)
-    datas = cursor.fetchall()
-    cursor.close()
-    conn.commit()
-    conn.close()
-    return datas
-
 def selectOne_data():
     name = str(input("이름 입력"))
     conn = oci.connect(connContent)
@@ -47,26 +34,33 @@ def selectOne_data():
     conn.close()
     return data[0][1]
 
+# db에 저장되어 있는 지정들의 이름과 주소 정보를 읽어 옴
+def select_data():
+    conn = oci.connect(connContent)
+    cursor = conn.cursor()
+    sql = """
+            select * from store
+        """
+    cursor.execute(sql)
+    datas = cursor.fetchall()
+    cursor.close()
+    conn.commit()
+    conn.close()
+    return datas # (지점 이름, 지점 주소)을 담을 튜플들을 담을 리스트 형태로 반환
 
+# 텍스트파일에 저장되어있는 apikey를 읽어와서 반환
 def get_key():
     with open('./properties.txt') as f:
         key =str(f.readline())
     return key
 
-def conversion(addr):
-    value = kakao_conversion(addr)
-    if len(value['documents'])>=1:
-        return value['documents'][0]['address']
-    else:
-        return None
-
+# 주소를 받아서 위도, 경도를 포함한 해당 주소에 대한 정보를 받아옴(Kakao API 이용)
 def kakao_conversion(addr):
     headers = {
         'Content-Type': 'application/json; charset=utf-8',
         'Authorization': 'KakaoAK {}'.format(get_key())
     }
     address = addr.encode("utf-8")
-
     p = urllib.parse.urlencode(
         {
             'query': address
@@ -77,6 +71,14 @@ def kakao_conversion(addr):
     # .json()
     # Returns the json-encoded content of a response
     # response를 json의 형태로 반환
+# Kakao API에서 뽑아온 정보들 중에서 필요한 데이터 추출(주소의 위도, 경도)
+def conversion(addr):
+    value = kakao_conversion(addr)
+    if len(value['documents']) >= 1:    # 해당 주소에 대한 정보가 있는 경우에만 추출
+        return value['documents'][0]['address']
+    else:
+        return None
+
 
 
 

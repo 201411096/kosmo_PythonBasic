@@ -101,6 +101,9 @@ DataFrame 함수들
 		ㄴ 매개변수2에 해당하는 컬럼을 큰 순서대로 매개변수1에 해당하는 개수만큼 가져옴
 	ㄴ .nsmallest(매개변수1, 매개변수2)
 		ㄴ 매개변수2에 해당하는 컬럼을 작은 순서대로 매개변수1에 해당하는 개수만큼 가져옴
+	ㄴ .add( , fill_value=)
+		ㄴ 사용예시
+			ㄴ df2.add(df3, fill_value = 0) # 비어있는 부분은 0으로 채워서 계산해줌
 ------------------------------------------------------------
 통계함수
 	ㄴ count()
@@ -116,6 +119,22 @@ DataFrame 함수들
 			ㄴ 1 : 같은 row끼리..
 	ㄴ cumprod() : 누적곱
 	ㄴ .value_counts() : 컬럼 개수를 셈
+------------------------------------------------------------
+apply 함수
+	ㄴ 사용예시_01
+		import pandas as pd
+		df = pd.DataFrame( {'a':[10,20,30], 'b':[2, 4, 6]})
+		df
+		def func(score):
+		    grade = ''
+		    if( score <= 10) : grade='C'
+		    elif(score <= 20) : grade='B'
+		    elif(score <= 30) : grade='A'
+		    return grade
+		# 1.
+		df['a'].apply(func)
+		# 2.
+		df['a'].apply(lambda x:func(x))
 ------------------------------------------------------------
 데이터 정제
 	ㄴ pd.concat()

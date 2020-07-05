@@ -136,6 +136,58 @@ package - bs4
 			ㄴ soup.select_one('#course > h1')
 			ㄴ h1 = soup.select('#course > h1')
 				ㄴ 한개의 요소를 찾아올때도 list 형태로 반환을 해줌
+----------------------------------------------------------------------------------------------------
+package - selenium
+	ㄴ 메소드 종류
+		ㄴ find_element_by_name(‘HTML_name’)
+		ㄴ find_element_by_id(‘HTML_id’)
+		ㄴ find_element_by_css_selector(‘#css > div.selector’)
+		ㄴ find_element_by_class_name(‘some_class_name’)
+		ㄴ find_element_by_tag_name(‘h1’)
+		ㄴ find_element_by_xpath(‘/html/body/some/xpath’) : xpath 지정하여 해당 요소 추출
+		ㄴ find_element_by_link_text(‘text’) : 링크 텍스트로 요소 추출
+		ㄴ find_elemens_by_css_selector(‘#css > div.selector’)
+		ㄴ find_elements_by_class_name(‘some_class_name’)
+		ㄴ find_elements_by_tag_name(‘h1’)
+		ㄴ clear()             : 글자를 지움
+		ㄴ click()             : 클릭
+		ㄴ get_attribute(name) : 요소의 속성 name에 해당하는 값을 추출
+		ㄴ is_displayed()      : 요소가 화면에 출력되는지 확인
+		ㄴ is_enabled()
+		ㄴ is_selected()
+		ㄴ save_screenshot(filename)
+			ㄴ 사용예시
+				ㄴ driver.save_screenshot('Website.png')
+		ㄴ send_keys()
+			ㄴ textfield, passwordfiled에 해당 str입력
+		ㄴ submit()
+		ㄴ execute_script()
+	ㄴ webdriver 객체 생성
+		ㄴ driver = webdriver.Chrome('./webdriver/chromedriver.exe')
+		ㄴ driver.implicitly_wait(2) #2초 쉼 (드라이버가 접속할 시간을 주기 위해서)
+	ㄴ 페이지 접근
+		ㄴ driver.get(url)
+			ㄴ 사용예시
+				ㄴ driver.get('http://www.google.com')
+----------------------------------------------------------------------------------------------------
+package - folium
+	ㄴ import folium
+	ㄴ folium.Map(location= , zoom_start=)
+		ㄴ folium을 이용한 지도 생성
+		ㄴ 사용예시
+			ㄴ map_osm = folium.Map(location=[37.572463, 126.975611], zoom_start=17)
+	ㄴ folium.Marker(location=, popup=, icon=,).add_to(지도 변수이름)
+		ㄴ folium 마커 생성 후 지도에 마커 표시
+		ㄴ 사용예시
+			ㄴ folium.Marker(location=[37.572463, 126.975611], popup="세종문화회관", icon=folium.Icon(color="red", icon="info-sign")).add_to(map_osm)
+	ㄴ folium.CircleMarker()
+		ㄴ folium 원형 모양 마커 생성
+		ㄴ 사용예시
+			ㄴ folium.CircleMarker(location=[37.572463, 126.975611], popup="광화문역", radius=100, color="red", fill_color="#AAAA33").add_to(map_osm)
+	ㄴ .save(디렉토리위치)
+		ㄴ folium 지도를 저장
+			ㄴ 사용예시
+				ㄴ map_osm.save("./map/map4.html")
 
 ----------------------------------------------------------------------------------------------------
 naverlogin

@@ -1,1 +1,135 @@
-﻿
+﻿------------------------------------------------------------
+matplotlib
+------------------------------------------------------------
+matplotlib
+	ㄴ import matplotlib.pyplot as plt
+------------------------------------------------------------
+한글처리
+	ㄴ 방법1
+		import matplotlib.pyplot as plt
+		from matplotlib import font_manager, rc  # rc : resource
+
+		# 추가설정 - 폰트를 변경하면 -표시가 ㅁ으로 변경되기에 '-'를 변경하지 않도록 지정
+		plt.rcParams['axes.unicode_minus']=False 
+
+		fong_loc = "c:/Windows/Fonts/malgun.ttf" # 글꼴 경로
+		font_name = font_manager.FontProperties(fname=fong_loc).get_name()
+		# print(font_name) # 폰트매니저를 통해 인식하고 있는 글꼴 이름을 가져온다
+		rc('font', family=font_name) # 리소스에 글꼴을 등록
+	ㄴ 방법2
+		# 간단한 한글등록
+		import matplotlib.pyplot as plt
+		from matplotlib import font_manager, rc
+
+		plt.rcParams['axes.unicode_minus']=False  # 추가설정 : 폰트를 변경하면 -표시가 ㅁ으로 변경되기에 '-'를 변경하지 않도록 지정
+		rc('font', family='Malgun Gothic') #맑은 고딕
+	ㄴ 폰트 종류 확인 방법
+		from matplotlib import font_manager
+		font_manager.fontManager.ttflist
+------------------------------------------------------------
+많이 사용하는 그래프의 종류
+	ㄴ pandas 제공 - Series, DataFrame
+	ㄴ matplotlib.pyplot 라이브러리
+	ㄴ seaborn 라이브러리
+------------------------------------------------------------
+pandas 제공 그래프
+	ㄴ 함수 종류
+		ㄴ .plot()
+		ㄴ .set_xlabel()
+		ㄴ .set_ylabel()
+		ㄴ .set_title()
+		ㄴ ..
+	ㄴ series의 plot()
+		ㄴ 사용방법_01
+			from pandas import Series
+			s=Series([1.5, 2.3, 0.9], index=['no1','no2','no3'])
+			s.plot(kind='bar')
+		ㄴ 사용방법_02
+			splot = s.plot.bar() # plot 안에 존재하는 bar 함수 호출
+			splot.set_xlabel('데이터')
+			splot.set_ylabel('값')
+			splot.set_title('샘플')
+	ㄴ dataframe의 plot()
+		ㄴ 사용방법
+			from pandas import DataFrame
+			import numpy as np
+
+			# 데이타프레임에서 시각화 작업
+			df=DataFrame(np.random.randn(10, 4),    # 난수 10개를 4번
+			             columns=['level','step','cnt','temp'], 
+			             index=np.arange(0,100,10))     # np.arange(0,100,10)
+			df.plot() # ;을 찍으면 객체 설명이 같이 나오지 않음
+			df.plot(kind='barh', title='데이터 차트')
+------------------------------------------------------------
+matplotlib의 그래프
+	ㄴ 기본적인 순서
+		ㄴ 그래프 틀 만들기 -> 그래프 그리기 -> 그래프 보여주기
+		ㄴ plt.figure()
+			ㄴ 그래프 틀 만들기
+		ㄴ plt.plot(data)
+			ㄴ 그래프 그리기
+		ㄴ plt.show()
+			ㄴ 그래프 보여주기
+	ㄴ 함수종류
+		ㄴ figure()
+		ㄴ plot()
+		ㄴ xlabel()
+		ㄴ ylabel()
+		ㄴ title()
+		ㄴ show()
+	ㄴ 사용예시_01
+		import matplotlib.pyplot as plt
+
+		data = [10, 15, 18, 30, 20]
+		plt.figure(figsize=(10,4)) #inch 단위
+		plt.plot(data) # matplotlib 사용시에는 -> matplotlib별칭('plt').plot(데이터) <-> pandas 사용시에는 -> 데이터.plot()
+		plt.xlabel('시간')
+		plt.ylabel('온도')
+		plt.title('샘플')
+		plt.show()
+	ㄴ 사용예시_02
+		plt.plot(data, color='blue', linestyle='dashed', marker='o', lw=5, markerfacecolor='yellow', markersize=10)
+	ㄴ plot style
+		ㄴ 사용방법
+			ㄴ plt.style.use(stylename)
+		ㄴ 사용예시
+			ㄴ plt.style.use('seaborn-whitegrid')
+	ㄴ 색상지정
+		ㄴ 사용방법
+			ㄴ plt.plot(data, color='' )
+		ㄴ 사용예시
+			ㄴ plt.plot(np.sin(x-0), color='red')     # 색상 이름 지정
+			ㄴ plt.plot(np.sin(x-1), color='b')       # 색상코드명
+			ㄴ plt.plot(np.sin(x-2), color='#FFDD44') # 16진수 RGB
+			ㄴ plt.plot(np.sin(x-3), color='chartreuse') # html 색상 이름
+			ㄴ plt.plot(np.sin(x-4), color='0.75') # 0-1 사이 값으로 회색
+			ㄴ plt.plot(np.sin(x-5), color=(1.0, 0.5, 0.2)) # rgb를 튜플 형식으로
+	ㄴ 선스타일
+		ㄴ 사용방법
+			ㄴ plt.plot(data, linestyle='')
+		ㄴ 사용예시_01
+			ㄴ plt.plot(np.sin(x-0), linestyle='solid');
+			ㄴ plt.plot(np.sin(x-1), linestyle='dashed');
+			ㄴ plt.plot(np.sin(x-2), linestyle='dotted');
+			ㄴ plt.plot(np.sin(x-3), linestyle='dashdot');
+		ㄴ 사용예시_02
+			ㄴ plt.plot(np.sin(x-0), linestyle='-');
+			ㄴ plt.plot(np.sin(x-1), linestyle='--');
+			ㄴ plt.plot(np.sin(x-2), linestyle=':');
+			ㄴ plt.plot(np.sin(x-3), linestyle='-.');
+	ㄴ 선과 스타일을 간단하게 표현
+		ㄴ 사용예시
+			ㄴ plt.plot(np.sin(x-0), 'g--');
+			ㄴ plt.plot(np.sin(x-1), ':m');
+			ㄴ plt.plot(np.sin(x-2), 'k-.'); # dashdot + black
+			ㄴ plt.plot(np.sin(x-3), 'r:'); # red + dotted
+	ㄴ 범례
+		ㄴ 사용예시
+			plt.plot(np.sin(x-0), 'g--', label='first');
+			plt.plot(np.sin(x-1), ':m', label='second');
+			plt.plot(np.sin(x-2), 'k-.', label='third'); # dashdot + black
+			plt.plot(np.sin(x-3), 'r:', label='fourth'); # red + dotted
+	ㄴ 범례위치
+		ㄴ 사용예시
+			# 범례 위치 : 오른쪽 상단 (1), 왼쪽 상단(2), 왼쪽 하단(3), 오른쪽 하단(4)
+			plt.legend(loc=4)

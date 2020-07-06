@@ -72,10 +72,18 @@ DataFrame 함수들
 		ㄴ ascending 속성
 			ㄴ 1 : 오름차순 (Default) 
 			ㄴ 0 : 내림차순
+	ㄴ value_counts()
+		ㄴ 빈도수 구하기
+		ㄴ 사용예시_01
+			ㄴ diamonds['cut'].value_counts()
+		ㄴ 사용예시_02(일변량질적자료의 시각화)
+			ㄴ diamonds['color'].value_counts().plot(kind='bar')
 	ㄴ .describe()
 		ㄴ 기본통계량 구하기 (총개수, 평균, 표준편차, 최소값, 4분위수)
 			ㄴ mean : 평균값
 			ㄴ std : 표준편차
+	ㄴ .info
+	ㄴ .info()
 	ㄴ .T
 		ㄴ transpose : 행렬이 바뀜
 	ㄴ .shape
@@ -109,6 +117,8 @@ DataFrame 함수들
 	ㄴ .add( , fill_value=)
 		ㄴ 사용예시
 			ㄴ df2.add(df3, fill_value = 0) # 비어있는 부분은 0으로 채워서 계산해줌
+	ㄴ crosstab()
+	ㄴ .cut()
 ------------------------------------------------------------
 통계함수
 	ㄴ count()

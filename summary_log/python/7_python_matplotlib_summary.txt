@@ -186,7 +186,8 @@ subplot
 subplot 예시
 	ㄴ 예시_01
 		plt.figure(figsize=(12,6))
-		plt.subplot(221) # 2행 2열의 첫번째 영역 # 전체영역을 2행 2열로 나누었을때 첫번째 영역
+		plt.s
+ubplot(221) # 2행 2열의 첫번째 영역 # 전체영역을 2행 2열로 나누었을때 첫번째 영역
 		plt.subplot(222) # 2행 2열의 두번째 영역 # 전체영역을 2행 2열로 나누었을때 두번째 영역
 		plt.subplot(212) # 2행 1열의 2번째 영역 # 전체영역을 2행 1열로 나누었을때 두번째 영역
 		plt.show()
@@ -199,3 +200,71 @@ subplot 예시
 
 		plt.show()
 ------------------------------------------------------------
+seaborn
+	ㄴ import seaborn as sns
+	ㄴ load_dataset()
+		ㄴ 파일을 불러서 데이터프레임을 부르는것처럼 반환값이 dataframe임
+	ㄴ matplotlib의 subplots()으로 기본틀을 생성 -> seaborn의 displot()에 데이터 전달
+		ㄴ distplot()은 그래프 종류인듯
+	ㄴ 기본순서
+		ㄴ plt.subplot() -> sns.graphnameplot()
+	ㄴ 사용예시_01
+		plt.subplots()
+		axes = sns.distplot(tips['total_bill'], kde=False) # kde=False -> 실선이 보이지 않음 (Kernel Density Estimate)
+		axes.set_title('total_bill')
+	ㄴ 사용예시_02
+		plt.subplots()
+		sns.countplot('day', data=tips)
+------------------------------------------------------------
+seaborn 그래프 종류
+	ㄴ regplot()
+		ㄴ 사용예시
+			plt.subplot()
+			axes = sns.regplot(x='total_bill', y='tip', data=tips)
+	ㄴ jointplot()
+		ㄴ 산점도와 히스토그램을 한번에
+		ㄴ 사용예시
+			ㄴ axes = sns.jointplot(x='total_bill', y='tip', data=tips, kind='hex')
+	ㄴ kdeplot()
+		ㄴ 이차원 밀집도 그래프(등고선 그래프)
+		ㄴ 사용예시
+			ㄴ axes = sns.kdeplot(data=tips['total_bill'], data2=tips['tip'], shade=True)
+	ㄴ barplot()
+		ㄴ 이산형 데이터(명목데이터)
+		ㄴ 사용예시
+			ㄴ axes = sns.barplot(x='time', y='total_bill', data=tips)
+	ㄴ boxplot()
+		ㄴ 박스그래프
+		ㄴ 최소값, 4분위수, 평균값, 이상치 등의 통계량을 한번에 표현하는 그래프
+		ㄴ 1분위수와 3분위수를 박스로 그려짐
+		ㄴ 사용예시
+			ㄴ axes = sns.boxplot(x='time', y='total_bill', data=tips)
+	ㄴ violinplot()
+		ㄴ 박스 그래스는 통계 수치를 확인하기 위해 자주 사용되지만 데이터 분산이 모호하기에 박스 그래스에 커널 밀도를 표현한 그래프
+		ㄴ 사용예시_01
+			ㄴ axes = sns.violinplot(x='time', y='total_bill', data=tips)
+		ㄴ 사용예시_02
+			ㄴ sns.violinplot(x='time', y='total_bill', data=tips, hue='sex') # hue 색깔, 색조, 빛깔
+	ㄴ pairplot()
+		ㄴ 1. 데이타셋에서 연속형 데이타로 된 컬럼
+		ㄴ 2. 동일 컬럼인경우 즉 하나의 변수이기에 히스토그램으로 나옴
+		ㄴ 3. 다른 변수와의 결합은 이차원 그래프로 산점도 그래프로 나옴
+		ㄴ 4. 대각선으로는 동일한 결과  
+		ㄴ 사용예시
+			pair = sns.PairGrid(tips)
+			pair = pair.map_upper(sns.regplot) # 삼전도 그래프
+			pair = pair.map_lower(sns.kdeplot)
+			pair = pair.map_diag(sns.distplot)
+	ㄴ implot()
+		ㄴ 사용예시
+			ㄴ sns.lmplot(y='tip', x='total_bill', data=tips, fit_reg=False, hue='sex', markers=['x', 'o'])
+	ㄴ FacetGrid()
+		ㄴ 사용예시_01
+			facet = sns.FacetGrid(tips, col='time')
+			facet.map(sns.distplot, 'total_bill')			
+		ㄴ 사용예시_02
+			facet = sns.FacetGrid(tips, col='day', hue='sex')
+			facet.map(sns.distplot, 'total_bill')
+		ㄴ 사용예시_03
+			facet = sns.FacetGrid(tips, col='time', row='smoker', hue='sex')
+			facet.map(sns.distplot, 'total_bill')

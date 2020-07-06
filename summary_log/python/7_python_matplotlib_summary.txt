@@ -38,6 +38,12 @@ pandas 제공 그래프
 		ㄴ .set_xlabel()
 		ㄴ .set_ylabel()
 		ㄴ .set_title()
+		ㄴ .set_xlim() # x축의 범위를 변경
+		ㄴ .set_ylim() # y축의 범위를 변경
+		ㄴ .set_xticks # x축 간격
+		ㄴ .set_yticks # y축 간격
+		ㄴ .set_xticklabels # x축 눈금 라벨
+		ㄴ .set_yticklabels # y축 눈금 라벨
 		ㄴ ..
 	ㄴ series의 plot()
 		ㄴ 사용방법_01
@@ -77,6 +83,8 @@ matplotlib의 그래프
 		ㄴ ylabel()
 		ㄴ title()
 		ㄴ show()
+		ㄴ grid() : 격자 눈금
+		ㄴ text() : 글씨를 출력 (tooltip을 간단하게 보여주고 싶을때)
 	ㄴ 사용예시_01
 		import matplotlib.pyplot as plt
 
@@ -133,3 +141,61 @@ matplotlib의 그래프
 		ㄴ 사용예시
 			# 범례 위치 : 오른쪽 상단 (1), 왼쪽 상단(2), 왼쪽 하단(3), 오른쪽 하단(4)
 			plt.legend(loc=4)
+------------------------------------------------------------
+subplot
+	ㄴ 하나의 화면에 여러 개의 그래프 그리기
+	ㄴ 사용방법_01
+		ㄴ figure(그림틀=공간?)을 만들고 거기에 subplot을 추가 하는 방식
+		ㄴ figure 생성 -> figure에 subplot추가
+		ㄴ figure 생성
+			ㄴ fig = plt.figure(figsize= (x, y)) # inch 단위
+		ㄴ figure에 subplot 추가
+			ㄴ ax1 = fig.add_subplot(1,2,1) # 1행 2열의 첫번째 영역
+	ㄴ 사용예시_01
+		%matplotlib inline
+		import numpy as np
+		import matplotlib.pyplot as plt
+
+		fig = plt.figure(figsize= (16, 5))
+		ax1 = fig.add_subplot(1,2,1) # 1행 2열의 첫번째
+		ax2 = fig.add_subplot(1,2,2)
+
+		ax1.plot(np.random.randn(100))
+		ax2.plot(np.random.randn(100).cumsum())
+	ㄴ 사용방법_02
+		ㄴ figure로 공간을 만들고 파이플롯(pyplot)의 subplot()으로 각각의 패널 지정
+		ㄴ figure 생성
+			ㄴ fig = plt.figure(figsize= (x, y)) # inch 단위
+		ㄴ subplot()으로 패널 지정
+			ㄴ plt.subplot(row, column, number) # 행, 열, 몇번째영역인지
+	ㄴ 사용예시_02
+		fig = plt.figure(figsize= (16, 5))
+		ax1 = plt.subplot(1,2,1) # 1행 2열의 첫번째
+		ax2 = plt.subplot(1,2,2)
+		ax1.plot(np.random.randn(100))
+		ax2.plot(np.random.randn(100).cumsum())
+	ㄴ 사용방법_03
+		ㄴ ax 객체를 이용하기
+		ㄴ fig, ax를 같이 받아옴
+			ㄴ fig, ax = plt.subplots(row, column, figsize=(x, y)) # return 값이 두개임 (figure axes)
+	ㄴ 사용예시_03
+		fig, ax = plt.subplots(1,2) # return 값이 두개임 (figure axes)
+		ax[0].plot(np.random.randn(100))
+		ax[1].plot(np.random.randn(100).cumsum())
+------------------------------------------------------------
+subplot 예시
+	ㄴ 예시_01
+		plt.figure(figsize=(12,6))
+		plt.subplot(221) # 2행 2열의 첫번째 영역 # 전체영역을 2행 2열로 나누었을때 첫번째 영역
+		plt.subplot(222) # 2행 2열의 두번째 영역 # 전체영역을 2행 2열로 나누었을때 두번째 영역
+		plt.subplot(212) # 2행 1열의 2번째 영역 # 전체영역을 2행 1열로 나누었을때 두번째 영역
+		plt.show()
+	ㄴ 예시_02
+		plt.figure(figsize=(12,6))
+
+		plt.subplot(2, 1, 1)
+		plt.subplot(2, 3, (4,5))	# 2행 3열 4~5번째 영역
+		plt.subplot(2, 3, 6)		# 2행 3열의 6번째 영역
+
+		plt.show()
+------------------------------------------------------------

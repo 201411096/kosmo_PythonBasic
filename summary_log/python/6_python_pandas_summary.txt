@@ -2,6 +2,12 @@
 패키지
 	ㄴ import pandas as pd
 ------------------------------------------------------------
+pandas 데이터프레임 출력시 최대 컬럼 개수 설정
+	ㄴ 사용방법
+		ㄴ pd.options.display.max_columns = number
+	ㄴ 사용예시
+		ㄴ pd.options.display.max_columns = 100
+------------------------------------------------------------
 dataframe 구조
 
 mydata = {
@@ -92,6 +98,10 @@ DataFrame 함수들
 		ㄴ 열 개수 세기 : .shape[1]
 	ㄴ .dtypes
 		ㄴ 각 컬럼들의 데이터타입
+	ㄴ .astype
+		ㄴ 컬럼의 데이터 타입 변경
+		ㄴ 사용예시
+			ㄴ df.astype({'col_A':'float', 'col_B':'float'})
 	ㄴ .columns
 		ㄴ print 시에 컬럼명을 확인할 수 잇음
 		ㄴ 컬럼명을 변경할 수 있음

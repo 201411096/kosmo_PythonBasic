@@ -62,7 +62,12 @@ DataFrame 추출
 DataFrame 함수들
 	ㄴ .set_index(컬럼명, inplace=True)
 		ㄴ inplace 속성 : 원본에 적용
+			ㄴ default : False
 			ㄴ df = df.set_index() 한 것과 같은 결과가 나옴 (inplace=True로 할 경우)
+		ㄴ 사용예시_01
+			ㄴ df.set_index('통화명', inplace=True)
+		ㄴ 사용예시_02
+			ㄴ df = df.set_index('통화명')
 	ㄴ sort_values()
 		ㄴ ascending 속성
 			ㄴ 1 : 오름차순 (Default) 
@@ -196,6 +201,18 @@ apply 함수
 			df = pd.DataFrame(np.random.rand(100, 100))
 			df = df[df>0.3] # 0.3보다 큰 데이터들을 다시 넣음(0.3보다 작은 값들은 결측치가 됨)
 			msno.matrix(df)
+------------------------------------------------------------
+read.html()
+	ㄴ 크롤링 시에 table태그 부분을 가져오면 되는 듯
+	ㄴ 사용예시
+		import pandas as pd
+
+		url = 'https://finance.naver.com/marketindex/exchangeList.nhn'
+
+		df_list = pd.read_html(url) # read_html
+		#df_list # dataframe들이 list안에 들어있음
+		df = df_list[0]
+		df
 ------------------------------------------------------------
 datetime 라이브러리
 	ㄴ dataframe에서 문자열 처리를 위해 str 접근자를 사용하듯이.. datetime 오브젝트는 dt접근자를 사용해야 datetime 속성이나 메소드를 사용가능

@@ -176,7 +176,7 @@ apply 함수
 			ㄴ left_on
 			ㄴ right_on
 			ㄴ how
-				ㄴ inner join(default), outer join
+				ㄴ inner join(default), outer join, left join, right join
 		ㄴ 사용방법_1
 			ㄴ pd.merge(df1, df2, left_on=df1.columnname, right_on=df2.columnname)
 		ㄴ 사용예시_1
@@ -189,6 +189,8 @@ apply 함수
 			ㄴ pd.merge(person, survey, how='outer', left_on='ident', right_on='person')
 		ㄴ outer join 사용예시_02
 			ㄴ person.merge(survey, how='outer', left_on='ident', right_on='person')
+		ㄴ left join 사용예시_01
+			ㄴ merge1 = pd.merge(raw_log, raw_funnel, left_on='view_id', right_on='view_id', how='left')
 ------------------------------------------------------------
 누락값 : NaN (nan, NaN, NAN)
 	ㄴ 누락값이 생기는 이유

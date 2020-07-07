@@ -18,7 +18,7 @@ find_element_by_xpath(‘/html/body/some/xpath’) : xpath 지정하여 해당 �
 find_element_by_link_text(‘text’) : 링크 텍스트로 요소 추출
 
 2. DOM에서 모든 요소 추출
-find_elemens_by_css_selector(‘#css > div.selector’)
+find_elements_by_css_selector(‘#css > div.selector’)
 find_elements_by_class_name(‘some_class_name’)
 find_elements_by_tag_name(‘h1’)
 

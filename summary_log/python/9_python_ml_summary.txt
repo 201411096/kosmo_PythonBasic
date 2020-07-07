@@ -163,8 +163,16 @@ print('검정통계량 : %.3f, p-value:%.3f' % result)
 			plt.ylabel('전기사용량')
 ------------------------------------------------------------
 회귀분석 예측
-
-
+	ㄴ LinearRegression 이용
+		ㄴ from sklearn.linear_model import LinearRegression
+------------------------------------------------------------
+LinearRegression
+	ㄴ lr.fit()
+		ㄴ 데이터 학습
+	ㄴ lr.predict()
+		ㄴ 데이터 예측
+	ㄴ lr.score()
+		ㄴ 데이터 점수
 
 
 

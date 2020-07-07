@@ -1,0 +1,105 @@
+﻿------------------------------------------------------------
+spicy
+------------------------------------------------------------
+1. 카이제곱 검정 (Chi-square Test )
+	ㄴ 이산형 변수 - 이산형 변수
+	ㄴ 성별과 구매여부 사이에 유의한 관계가 있는가
+2. 독립표본t검정 (t-Test) : 이분류 모형의 경우
+	ㄴ 이산형 변수(2그룹) - 연속형 변수
+	ㄴ 체중과 구매여부 사이에 유의한 관계가 있는가( 구매자와 비구매자의 평균 체중이 다른가? )
+3. 분산분석 (ANOVA ) : 다분류 모형의 경우
+	ㄴ 이산형 변수(3그룹이상 ) - 연속형 변수
+	ㄴ 체중과 고객등급 사이에 유의한 관계가 있는가?( 고객등급에 따라 평균 체중에 크게 다른가? )
+------------------------------------------------------------
+귀무가설과 대립가설, p_value
+	ㄴ 귀무가설 : 두 데이터는 상관관계가 없다.
+	ㄴ 대립가설 : 두 데이터는 상관관계가 있다 (내가 주장하고 싶은 가설)
+		ㄴ p-value < 0.05 (5% 미만일 경우 -> 관례.?) -> 귀무가설 기각, 대립가설 채택 (내가 주장하고 싶은 가설)
+		ㄴ p-value > 0.05 (5% 일 경우 -> 관례.?) -> 귀무가설 채택, 대립가설 기각 (내가 주장하고 싶은 가설이 아님)
+	ㄴ 귀무가설과 대립가설 예시
+		ㄴ 우리 대표 메뉴의 소고기 함량이 20g임을 증명하고자 한다면, "모든 접시에 소고기 함량이 20g이 아니다"는 귀무가설에 두고 이에 20g에 미달됨이 없을 입증하여 이 가설을 기각함으로써 내가 입증하고픈 "우리 대표 메뉴의 소고기 함량은 20g이다"를 증명한다
+------------------------------------------------------------
+카이제곱 검정 예시
+
+from scipy import stats
+
+data1=[4,6,15,10, 9, 11]   # 관측치
+data2=[10,10,10,10,10,10]  # 기대치
+result, p_value = stats.chisquare(data1, data2)
+p_value
+------------------------------------------------------------
+t-test_1samp 예시
+
+import numpy as np
+from scipy import stats
+
+
+np.random.seed(1)  # 랜덤 결과가 동일하게 나오도록
+
+# np.random.normal(0,5) : 평균 0, 표준편차 5인 난수
+# for 에 _ 대신 변수명 아무거나 입력해도 되지만 그 변수를 사용하지 않기에 _로 표시해도 된다
+heights = [ 175 + np.random.normal(0,5) for _ in range(20)] # for 문에서 i를 사용하지 않을 경우 '_'로 사용
+
+result = stats.ttest_1samp(heights, 175)
+print('검정통계량 : %.3f, p-value:%.3f' % result)
+------------------------------------------------------------
+독립표본 t-검정 예시(ttest_ind(group1, group2))
+
+import numpy as np
+from scipy import stats
+
+
+np.random.seed(1)  # 랜덤 결과가 동일하게 나오도록
+
+group1 = [180 + np.random.normal(0,5) for _ in range(20)]  # np.random.normal(0,5) : 평균 0, 표준편차 5인 난수
+print(group1)
+group2 = [175 + np.random.normal(0,10) for _ in range(20)]
+print(group2)
+
+# 평균확인 - 평균은 비슷하다 하더라고 통계적으로 차이가 난다고 할 수 없다
+print('group1의 평균 :', np.mean(group1))
+print('group2의 평균 :', np.mean(group2))
+
+result = stats.ttest_ind(group1, group2)
+print('검정통계량 : %.3f, p-value:%.3f' % result)
+------------------------------------------------------------
+대응표본 t-검정 예시(ttest_rel(group1, group2))
+
+import numpy as np
+from scipy import stats
+
+np.random.seed(1)
+
+# 복용전 : 평균 60, 표준편자 5
+before = [ 60 + np.random.normal(0,5) for _ in range(20 )]
+print(before)
+
+# 복용후 : 복용전체중 * 0.99, 표준편차 0.02
+after = [ w * np.random.normal(0.99, 0.02) for w in before]
+print(after)
+------------------------------------------------------------
+ANOVA 예시(f_oneway(a,b,c,...))
+
+import scipy.stats as stats
+import urllib
+import matplotlib.pyplot as plt
+%matplotlib inline
+
+a = [66, 74, 82, 75, 73, 97, 78, 98]
+b = [72, 89, 69, 74, 79, 88, 84, 63]
+c = [61, 62, 63, 64, 65, 66, 67, 68]
+d = [84, 82, 78, 71, 69, 68, 67, 66]
+
+# 평균비교
+print('a 평균 :', np.mean(a))
+print('b 평균 :', np.mean(b))
+print('c 평균 :', np.mean(c))
+print('d 평균 :', np.mean(d))
+
+# 그래프
+plot_data = [a, b, c, d]
+ax = plt.boxplot(plot_data)
+plt.show()
+
+result = stats.f_oneway(a,b,c,d)
+print('검정통계량 : %.3f, p-value:%.3f' % result)

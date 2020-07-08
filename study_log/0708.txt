@@ -1,0 +1,7 @@
+﻿0708_수요일
+	ㄴ Logistic Regression
+	ㄴ KNN (K-Nearest Neighbors)
+	ㄴ SVM ( Support Vector Machine )
+	ㄴ 의사결정나무 (Decision Tree)
+	ㄴ 
+	ㄴ 

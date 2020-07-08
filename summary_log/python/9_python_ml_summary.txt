@@ -173,7 +173,44 @@ LinearRegression
 		ㄴ 데이터 예측
 	ㄴ lr.score()
 		ㄴ 데이터 점수
+------------------------------------------------------------
+Logistic Regression
+	ㄴ import statsmodels.api as sm
+	ㄴ 참 / 거짓으로 분류
+	ㄴ 로지스틱 회귀 분석은 연속적인 값을 가지더라고, 로지스틱 함수의 결과값은 0과 1 사이의 값을 갖기에 이분법적인 분류 문제 해결하는 모형으로 적합하다
+	ㄴ 적용 분야
+		ㄴ 기업 부도 예측
+		ㄴ 주가-환율-금리 예측 (up/down)
+	ㄴ 함수
+		ㄴ 모델 설정
+			ㄴ sm.Logit(args1, args2)
+		ㄴ 모델에 학습
+			ㄴ logit.fit()
+		ㄴ 모델 요약
+			ㄴ modelname.summary()
+		ㄴ 예측
+			ㄴ modelname.predict()
+	ㄴ 예시
+		import pandas as pd
+		import numpy as np
+		import statsmodels.api as sm
 
-
-
-
+		df = pd.read_csv('../data/titanic/temp/train.csv') # titanic 자료 중 훈련 가능한 데이터만 모아둠
+		cols_to_keep = ['Survived', 'Age', 'Fare']
+		dummy_Pclass = pd.get_dummies(df['Pclass'], prefix='Pclass') # 3등석 자리라면 (Pclass_1 = 0, Pclass_2=0, Pclass_3=1)
+		dummy_Sex = pd.get_dummies(df['Sex'], prefix='Sex')
+		data = df[cols_to_keep].join(dummy_Pclass)
+		data = data.join(dummy_Sex)
+		train_data = data.columns[1:] # Survived를 제외하고 컬럼명 추출
+		logit = sm.Logit(data['Survived'], data[train_data])
+		result = logit.fit()
+		result.summary()
+		data['predict'] = result.predict(data[train_data])
+------------------------------------------------------------
+k-NN
+	ㄴ K-Nearest Neighbor
+	ㄴ k-최근접 이웃 알고리즘
+------------------------------------------------------------
+SVM
+	ㄴ Support Vector Machine
+	ㄴ 클래스를 나누는 여러 결정 경계 중에서 마진을 최대화하는 결정 경계를 찾음

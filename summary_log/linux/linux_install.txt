@@ -155,7 +155,7 @@ winscp 설치
 오라클 설치
 	ㄴ references - linux_oracle.docx
 ----------------------------------------
-리눅스에서 배포할 프로젝트에 추가 --이거 다시 확인해야될듯
+리눅스에서 배포할 프로젝트에 추가
 
 <repositories>
  <repository>
@@ -170,3 +170,5 @@ winscp 설치
  <artifactId>ojdbc7</artifactId> 
  <version>12.1.0.2</version>
 </dependency>
+
+

@@ -1,0 +1,7 @@
+﻿0709_목요일
+
+avd_manager -> Q download -> 사용
+
+settings -> general -> auto import
+			ㄴ add unambiguous imports on the fly - 체크
+			ㄴ optim.. - 체크

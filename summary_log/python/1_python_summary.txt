@@ -612,7 +612,39 @@ del remove 차이
 			ㄴ re.sub('[0-9]+', 'n', '1 2 Fizz 4 Buzz Fizz 7 8')
 	ㄴ finditer()
 		ㄴ 정규식과 매치되는 모든 문자열을 반복 가능한 객채로 돌려줌
-
+------------------------------------------------------------
+json 처리
+	ㄴ import json
+	ㄴ 함수 종류
+		ㄴ json.dump()
+			ㄴ obj를 JSON 형식 스트림으로 직렬화
+			ㄴ 파일 처리?...
+			ㄴ 사용예시
+				with open(file_path, 'w') as targetfile:
+				    json.dump(val1, targetfile, indent=4)
+		ㄴ json.dumps()
+			ㄴ obj를 JSON 형식의 str로 직렬화
+			ㄴ 사용예시
+				print(val1)       # {'key1': ['a', 'b', 'c'], 'key2': {'key2_1': ('aa', 'bb'), 'key2_2': ('cc', 'dd', 'ee'), 'key2_3': ([1, 2, 3], [4, 5, 6])}, 'key3': ('aaa', 'bbb', 'ccc')}
+				val2 = json.dumps(val1)
+				print(val2)       # {"key1": ["a", "b", "c"], "key2": {"key2_1": ["aa", "bb"], "key2_2": ["cc", "dd", "ee"], "key2_3": [[1, 2, 3], [4, 5, 6]]}, "key3": ["aaa", "bbb", "ccc"]}
+				print(type(val2)) # str
+		ㄴ json.load()
+			ㄴ json 포맷 데이터를 python 객체로 읽어올 떄
+			ㄴ 파일 처리?...
+			ㄴ 사용예시
+				with open(file_path, 'r') as targetfile:
+				    json.load(targetfile)
+		ㄴ json.loads()
+			ㄴ 메모리에 있는? 포맷 데이터를 json.loads()로 python 객체로 읽을 떄
+			ㄴ 사용예시
+				targetfile = open(file_path, 'r')
+				val2 =targetfile.read()
+				print(val2)         # ...
+				print(type(val2))   # str
+				val3 = json.loads(val2)
+				print(val3)         # 한 줄로 나옴
+				print(type(val3))   # dict (type이 json으로 나오지는 않음)
 ------------------------------------------------------------
 re ... search() pattern .. search()
 	ㄴ 예시_re모듈

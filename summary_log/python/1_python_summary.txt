@@ -645,6 +645,7 @@ json 처리
 				val3 = json.loads(val2)
 				print(val3)         # 한 줄로 나옴
 				print(type(val3))   # dict (type이 json으로 나오지는 않음)
+
 ------------------------------------------------------------
 re ... search() pattern .. search()
 	ㄴ 예시_re모듈

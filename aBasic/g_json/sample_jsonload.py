@@ -4,7 +4,6 @@ import json
 
 file_path = './sample.json'
 
-
 with open(file_path, 'r') as targetfile:
     val1 = json.load(targetfile)
 print(val1)

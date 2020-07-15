@@ -653,3 +653,9 @@ re ... search() pattern .. search()
 	ㄴ 예시_pattern의 search
 		ㄴ (패턴이름) = re.compile(정규식)
 		ㄴ (패턴이름).search(문자열)
+------------------------------------------------------------
+linux non ascii character
+	ㄴ 코드 내의 한글을 읽지 못해서 생기는 에러
+	ㄴ 해결방법
+		ㄴ # -*- coding: utf-8 -*-
+			ㄴ 주석을 의미하는 #도 지우면 안됨

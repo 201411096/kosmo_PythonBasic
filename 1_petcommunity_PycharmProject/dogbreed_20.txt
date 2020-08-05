@@ -1,0 +1,20 @@
+Bichon Frise
+Bulldog
+Cavalier King Charles Spaniel
+Coton de Tulear
+English Setter
+Flat-Coated Retriever
+Goldador
+Golden Retriever
+Greyhound
+Havanese
+Irish Setter
+Labradoodle
+Labrador Retriever
+Nova Scotia Duck Tolling Retriever
+Papillon
+Petit Basset Griffon Vendeen
+Samoyed
+Shih Tzu
+Siberian Husky
+Vizsla

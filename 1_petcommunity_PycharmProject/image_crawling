@@ -1,0 +1,50 @@
+from urllib.request import urlretrieve
+from urllib.parse import quote_plus
+from bs4 import BeautifulSoup as bs
+from selenium import webdriver
+import time
+import os
+
+search = ['Bichon Frise', 'Bulldog', 'Cavalier King Charles Spaniel', 'Coton de Tulear', 'English Setter', 'Flat-Coated Retriever', 'Goldador',
+'Golden Retriever', 'Greyhound', 'Havanese', 'Irish Setter', 'Labradoodle', 'Labrador Retriever', 'Nova Scotia Duck Tolling Retriever', 'Papillon', 'Petit Basset Griffon Vendeen', 'Samoyed', 'Shih Tzu', 'Siberian Husky', 'Vizsla']
+
+
+# 웹드라이버 객체 생성
+
+driver = webdriver.Chrome('./webdriver/chromedriver')
+driver.implicitly_wait(3)
+
+for dogbreed in search:
+    url = f'https://www.google.co.kr/search?q={quote_plus(dogbreed)}&sxsrf=ALeKk03z3GTDbdzmMj6KNYyvwthQuxKdvQ:1595906977319&source=lnms&tbm=isch&sa=X&ved=2ahUKEwii4ujjgO_qAhU-yYsBHah9C4QQ_AUoAXoECB8QAw&biw=1823&bih=833'
+    driver.get(url)
+    time.sleep(2)
+    for i in range(10):
+        driver.execute_script("window.scrollBy(0,10000)")
+        time.sleep(0.5)
+        print('scroll다 내림', i)
+        try:
+            driver.find_element_by_css_selector('.mye4qd').click()
+            print('요소 찾음 클릭', i)
+        except:
+            print('요소없음', i)
+            pass
+         #해당 페이지의 html을 저장
+    print('스크롤 내리기 끝')
+    html = driver.page_source
+    soup = bs(html, 'html.parser')
+    img = soup.select('.rg_i.Q4LuWd') # 스크롤을 다 내린후에 이미지url들을 끌어옴
+    n = 1
+    imgurl = []
+
+    for i in img:
+        try:
+            imgurl.append(i.attrs["src"])
+        except KeyError:
+            imgurl.append(i.attrs["data-src"])
+
+    dir_path = "D:/python-workspace/PythonBasic/1_petcommunity_PycharmProject/dogbreeds";
+    if(os.path.exists(dir_path+"/"+dogbreed)==False):
+        os.mkdir(dir_path + "/" + dogbreed)
+    for i in imgurl:
+        urlretrieve(i, dir_path + "/" + dogbreed + "/" + dogbreed + str(n) + ".jpg")
+        n += 1
